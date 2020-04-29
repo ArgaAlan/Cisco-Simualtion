@@ -45,7 +45,6 @@ class Markov:
         # ticket.reason: string, needs to be converted into the one of the 4 options: "ticket_ok", "ticket_fail_time", "ticket_fail_quality", "ticket_fail_quantity"
 
         i = 0
-        startdate = DateManipulation.get_date(self.start_date)
         while i < len(ticket_list):
 
             ticketstartdate = DateManipulation.get_date(
@@ -53,10 +52,12 @@ class Markov:
             ticketfinaldate = DateManipulation.get_date(
                 ticket_list[i].final_date)
 
-            weeks_passed_start_date_start_date_ticket = DateManipulation.date_diff_weeks(
+            if (i > 0):
+                weeks_passed_start_date_start_date_ticket = DateManipulation.date_diff_weeks(
                 startdate, ticketstartdate)
 
-            matrix_observations[S][S] += weeks_passed_start_date_start_date_ticket - 1
+                matrix_observations[S][S] += weeks_passed_start_date_start_date_ticket - 1
+                ñ
             reason_index = self.statustoindex(ticket_list[i].reason)
             matrix_observations[S][reason_index] += 1
 
