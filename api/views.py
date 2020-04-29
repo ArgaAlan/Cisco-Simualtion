@@ -34,6 +34,13 @@ def apiOverview(request):
 def ticketList(request):
     tickets = Ticket.objects.all()
     serializer = TicketSerializer(tickets, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def ticketSimulation(request):
+    tickets = Ticket.objects.all()
+    serializer = TicketSerializer(tickets, many=True)
     # logger.error(serializer.data[0]['lifecycle'])
     ticket_list = []
     for i in range(len(serializer.data)):
@@ -49,15 +56,13 @@ def ticketList(request):
         logger.error("-------------------------------------------------")
         ticket_list.append(TicketStr(reason, initial_date, final_date))
     markov = Markov("2020-10-01", 8)
-    return Response(serializer.data)
-
-
-@api_view(['GET'])
-def ticketSimulation(request):
-    tickets = Ticket.objects.all()
-    serializer = TicketSerializer(tickets, many=True)
-    ticket_list = []
-    return Response(serializer.data)
+    observations = markov.generate_matrix(ticket_list)
+    simulation = markov.simulate(ticket_list)
+    logger.error(observations)
+    logger.error("-------------------------------------------------")
+    logger.error(simulation)
+    logger.error("-------------------------------------------------")
+    return Response(simulation)
 
 
 @api_view(['GET'])

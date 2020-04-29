@@ -24,7 +24,6 @@ class Markov:
     # FQ |
     # FC |
 
-
     def __init__(self, start_date, no_of_weeks):
         self.start_date = start_date
         self.no_of_weeks = no_of_weeks
@@ -45,6 +44,7 @@ class Markov:
 
         S = 0
         i = 0
+        lista = []
         while i < len(ticket_list):
 
             ticketstartdate = DateManipulation.get_date(
@@ -54,15 +54,16 @@ class Markov:
 
             if (i > 0):
                 weeks_passed_start_date_start_date_ticket = DateManipulation.date_diff_weeks(
-                startdate, ticketstartdate)
-
+                    startdate, ticketstartdate)
+                lista.append(weeks_passed_start_date_start_date_ticket)
                 matrix_observations[S][S] += weeks_passed_start_date_start_date_ticket - 1
-                ñ
+
             reason_index = self.statustoindex(ticket_list[i].reason)
             matrix_observations[S][reason_index] += 1
 
             weeks_passed_start_date_ticket_final_date_ticket = DateManipulation.date_diff_weeks(
                 ticketstartdate, ticketfinaldate)
+            lista.append(weeks_passed_start_date_ticket_final_date_ticket)
             matrix_observations[reason_index][reason_index] += weeks_passed_start_date_ticket_final_date_ticket - 1
             matrix_observations[reason_index][S] += 1
 
@@ -77,6 +78,8 @@ class Markov:
                     list_row.append(
                         matrix_observations[i][j] / total_observations)
             self.transition_matrix.append(list_row)
+
+        return lista
 
     def statustoindex(self, str_status):
         if str_status == "ticket_ok":
@@ -123,7 +126,7 @@ class Markov:
                 nearest = diff
                 ans = j
 
-        return j
+        return ans
 
     def simulate(self, status):
         # main simulation, is set to simulate for the number of weeks from user's input
