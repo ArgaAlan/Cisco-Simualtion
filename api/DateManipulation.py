@@ -17,7 +17,7 @@ class DateManipulation:
         splitted = string.split("-")
         day = splitted[2]
         dayFix = day.split("T")
-        splitted[2] = dayFix
+        splitted[2] = dayFix[0]
         for i in range(3):
             print(splitted[i])
             res.append(int(splitted[i]))
@@ -28,5 +28,5 @@ class DateManipulation:
     def date_diff_weeks(date1, date2):
         # generate date difference and translate that into weeks
         calc = date1 - date2
-        calc_weeks = calc.days // 7
+        calc_weeks = abs(calc.days // 7)
         return calc_weeks
