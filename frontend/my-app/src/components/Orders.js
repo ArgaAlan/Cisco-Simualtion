@@ -14,11 +14,11 @@ function createData(id, date, name, shipTo, paymentMethod, amount) {
 }
 
 const rows = [
-  createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-  createData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
-  createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
+  createData(0, 'Cabeza cruz', 'Tornillo', 'Envio', 'Tornillio de cabeza de cruz', "2/19/2020","2/20/2020", "2/21/2020", "2/22/2020", "Excellent", "Nice", "High", "Alan"),
+  createData(1, 'Cabeza cruz', 'Tornillo', 'Envio', 'Tornillio de cabeza de cruz', "2/19/2020","2/20/2020", "2/21/2020", "2/22/2020", "Excellent", "Nice", "High", "Alan"),
+  createData(2, 'Cabeza cruz', 'Tornillo', 'Envio', 'Tornillio de cabeza de cruz', "2/19/2020","2/20/2020", "2/21/2020", "2/22/2020", "Excellent", "Nice", "High", "Alan"),
+  createData(3, 'Cabeza cruz', 'Tornillo', 'Envio', 'Tornillio de cabeza de cruz', "2/19/2020","2/20/2020", "2/21/2020", "2/22/2020", "Excellent", "Nice", "High", "Alan"),
+  createData(4, 'Cabeza cruz', 'Tornillo', 'Envio', 'Tornillio de cabeza de cruz', "2/19/2020","2/20/2020", "2/21/2020", "2/22/2020", "Excellent", "Nice", "High", "Alan"),
 ];
 
 function preventDefault(event) {
@@ -39,21 +39,38 @@ export default function Orders() {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>numberID</TableCell>
+            <TableCell>subclass</TableCell>
+            <TableCell>category</TableCell>
+            <TableCell>lifecycle</TableCell>
+            <TableCell>description</TableCell>
+            <TableCell>incorporation date</TableCell>
+            <TableCell>release date</TableCell>
+            <TableCell>effectivity date</TableCell>
+            <TableCell>compliance calculated date</TableCell>
+            <TableCell>overall compliance</TableCell>
+            <TableCell>level compliance indicator</TableCell>
+            <TableCell>compliance rolll up</TableCell>
+            <TableCell>product hierarchy</TableCell>
+            <TableCell>user</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+            <TableRow key={row.numberID}>
+              <TableCell>{row.subclass}</TableCell>
+              <TableCell>{row.category}</TableCell>
+              <TableCell>{row.lifecycle}</TableCell>
+              <TableCell>{row.description}</TableCell>
+              <TableCell>{row.incorpDate}</TableCell>
+              <TableCell>{row.releaseDate}</TableCell>
+              <TableCell>{row.effectivityDate}</TableCell>
+              <TableCell>{row.complianceCalculatedDate}</TableCell>
+              <TableCell>{row.overallCompliance}</TableCell>
+              <TableCell>{row.levelComplianceIndicator}</TableCell>
+              <TableCell>{row.complianceRollUp}</TableCell>
+              <TableCell>{row.productHierarchy}</TableCell>
+              <TableCell>{row.user}</TableCell>
             </TableRow>
           ))}
         </TableBody>
