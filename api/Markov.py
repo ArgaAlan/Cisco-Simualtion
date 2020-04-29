@@ -24,7 +24,6 @@ class Markov:
     # FQ |
     # FC |
 
-    S = 0
 
     def __init__(self, start_date, no_of_weeks):
         self.start_date = start_date
@@ -44,6 +43,7 @@ class Markov:
         # ticket.finalDate: string of format(YYYY-MM-DD)
         # ticket.reason: string, needs to be converted into the one of the 4 options: "ticket_ok", "ticket_fail_time", "ticket_fail_quality", "ticket_fail_quantity"
 
+        S = 0
         i = 0
         while i < len(ticket_list):
 
@@ -72,8 +72,10 @@ class Markov:
         for i in range(len(matrix_observations)):
             list_row = []
             for j in range(len(matrix_observations[i])):
-                list_row.append(
-                    matrix_observations[i][j] / sum(matrix_observations[i]))
+                total_observations = sum(matrix_observations[i])
+                if total_observations > 0:
+                    list_row.append(
+                        matrix_observations[i][j] / total_observations)
             self.transition_matrix.append(list_row)
 
     def statustoindex(self, str_status):
