@@ -8,39 +8,18 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 
-const rows = [];
-
-$(document).ready(function() {
-  $.ajax({
-      type: "GET",
-      url: "csvPrueba.csv",
-      dataType: "text",
-      success: function(data) {processData(data);}
-   });
-});
-
-function processData(allText) {
-  var allTextLines = allText.split(/\r\n|\n/);
-  var headers = allTextLines[0].split(',');
-
-  for (var i=1; i<allTextLines.length; i++) {
-      var data = allTextLines[i].split(',');
-      if (data.length == headers.length) {
-
-          var tarr = [];
-          for (var j=0; j<headers.length; j++) {
-              tarr.push(headers[j]+":"+data[j]);
-          }
-          rows.push(tarr);
-      }
-  }
-  // alert(lines);
-}
-
 // Generate Order Data
-function createData(numberID, sublcass, category, lifecycle, description, incorpDate, releaseDate, effectivityDate, complianceCalculatedDate, overallCompliance,  levelComplianceIndicator, complianceRollUp, productHierarchy, user) {
-  return { numberID, sublcass, category, lifecycle, description, incorpDate, releaseDate, effectivityDate, complianceCalculatedDate, overallCompliance,  levelComplianceIndicator, complianceRollUp, productHierarchy, user};
+function createData(id, date, name, shipTo, paymentMethod, amount) {
+  return { id, date, name, shipTo, paymentMethod, amount };
 }
+
+const rows = [
+  createData(0, 'Cabeza cruz', 'Tornillo', 'Envio', 'Tornillio de cabeza de cruz', "2/19/2020","2/20/2020", "2/21/2020", "2/22/2020", "Excellent", "Nice", "High", "Alan"),
+  createData(1, 'Cabeza cruz', 'Tornillo', 'Envio', 'Tornillio de cabeza de cruz', "2/19/2020","2/20/2020", "2/21/2020", "2/22/2020", "Excellent", "Nice", "High", "Alan"),
+  createData(2, 'Cabeza cruz', 'Tornillo', 'Envio', 'Tornillio de cabeza de cruz', "2/19/2020","2/20/2020", "2/21/2020", "2/22/2020", "Excellent", "Nice", "High", "Alan"),
+  createData(3, 'Cabeza cruz', 'Tornillo', 'Envio', 'Tornillio de cabeza de cruz', "2/19/2020","2/20/2020", "2/21/2020", "2/22/2020", "Excellent", "Nice", "High", "Alan"),
+  createData(4, 'Cabeza cruz', 'Tornillo', 'Envio', 'Tornillio de cabeza de cruz', "2/19/2020","2/20/2020", "2/21/2020", "2/22/2020", "Excellent", "Nice", "High", "Alan"),
+];
 
 function preventDefault(event) {
   event.preventDefault();
