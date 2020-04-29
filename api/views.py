@@ -49,6 +49,13 @@ def ticketList(request):
         logger.error("-------------------------------------------------")
         ticket_list.append(TicketStr(reason, initial_date, final_date))
     markov = Markov("2020-10-01", 8)
+    markov = Markov("2020-10-01", 8)
+    observations = markov.generate_matrix(ticket_list)
+    simulation = markov.simulate(ticket_list)
+    logger.error(observations)
+    logger.error("-------------------------------------------------")
+    logger.error(simulation)
+    logger.error("-------------------------------------------------")
     return Response(serializer.data)
 
 
