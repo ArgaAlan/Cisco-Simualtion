@@ -93,15 +93,15 @@ class Markov:
         valstr = ""
 
         if index == 0:
-            valstr += "arrival_ok"
+            valstr += "ticket_ok"
         elif index == 1:
-            valstr += "arrival_fail_time"
+            valstr += "ticket_fail_time"
         elif index == 2:
-            valstr += "arrival_fail_quality"
+            valstr += "ticket_fail_quality"
         elif index == 3:
-            valstr += "arrival_fail_quantity"
+            valstr += "ticket_fail_quantity"
         else:
-            valstr += "arrival_ok"
+            valstr += "ticket_ok"
 
         return valstr
 
@@ -125,17 +125,19 @@ class Markov:
 
     def simulate(self, status):
         # main simulation, is set to simulate for the number of weeks from user's input
+        output = []
         current_status = status
         next_status_index = self.statustoindex(current_status)
         i = 0
         while True:
-            print(self.indextostatus(next_status_index))
+            output.append(self.indextostatus(next_status_index))
             prob = round(random.random(), 1)
             next_status_index = self.nearest(next_status_index, prob)
             i += 1
             if (i > self.no_of_weeks):
                 break
 
+        return output
 
 # Example and usage
 # 1. create a Markov instance with an initial date and number of weeks
