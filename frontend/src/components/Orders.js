@@ -39,9 +39,11 @@ function processData(allText) {
 }
 
 // Generate Order Data
-function createData(numberID, sublcass, category, lifecycle, description, incorpDate, releaseDate, effectivityDate, complianceCalculatedDate, overallCompliance,  levelComplianceIndicator, complianceRollUp, productHierarchy, user) {
-  return { numberID, sublcass, category, lifecycle, description, incorpDate, releaseDate, effectivityDate, complianceCalculatedDate, overallCompliance,  levelComplianceIndicator, complianceRollUp, productHierarchy, user};
+function createData(numberID, subclass, category, lifecycle, description, incorpDate, releaseDate, effectivityDate, complianceCalculatedDate, overallCompliance,  levelComplianceIndicator, complianceRollUp, productHierarchy, user) {
+  return { numberID, subclass, category, lifecycle, description, incorpDate, releaseDate, effectivityDate, complianceCalculatedDate, overallCompliance,  levelComplianceIndicator, complianceRollUp, productHierarchy, user};
 }
+
+// get json
 
 function preventDefault(event) {
   event.preventDefault();
