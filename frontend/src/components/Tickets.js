@@ -1,42 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button'
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableContainer from '@material-ui/core/TableContainer';
-import Paper from '@material-ui/core/Paper';
-import Title from './Title';
-import $ from 'jquery'
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableContainer from "@material-ui/core/TableContainer";
+import Paper from "@material-ui/core/Paper";
+import Title from "./Title";
+import $ from "jquery";
 
 const rows = [];
 
-$(document).ready(function() {
+$(document).ready(function () {
   $.ajax({
-      type: "GET",
-      url: "csvPrueba.csv",
-      dataType: "text",
-      success: function(data) {processData(data);}
-   });
+    type: "GET",
+    url: "csvPrueba.csv",
+    dataType: "text",
+    success: function (data) {
+      processData(data);
+    },
+  });
 });
-
 
 function processData(allText) {
   var allTextLines = allText.split(/\r\n|\n/);
-  var headers = allTextLines[0].split(',');
+  var headers = allTextLines[0].split(",");
 
-  for (var i=1; i<allTextLines.length; i++) {
-      var data = allTextLines[i].split(',');
-      if (data.length === headers.length) {
-
-          var tarr = [];
-          for (var j=0; j<headers.length; j++) {
-              tarr.push(headers[j]+":"+data[j]);
-          }
-          rows.push(tarr);
+  for (var i = 1; i < allTextLines.length; i++) {
+    var data = allTextLines[i].split(",");
+    if (data.length === headers.length) {
+      var tarr = [];
+      for (var j = 0; j < headers.length; j++) {
+        tarr.push(headers[j] + ":" + data[j]);
       }
+      rows.push(tarr);
+    }
   }
   // alert(lines);
 }
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 function handleClick(e, item) {
   e.preventDefault();
-  console.log('Item:', item);
+  console.log("Item:", item);
 }
 
 export default function Orders() {
@@ -57,13 +57,13 @@ export default function Orders() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
-  
+
   useEffect(() => {
     fetch("http://localhost:8000/api/ticket-list/")
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(
         (result) => {
-          console.log('Result:', result);
+          console.log("Result:", result);
           setIsLoaded(true);
           setItems(result);
         },
@@ -71,7 +71,7 @@ export default function Orders() {
           setIsLoaded(true);
           setError(error);
         }
-      )
+      );
   }, []);
 
   if (error) {
@@ -81,9 +81,13 @@ export default function Orders() {
   } else {
     return (
       <React.Fragment>
-        <Title>Recent Orders</Title>
+        <Title>Recent Tickets</Title>
         <TableContainer component={Paper}>
-          <Table className={classes.table} size="small" aria-label="a dense table">
+          <Table
+            className={classes.table}
+            size="small"
+            aria-label="a dense table"
+          >
             <TableHead>
               <TableRow>
                 <TableCell>numberID</TableCell>
@@ -103,10 +107,13 @@ export default function Orders() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map(item => (
+              {items.map((item) => (
                 <TableRow key={item.numberID}>
                   <TableCell component="th" scope="row">
-                    <Button color="primary" onClick={(e) => handleClick(e, item)}>
+                    <Button
+                      color="primary"
+                      onClick={(e) => handleClick(e, item)}
+                    >
                       {item.numberID}
                     </Button>
                   </TableCell>
@@ -131,5 +138,4 @@ export default function Orders() {
       </React.Fragment>
     );
   }
-  
 }
