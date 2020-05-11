@@ -1,29 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
-import $ from 'jquery';
 import { NavLink } from 'react-router-dom';
+import './Tickets.css';
+import Action from './Action';
 
-const useStyles = makeStyles((theme) => ({
-  table: {
-    minWidth: 650,
-  },
-  navLink: {
-    textDecoration: 'none',
-  },
-}));
 
 export default function Tickets() {
-  const classes = useStyles();
   const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
   const [items, setItems] = useState([]);
 
   const fetchItems = async () => {
@@ -33,7 +17,7 @@ export default function Tickets() {
       console.log(items);
       setIsLoaded(true);
       setItems(items);
-    } catch(error) {
+    } catch (error) {
       setIsLoaded(true);
       setError(error);
     }
@@ -51,54 +35,39 @@ export default function Tickets() {
     return (
       <React.Fragment>
         <Title>Recent Tickets</Title>
-        <Table className={classes.table} size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell>numberID</TableCell>
-              <TableCell>subclass</TableCell>
-              <TableCell>category</TableCell>
-              <TableCell>lifecycle</TableCell>
-              <TableCell>description</TableCell>
-              {/* <TableCell>incorporation date</TableCell>
-              <TableCell>release date</TableCell>
-              <TableCell>effectivity date</TableCell>
-              <TableCell>compliance calculated date</TableCell>
-              <TableCell>overall compliance</TableCell>
-              <TableCell>level compliance indicator</TableCell>
-              <TableCell>compliance rolll up</TableCell>
-              <TableCell>product hierarchy</TableCell>
-              <TableCell>user</TableCell> */}
-            </TableRow>
-          </TableHead>
-          <TableBody>
+        <table className="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Number ID</th>
+              <th>Impacted User</th>
+              <th>Category</th>
+              <th>State</th>
+              <th>Summary</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
             {items.map(item => (
-              <TableRow key={item.numberID}>
-                <TableCell component="th" scope="row">
-                  <NavLink className={classes.navLink} to={`/ticket/${item.numberID}`}>
-                    <Button color="primary">
-                      {item.numberID}
-                    </Button>
+              <tr key={item.numberID}>
+                <td>{item.numberID}</td>
+                <td>{item.impactedUser}</td>
+                <td>{item.category}</td>
+                <td>{item.state}</td>
+                <td>{item.summary}</td>
+                <td>
+                  <NavLink to={`/ticket/${item.numberID}`}>
+                    <Action color="info" icon="&#xE88E;" />
                   </NavLink>
-                </TableCell>
-                <TableCell>{item.subclass}</TableCell>
-                <TableCell>{item.category}</TableCell>
-                <TableCell>{item.lifecycle}</TableCell>
-                <TableCell>{item.description}</TableCell>
-                {/* <TableCell>{item.incorpDate}</TableCell>
-                <TableCell>{item.releaseDate}</TableCell>
-                <TableCell>{item.effectivityDate}</TableCell>
-                <TableCell>{item.complianceCalculatedDate}</TableCell>
-                <TableCell>{item.overallCompliance}</TableCell>
-                <TableCell>{item.levelComplianceIndicator}</TableCell>
-                <TableCell>{item.complianceRollUp}</TableCell>
-                <TableCell>{item.productHierarchy}</TableCell>
-                <TableCell>{item.user}</TableCell> */}
-              </TableRow>
+                  {/* add action to edit ticket */}
+                  <Action color="edit" icon="&#xE254;" />
+                  {/* add action to delete ticket */}
+                  <Action color="delete" icon="&#xE872;" />
+                </td>
+            </tr>
             ))}
-          </TableBody>
-        </Table>
+          </tbody>
+        </table>
       </React.Fragment>
     );
   }
-  
 }
