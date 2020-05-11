@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import { makeStyles } from "@material-ui/core/styles";
 import Title from "./Title";
-
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -13,10 +12,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
 export default function FormPropsTextFields() {
   const classes = useStyles();
-
   const [id, setId] = useState("");
   const [impactedUser, setImpactedUser] = useState("");
   const [subclass, setSubclass] = useState("");
@@ -48,6 +45,22 @@ export default function FormPropsTextFields() {
     notes: "",
   });
 
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -55,11 +68,14 @@ export default function FormPropsTextFields() {
 
     console.log(JSON.stringify(ticket));
 
+    var csrftoken = getCookie("csrftoken");
+
     var url = "http://localhost:8000/api/ticket-create/";
     fetch(url, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
+        "X-CSRFToken": csrftoken,
       },
       body: JSON.stringify(ticket),
     })
@@ -70,12 +86,10 @@ export default function FormPropsTextFields() {
       .catch(function (error) {
         console.log("ERROR:", error);
       });
-
     setId("");
     setSubclass("");
     setCategory("");
   };
-
   return (
     <React.Fragment>
       <Title>Store Ticket</Title>
@@ -163,6 +177,7 @@ export default function FormPropsTextFields() {
             id="openDate"
             label="Open date"
             value={openDate}
+            helperText="AAAA-MM-DD"
             onChange={(e) => {
               setOpenDate(e.target.value);
               setTicket({ ...ticket, openDate: e.target.value });
@@ -172,6 +187,7 @@ export default function FormPropsTextFields() {
             id="assignedDate"
             label="Assigned date"
             value={assignedDate}
+            helperText="AAAA-MM-DD"
             onChange={(e) => {
               setAssignedDate(e.target.value);
               setTicket({ ...ticket, assignedDate: e.target.value });
@@ -181,6 +197,7 @@ export default function FormPropsTextFields() {
             id="resolutionDate"
             label="Resolution date"
             value={resolutionDate}
+            helperText="AAAA-MM-DD"
             onChange={(e) => {
               setResolutionDate(e.target.value);
               setTicket({ ...ticket, resolutionDate: e.target.value });
@@ -190,6 +207,7 @@ export default function FormPropsTextFields() {
             id="closedDate"
             label="Closed date"
             value={closedDate}
+            helperText="AAAA-MM-DD"
             onChange={(e) => {
               setClosedDate(e.target.value);
               setTicket({ ...ticket, closedDate: e.target.value });
@@ -199,6 +217,7 @@ export default function FormPropsTextFields() {
             id="escalationDate"
             label="Escalation date"
             value={escalationDate}
+            helperText="AAAA-MM-DD"
             onChange={(e) => {
               setEscalationDate(e.target.value);
               setTicket({ ...ticket, escalationDate: e.target.value });
