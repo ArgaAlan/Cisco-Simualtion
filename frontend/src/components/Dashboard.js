@@ -20,7 +20,6 @@ import { mainListItems, secondaryListItems } from "./listItems";
 import Tickets from "./Tickets";
 import TicketDetail from "./TicketDetail";
 import InputTicket from "./InputTicket";
-import InputModal from "./InputModal";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function Copyright() {
@@ -192,11 +191,6 @@ export default function Dashboard() {
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
                   <InputTicket />
-                </Paper>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <InputModal />
                 </Paper>
               </Grid>
             </Grid>
