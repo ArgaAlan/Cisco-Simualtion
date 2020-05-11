@@ -8,5 +8,4 @@ urlpatterns = [
     path('ticket-create/', views.ticketCreate, name="ticket-create"),
     path('ticket-update/<str:pk>/', views.ticketUpdate, name="ticket-update"),
     path('ticket-delete/<str:pk>/', views.ticketDelete, name="ticket-delete"),
-    path('ticket-simulation/', views.ticketSimulation, name="ticket-simulation"),
 ]
