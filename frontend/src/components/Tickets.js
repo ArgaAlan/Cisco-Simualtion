@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Title from './Title';
 import { NavLink } from 'react-router-dom';
 import './Tickets.css';
-import Action from './Action';
 
 
 export default function Tickets() {
@@ -55,13 +54,13 @@ export default function Tickets() {
                 <td>{item.state}</td>
                 <td>{item.summary}</td>
                 <td>
-                  <NavLink to={`/ticket/${item.numberID}`}>
-                    <Action color="info" icon="&#xE88E;" />
+                  <NavLink className="info" to={`/ticket/${item.numberID}`}>
+                    <i className="material-icons">&#xE88E;</i>
                   </NavLink>
                   {/* add action to edit ticket */}
-                  <Action color="edit" icon="&#xE254;" />
+                    <i className="material-icons">&#xE254;</i> 
                   {/* add action to delete ticket */}
-                  <Action color="delete" icon="&#xE872;" />
+                    <i className="material-icons">&#xE872;</i> 
                 </td>
             </tr>
             ))}
