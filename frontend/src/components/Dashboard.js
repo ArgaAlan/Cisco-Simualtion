@@ -190,7 +190,10 @@ export default function Dashboard() {
               </Grid>
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
-                  <InputTicket />
+                  <Switch>
+                    <Route path="/" exact component={InputTicket} />
+                    <Route path="/ticket/:id" component={InputTicket} />
+                  </Switch>
                 </Paper>
               </Grid>
             </Grid>
@@ -203,5 +206,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
-const Main = () => {};
