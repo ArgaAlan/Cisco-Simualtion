@@ -25,7 +25,7 @@ class Ticket(models.Model):
         default='2020-01-01 00:00', blank=True, null=True)
     closedDate = models.DateTimeField(
         default='2020-01-01 00:00', blank=True, null=True)
-    escalationDate = models.DateTimeField(
+    scalationDate = models.DateTimeField(
         default='2020-01-01 00:00', blank=True, null=True)
     notes = models.CharField(
         max_length=200, default='', blank=True, null=True)
