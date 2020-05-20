@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'cisco.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'ciscoticket',
+        'NAME': 'cisco',
         'HOST': 'localhost',
         'PORT': 27017
     }

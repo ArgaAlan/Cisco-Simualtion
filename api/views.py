@@ -1,11 +1,14 @@
 from django.shortcuts import render
-from django.http import JsonResponse
 
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser
+from rest_framework import status
+
+from api.models import Ticket
+from api.serializers import TicketSerializer
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .serializers import TicketSerializer
 
-from .models import Ticket
+from rest_framework.response import Response
 
 from .Markov import *
 from .TicketStr import *
@@ -20,54 +23,53 @@ logger = logging.getLogger(__name__)
 def apiOverview(request):
 
     api_urls = {
-        'List': '/ticket-list/',
-        'Detail View': '/ticket-detail/<str:pk>',
-        'Create': '/ticket-create/',
-        'Update': '/ticket-update/<str:pk>/',
-        'Delete': '/ticket-delete/<str:pk>/',
+        '[GET, POST] All tickets': '/tickets/',
+        '[GET, PUT, DELETE] Specific ticket': '/tickets/<str:pk>',
     }
 
     return Response(api_urls)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def ticketList(request):
-    tickets = Ticket.objects.all()
-    serializer = TicketSerializer(tickets, many=True)
-    return Response(serializer.data)
+
+    if request.method == 'GET':
+        tickets = Ticket.objects.all()
+        
+        tickets_serializer = TicketSerializer(tickets, many=True)
+        return JsonResponse(tickets_serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        ticket_data = JSONParser().parse(request)
+        ticket_serializer = TicketSerializer(data=ticket_data)
+        if ticket_serializer.is_valid():
+            ticket_serializer.save()
+            return JsonResponse(ticket_serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(ticket_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def ticketDetail(request, pk):
-    tickets = Ticket.objects.get(numberID=pk)
-    serializer = TicketSerializer(tickets, many=False)
-    return Response(serializer.data)
+    # find ticket by pk (id)
+    try:
+        ticket = Ticket.objects.get(pk=pk)
+    except Ticket.DoesNotExist:
+        return JsonResponse({'message': 'The ticket does not exist'}, status=status.HTTP_404_NOT_FOUND) 
 
+    if request.method == 'GET':
+        ticket_serializer = TicketSerializer(ticket)
+        return JsonResponse(ticket_serializer.data)
+    
+    elif request.method == 'PUT':
+        ticket_data = JSONParser().parse(request)
+        ticket_serializer = TicketSerializer(ticket, data=ticket_data)
+        if ticket_serializer.is_valid():
+            ticket_serializer.save()
+            return JsonResponse(ticket_serializer.data)
+        return JsonResponse(ticket_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
-@api_view(['POST'])
-def ticketCreate(request):
-    serializer = TicketSerializer(data=request.data)
+    elif request.method == 'DELETE':
+        ticket.delete()
+        return JsonResponse({'message': 'Ticket deleted with success'}, status=status.HTTP_204_NO_CONTENT)
 
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
-
-
-@api_view(['POST'])
-def ticketUpdate(request, pk):
-    ticket = Ticket.objects.get(numberID=pk)
-    serializer = TicketSerializer(instance=ticket, data=request.data)
-
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
-
-
-@api_view(['DELETE'])
-def ticketDelete(request, pk):
-    ticket = Ticket.objects.get(numberID=pk)
-    ticket.delete()
-
-    return Response('Item succesfully delete!')
