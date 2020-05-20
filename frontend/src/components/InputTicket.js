@@ -35,7 +35,7 @@ export default function FormPropsTextFields({ match }) {
   const fetchTicket = async () => {
     try {
       const data = await fetch(
-        `http://localhost:8000/api/ticket-detail/${match.params.id}/`
+        `http://localhost:8000/api/tickets/${match.params.id}`
       );
       const item = await data.json();
       console.log(item);
@@ -90,9 +90,9 @@ export default function FormPropsTextFields({ match }) {
     var csrftoken = getCookie("csrftoken");
     var url = "";
     if (error) {
-      url = "http://localhost:8000/api/ticket-create/";
+      url = "http://localhost:8000/api/tickets/";
     } else {
-      url = `http://localhost:8000/api/ticket-update/${match.params.id}/`;
+      url = `http://localhost:8000/api/tickets/${match.params.id}/`;
     }
     console.log(url);
 

@@ -11,7 +11,7 @@ export default function Tickets() {
 
   const fetchItems = async () => {
     try {
-      const data = await fetch("http://localhost:8000/api/ticket-list/");
+      const data = await fetch("http://localhost:8000/api/tickets");
       const items = await data.json();
       console.log(items);
       setIsLoaded(true);
@@ -54,7 +54,7 @@ export default function Tickets() {
                 <td>{item.state}</td>
                 <td>{item.summary}</td>
                 <td>
-                  <NavLink className="info" to={`/ticket/${item.numberID}`}>
+                  <NavLink className="info" to={`/ticket/${item.id}`}>
                     <i className="material-icons">&#xE88E;</i>
                   </NavLink>
                   {/* add action to edit ticket */}

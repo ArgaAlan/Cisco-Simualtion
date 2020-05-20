@@ -9,7 +9,7 @@ export default function TicketDetail({ match }) {
   const fetchItem = async () => {
     try {
       const data = await fetch(
-        `http://localhost:8000/api/ticket-detail/${match.params.id}/`
+        `http://localhost:8000/api/tickets/${match.params.id}`
       );
       const item = await data.json();
       console.log(item);
