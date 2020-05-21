@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
+import { Typography, Paper } from "@material-ui/core";
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { NavLink } from 'react-router-dom';
 
 export default function TicketDetail({ match }) {
   const [error, setError] = useState(null);
@@ -44,102 +50,201 @@ export default function TicketDetail({ match }) {
       resolutionDate,
       closedDate,
       scalationDate,
+      issueCategory,
+      issueReason,
       notes,
     } = item;
 
     return (
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="center"
-        spacing={3}
-      >
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          ID:
+      <Paper>
+
+        <Grid container>
+          <Grid item xs={2}>
+            <IconButton size='small' aria-label='go-back'>
+              <NavLink to='/' className='nav-link-item'>
+                <ArrowBackIcon />
+              </NavLink>
+            </IconButton>
+          </Grid>
+          <Grid item xs={6} />
+          <Grid item xs={4}>
+            <Typography variant='h6' display='inline'>Actions:</Typography>
+            <IconButton edge='end' size='small' aria-label='edit'>
+              <EditIcon />
+            </IconButton>
+            <IconButton edge='end' size='small' aria-label='delete'>
+              <DeleteIcon />
+            </IconButton>
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          {numberID}
+
+        <Grid
+          container
+          justify="center"
+          spacing={1}
+        >
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Ticket Number:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {numberID}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Impacted User:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {impactedUser}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Subclass:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {subclass}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Category
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {category}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              State:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {state}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Summary:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {summary}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Causing CI:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {causingCI}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Assigned To:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {assignedTo}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Open Date:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {openDate}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Assigned Date:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {assignedDate}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Resolution Date:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {resolutionDate}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Closed Date:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {closedDate}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Scalation Date:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {scalationDate}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Issue Category:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {issueCategory}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Issue Reason:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {issueReason}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='right' color='textPrimary' variant='body2'>
+              Notes:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align='left' color='textPrimary' variant='body2'>
+              {notes}
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Impacted User:
-        </Grid>
-        <Grid item xs={6}>
-          {impactedUser}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Subclass:
-        </Grid>
-        <Grid item xs={6}>
-          {subclass}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Category:
-        </Grid>
-        <Grid item xs={6}>
-          {category}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          State:
-        </Grid>
-        <Grid item xs={6}>
-          {state}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Summary:
-        </Grid>
-        <Grid item xs={6}>
-          {summary}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Causing CI:
-        </Grid>
-        <Grid item xs={6}>
-          {causingCI}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Assigned To:
-        </Grid>
-        <Grid item xs={6}>
-          {assignedTo}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Open Date:
-        </Grid>
-        <Grid item xs={6}>
-          {openDate}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Assigned Date:
-        </Grid>
-        <Grid item xs={6}>
-          {assignedDate}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Resolution Date:
-        </Grid>
-        <Grid item xs={6}>
-          {resolutionDate}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Closed Date:
-        </Grid>
-        <Grid item xs={6}>
-          {closedDate}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Scalation Date:
-        </Grid>
-        <Grid item xs={6}>
-          {scalationDate}
-        </Grid>
-        <Grid item xs={6} style={{ textAlign: "right" }}>
-          Notes:
-        </Grid>
-        <Grid item xs={6}>
-          {notes}
-        </Grid>
-      </Grid>
+      </Paper>
     );
   }
 }

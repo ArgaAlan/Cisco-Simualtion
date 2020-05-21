@@ -81,17 +81,7 @@ export default function Tickets() {
                   <TableCell align="right">{row.issueCategory}</TableCell>
                   <TableCell align="right">{row.issueReason}</TableCell>
                   <TableCell align="right">
-                    <IconButton edge='end' size='small' aria-label='info'>
-                      <NavLink to={`/ticket/${row.id}`} className='nav-link-item'>
-                        <InfoIcon color='action' />
-                      </NavLink>
-                    </IconButton>
-                    <IconButton edge='end' size='small' aria-label='edit'>
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton edge='end' size='small' aria-label='delete'>
-                      <DeleteIcon />
-                    </IconButton>
+                    
                   </TableCell>
                 </TableRow>
               ))}

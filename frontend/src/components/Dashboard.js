@@ -26,7 +26,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        CMUC : The Northerners
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -179,19 +179,17 @@ export default function Dashboard() {
           <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <Switch>
-                    <Route path="/" exact component={Tickets} />
-                    <Route path="/ticket/:id" component={TicketDetail} />
-                    <Route path="/input-ticket/" component={InputTicket} />
-                    <Route path="/simulation/" render={() => (<Fragment>
-                      <h1>Simulation Here</h1>
-                    </Fragment>)} />
-                    <Route path="/stats/" render={() => (<Fragment>
-                      <h1>Ticket Stats Here</h1>
-                    </Fragment>)} />
-                  </Switch>
-                </Paper>
+                <Switch>
+                  <Route path="/" exact component={Tickets} />
+                  <Route path="/ticket/:id" component={TicketDetail} />
+                  <Route path="/input-ticket/" component={InputTicket} />
+                  <Route path="/simulation/" render={() => (<Fragment>
+                    <h1>Simulation Here</h1>
+                  </Fragment>)} />
+                  <Route path="/stats/" render={() => (<Fragment>
+                    <h1>Ticket Stats Here</h1>
+                  </Fragment>)} />
+                </Switch>
               </Grid>
             </Grid>
             <Box pt={4}>
