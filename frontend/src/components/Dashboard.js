@@ -1,7 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
@@ -128,7 +127,6 @@ export default function Dashboard() {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <Router>
         <AppBar
           position="absolute"
@@ -185,14 +183,13 @@ export default function Dashboard() {
                   <Switch>
                     <Route path="/" exact component={Tickets} />
                     <Route path="/ticket/:id" component={TicketDetail} />
-                  </Switch>
-                </Paper>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <Switch>
-                    <Route path="/" exact component={InputTicket} />
-                    <Route path="/ticket/:id" component={InputTicket} />
+                    <Route path="/input-ticket/" component={InputTicket} />
+                    <Route path="/simulation/" render={() => (<Fragment>
+                      <h1>Simulation Here</h1>
+                    </Fragment>)} />
+                    <Route path="/stats/" render={() => (<Fragment>
+                      <h1>Ticket Stats Here</h1>
+                    </Fragment>)} />
                   </Switch>
                 </Paper>
               </Grid>
