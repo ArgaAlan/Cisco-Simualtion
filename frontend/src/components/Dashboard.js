@@ -21,6 +21,7 @@ import TicketDetail from "./TicketDetail";
 import InputTicket from "./InputTicket";
 import PieChart from "./PieChart";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import TableStats from './pages/TableStats';
 import Simulation from "./Simulation";
 
 function Copyright() {
@@ -186,14 +187,7 @@ export default function Dashboard() {
                   <Route path="/ticket/:id" component={TicketDetail} />
                   <Route path="/input-ticket/" component={InputTicket} />
                   <Route path="/simulation/" component={Simulation} />
-                  <Route
-                    path="/stats/"
-                    render={() => (
-                      <Fragment>
-                        <h1>Ticket Stats Here</h1>
-                      </Fragment>
-                    )}
-                  />
+                  <Route path="/stats/" component={TableStats} />
                 </Switch>
               </Grid>
             </Grid>
