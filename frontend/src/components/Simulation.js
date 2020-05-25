@@ -24,12 +24,6 @@ export default function Simulation() {
       <div>
         <PieChart></PieChart>
       </div>
-      <div>
-        <PieChart></PieChart>
-      </div>
-      <div>
-        <PieChart></PieChart>
-      </div>
     </React.Fragment>
   );
 }
