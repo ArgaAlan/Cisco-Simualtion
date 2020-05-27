@@ -21,6 +21,7 @@ import TicketDetail from "./TicketDetail";
 import InputTicket from "./InputTicket";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Simulation from "./Simulation";
+import UpdateTicketModal from "./UpdateTicketModal";
 
 function Copyright() {
   return (
@@ -185,6 +186,7 @@ export default function Dashboard() {
                   <Route path="/ticket/:id" component={TicketDetail} />
                   <Route path="/input-ticket/" component={InputTicket} />
                   <Route path="/simulation/" component={Simulation}/>
+                  <Route path="/update-ticket-modal/" component={UpdateTicketModal}/>
                   
                   <Route path="/stats/" render={() => (<Fragment>
                     <h1>Ticket Stats Here</h1>
