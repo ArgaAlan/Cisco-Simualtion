@@ -1,9 +1,12 @@
-<<<<<<< HEAD
+
 import React from 'react';
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Button from '@material-ui/core/Button';
-
+import { Fragment } from "react";
+import PieChart from "./PieChart";
+import SaveIcon from "@material-ui/icons/Save";
+import Title from "./Title";
 
 export default function Simulation() {
     return (
@@ -29,13 +32,7 @@ export default function Simulation() {
         </div>
     )
 }
-=======
-import React, { Fragment } from "react";
-import PieChart from "./PieChart";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import SaveIcon from "@material-ui/icons/Save";
-import Title from "./Title";
+
 
 export default function Simulation() {
   return (
@@ -59,4 +56,3 @@ export default function Simulation() {
     </React.Fragment>
   );
 }
->>>>>>> 377c798b82a5582c958f5ddc359944b64ab0ccf2
