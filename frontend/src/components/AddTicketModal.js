@@ -31,28 +31,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UpdateTicketModal() {
+export default function AddTicketModal() {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-
-  const [ticket, setTicket] = useState({
-    numberID: null,
-    impactedUser: "",
-    subclass: "",
-    category: "",
-    state: "",
-    summary: "",
-    causingCI: "",
-    assignedTo: "",
-    openDate: "",
-    assignedDate: "",
-    resolutionDate: "",
-    closedDate: "",
-    scalationDate: "",
-    notes: "",
-  });
 
   const handleOpen = () => {
     setOpen(true);
@@ -64,9 +47,9 @@ export default function UpdateTicketModal() {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Update Ticket</h2>
+      <h2 id="simple-modal-title">Add Ticket</h2>
       <p id="simple-modal-description">
-        This is a modal where you can update your ticket
+        This is a modal where you add a new ticket
       </p>
      <Grid container spacing={12}>
         <Grid item xs={6}>
@@ -145,14 +128,14 @@ export default function UpdateTicketModal() {
             </div>
         </Grid>
     </Grid>
-    <UpdateTicketModal />
+    <AddTicketModal />
     </div>
   );
 
   return (
     <div>
       <button type="button" onClick={handleOpen}>
-        Update Ticket
+        Add Ticket
       </button>
       <Modal
         open={open}
