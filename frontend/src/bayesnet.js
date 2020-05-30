@@ -4,14 +4,14 @@
 // 	B. Probability product will fail due Material Lead Time Risk: Demand Surge
 // 	C. Probability product will fail due Material Lead Time Risk: Product Design Change
 // 	D. Probability product will not fail on Material Lead Time stage
-// 	E. Probability product will fail due Material Quality Risk: Manufacturing Issue
-// 	F. Probability product will fail due Material Quality Risk: Design Issue
-// 	G. Probability product will fail due Material Quality Risk: Process Issue
-// 	H. Probability product will fail due Material Quality Risk: Training Issue
-// 	I. Probability product will not fail in Material Quality Stage
-// 	J. Probability product will fail due Material Quantity Risk: Yield Issue
-// 	K. Probability product will fail due Material Quantity Risk: Scrap due to ECO
-//   L. Probability product will not fail at Material Quantity Stage
+// 	E. Probability product will fail due Material Quantity Risk: Yield Issue
+// 	F. Probability product will fail due Material Quantity Risk: Scrap due to ECO
+//  G. Probability product will not fail at Material Quantity Stage
+// 	H. Probability product will fail due Material Quality Risk: Manufacturing Issue
+// 	I. Probability product will fail due Material Quality Risk: Design Issue
+// 	J. Probability product will fail due Material Quality Risk: Process Issue
+// 	K. Probability product will fail due Material Quality Risk: Training Issue
+// 	L. Probability product will not fail in Material Quality Stage
 //   
 //   Network:
 //   START

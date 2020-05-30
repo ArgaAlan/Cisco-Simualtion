@@ -19,8 +19,14 @@ import { mainListItems, secondaryListItems } from "./listItems";
 import Tickets from "./Tickets";
 import TicketDetail from "./TicketDetail";
 import InputTicket from "./InputTicket";
+import PieChart from "./PieChart";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+<<<<<<< HEAD
 import PieChartTooltip from "./PieChartTooltip";
+=======
+import TableStats from './pages/TableStats';
+import Simulation from "./Simulation";
+>>>>>>> 377c798b82a5582c958f5ddc359944b64ab0ccf2
 
 function Copyright() {
   return (
@@ -184,6 +190,7 @@ export default function Dashboard() {
                   <Route path="/" exact component={Tickets} />
                   <Route path="/ticket/:id" component={TicketDetail} />
                   <Route path="/input-ticket/" component={InputTicket} />
+<<<<<<< HEAD
                   <Route path="/simulation/" render={() => (<Fragment>
                     <h1>Simulation Here</h1>
                   </Fragment>)} />
@@ -191,6 +198,10 @@ export default function Dashboard() {
                     <h1>Ticket Stats Here</h1><br/>
                     <PieChartTooltip />
                   </Fragment>)} />
+=======
+                  <Route path="/simulation/" component={Simulation} />
+                  <Route path="/stats/" component={TableStats} />
+>>>>>>> 377c798b82a5582c958f5ddc359944b64ab0ccf2
                 </Switch>
               </Grid>
             </Grid>
