@@ -37,6 +37,23 @@ export default function AddTicketModal() {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
 
+  const [ticket, setTicket] = useState({
+    numberID: null,
+    impactedUser: "",
+    subclass: "",
+    category: "",
+    state: "",
+    summary: "",
+    causingCI: "",
+    assignedTo: "",
+    openDate: "",
+    assignedDate: "",
+    resolutionDate: "",
+    closedDate: "",
+    scalationDate: "",
+    notes: "",
+  });
+  
   const handleOpen = () => {
     setOpen(true);
   };
