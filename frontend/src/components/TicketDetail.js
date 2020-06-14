@@ -29,7 +29,7 @@ export default function TicketDetail({ match }) {
 
   useEffect(() => {
     fetchItem();
-  }, []);
+  });
 
   if (error) {
     return <div>Error: {error.message}</div>;

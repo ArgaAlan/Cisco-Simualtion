@@ -63,7 +63,7 @@ export default function FormPropsTextFields({ match }) {
 
   useEffect(() => {
     fetchTicket();
-  }, []);
+  });
 
   function getCookie(name) {
     var cookieValue = null;

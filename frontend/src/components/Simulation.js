@@ -1,8 +1,6 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PieChart from "./PieChart";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import SaveIcon from "@material-ui/icons/Save";
 import Title from "./Title";
 
 export default function Simulation() {

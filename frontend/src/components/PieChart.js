@@ -71,7 +71,7 @@ export default class Demo extends React.PureComponent {
   };
 
   render() {
-    if (this.state.loading == true) {
+    if (this.state.loading === true) {
       return <h1>Loading</h1>;
     }
     console.log(this.state.data.regression);
@@ -82,15 +82,15 @@ export default class Demo extends React.PureComponent {
       index < this.state.data.regression.materialLeadTime.demandSurge.length;
       index++
     ) {
-      this.state.sumMaterialLeadTimeDemand += this.state.data.regression.materialLeadTime.demandSurge[
+      this.state.sumMaterialLeadTimeDemand.setStatE(this.state.sumMaterialLeadTimeDemand + this.state.data.regression.materialLeadTime.demandSurge[
         index
-      ];
-      this.state.sumMaterialLeadTimeDesign += this.state.data.regression.materialLeadTime.productDesignChange[
+      ]);
+      this.state.sumMaterialLeadTimeDesign.setState(this.state.sumMaterialLeadTimeDesign + this.state.data.regression.materialLeadTime.productDesignChange[
         index
-      ];
-      this.state.sumMaterialLeadTimeTransport += this.state.data.regression.materialLeadTime.transportIssue[
+      ]);
+      this.state.sumMaterialLeadTimeTransport.setState(this.state.sumMaterialLeadTimeTransport + this.state.data.regression.materialLeadTime.transportIssue[
         index
-      ];
+      ]);
     }
     console.log(this.state.sumMaterialLeadTimeDemand);
     console.log(this.state.sumMaterialLeadTimeDesign);
@@ -101,18 +101,18 @@ export default class Demo extends React.PureComponent {
       index < this.state.data.regression.materialQuality.designIssue.length;
       index++
     ) {
-      this.state.sumMaterialQualityDesign += this.state.data.regression.materialQuality.designIssue[
+      this.state.sumMaterialQualityDesign.setState(this.state.sumMaterialQualityDesign + this.state.data.regression.materialQuality.designIssue[
         index
-      ];
-      this.state.sumMaterialQualityManufaturing += this.state.data.regression.materialQuality.manufacturingIssue[
+      ]);
+      this.state.sumMaterialQualityManufaturing.setState(this.state.sumMaterialQualityManufaturing + this.state.data.regression.materialQuality.manufacturingIssue[
         index
-      ];
-      this.state.sumMaterialQualityProcess += this.state.data.regression.materialQuality.processIssue[
+      ]);
+      this.state.sumMaterialQualityProcess.setState(this.state.sumMaterialQualityProcess + this.state.data.regression.materialQuality.processIssue[
         index
-      ];
-      this.state.sumMaterialQualityTraining += this.state.data.regression.materialQuality.trainingIssue[
+      ]);
+      this.state.sumMaterialQualityTraining.setState(this.state.sumMaterialQualityTraining + this.state.data.regression.materialQuality.trainingIssue[
         index
-      ];
+      ]);
     }
     console.log(this.state.sumMaterialQualityDesign);
     console.log(this.state.sumMaterialQualityManufaturing);
@@ -124,26 +124,26 @@ export default class Demo extends React.PureComponent {
       index < this.state.data.regression.materialQuantity.scrapDueToEco.length;
       index++
     ) {
-      this.state.sumMaterialQuantityScrap += this.state.data.regression.materialQuantity.scrapDueToEco[
+      this.state.sumMaterialQuantityScrap.setState(this.state.sumMaterialQuantityScrap + this.state.data.regression.materialQuantity.scrapDueToEco[
         index
-      ];
-      this.state.sumMaterialQuantityYield += this.state.data.regression.materialQuantity.yieldIssue[
+      ]);
+      this.state.sumMaterialQuantityYield.setState(this.state.sumMaterialQuantityYield + this.state.data.regression.materialQuantity.yieldIssue[
         index
-      ];
+      ]);
     }
     console.log(this.state.sumMaterialQuantityScrap);
     console.log(this.state.sumMaterialQuantityYield);
 
-    this.state.sumMaterialLeadTime = [
+    this.state.sumMaterialLeadTime.setState ([
       { country: "Design Change", area: this.state.sumMaterialLeadTimeDesign },
       { country: "Demand Surge", area: this.state.sumMaterialLeadTimeDemand },
       {
         country: "Transport Issue",
         area: this.state.sumMaterialLeadTimeTransport,
       },
-    ];
+    ]);
 
-    this.state.sumMaterialQuality = [
+    this.state.sumMaterialQuality.setState([
       {
         country: "Manufacturing Issue",
         area: this.state.sumMaterialQualityManufaturing,
@@ -154,9 +154,9 @@ export default class Demo extends React.PureComponent {
         country: "Training Issue",
         area: this.state.sumMaterialQualityTraining,
       },
-    ];
+    ]);
 
-    this.state.sumMaterialQuantity = [
+    this.state.sumMaterialQuantity.setState([
       {
         country: "Yield Issue",
         area: this.state.sumMaterialQuantityYield,
@@ -165,7 +165,7 @@ export default class Demo extends React.PureComponent {
         country: "Scrap due to Eco",
         area: this.state.sumMaterialQuantityScrap,
       },
-    ];
+    ]);
 
     return (
       <Paper>
