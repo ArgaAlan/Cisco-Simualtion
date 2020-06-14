@@ -8,31 +8,6 @@ import PieChart from "./PieChart";
 import SaveIcon from "@material-ui/icons/Save";
 import Title from "./Title";
 
-export default function Simulation() {
-    return (
-        <div>
-            <Container maxWidth="sm">
-                <form noValidate autoComplete="off">
-                    <div>
-                     <TextField id="standard-basic" label="User" />
-                     </div>
-                     <div>
-                     <TextField id="standard-basic" label="Date" />
-                     </div>
-                     <div>
-                         <p></p>
-                     </div>
-                     <div>
-                     <Button variant="outlined" color="primary">
-                        Simulation
-                    </Button>
-                     </div>
-                </form>
-            </Container>
-        </div>
-    )
-}
-
 
 export default function Simulation() {
   return (

@@ -36,8 +36,7 @@ export default function UpdateTicketModal() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-
-  const [ticket, setTicket] = useState({
+  const [ticket, setTicket] = React.useState({
     numberID: null,
     impactedUser: "",
     subclass: "",
