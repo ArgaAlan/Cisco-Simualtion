@@ -6,6 +6,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import ListIcon from '@material-ui/icons/List';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import TimelineIcon from '@material-ui/icons/Timeline';
 import InfoIcon from '@material-ui/icons/Info';
 import { NavLink } from 'react-router-dom';
 
@@ -33,6 +34,14 @@ export const mainListItems = (
           <BarChartIcon />
         </ListItemIcon>
         <ListItemText primary="Ticket Stats" />
+      </ListItem>
+    </NavLink>
+    <NavLink to='/analysis/' className='nav-link-item' >
+      <ListItem button>
+        <ListItemIcon>
+          <TimelineIcon />
+        </ListItemIcon>
+        <ListItemText primary="Ticket Analysis" />
       </ListItem>
     </NavLink>
     

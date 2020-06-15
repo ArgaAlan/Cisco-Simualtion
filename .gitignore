@@ -13,6 +13,7 @@ __pycache__/
 /env/
 MANIFEST
 coverage.*
+node_modules/
 
 !.gitignore
 !.travis.yml

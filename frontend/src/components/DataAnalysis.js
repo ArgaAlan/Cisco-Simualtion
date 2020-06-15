@@ -14,20 +14,21 @@ import {
 } from '@devexpress/dx-react-chart-material-ui';
 
 import {
-  ValueScale,
   Stack,
   Animation,
   EventTracker,
+  ArgumentScale,
   HoverState,
 } from '@devexpress/dx-react-chart';
 import { HOVERED } from '@devexpress/dx-chart-core';
 import { connectProps } from '@devexpress/dx-react-core';
+import { scaleBand } from '@devexpress/dx-chart-core';
 import { format } from 'd3-format';
 
-import { oilProduction } from './tmpDummyData/data';
+import { ChartInfo } from './tmpDummyData/data';
 
-const consumptionSeriesName = 'Consumption';
-const consumptionColor = '#41c0f0';
+const totalReports = 'Total reports';
+const reportColor = '#41c0f0';
 const priceColor = '#fcd45a';
 
 const makeLabel = (symbol, color) => ({ text, style, ...restProps }) => (
@@ -41,7 +42,7 @@ const makeLabel = (symbol, color) => ({ text, style, ...restProps }) => (
   />
 );
 const PriceLabel = makeLabel('$', priceColor);
-const LabelWithThousand = makeLabel('k', consumptionColor);
+const LabelWithThousand = makeLabel('k', reportColor);
 
 const patchProps = ({ hoverIndex, ...props }) => ({
   state: props.index === hoverIndex ? HOVERED : null,
@@ -79,16 +80,11 @@ const SplineWithPoints = props => (
 );
 
 const series = [
-  { name: 'USA', key: 'usa', color: '#08abbd' },
-  { name: 'Saudi Arabia', key: 'saudiArabia', color: '#78bc97' },
-  { name: 'Iran', key: 'iran', color: '#d4d67e' },
-  { name: 'Mexico', key: 'mexico', color: '#9ccc65' },
-  { name: 'Russia', key: 'russia', color: '#1698af' },
+  { name: 'Due date', key: 'due', color: '#08abbd' },
+  { name: 'Quantity', key: 'quan', color: '#78bc97' },
+  { name: 'Quality', key: 'qual', color: '#d4d67e' },
   {
-    name: consumptionSeriesName, key: 'consumption', color: consumptionColor, type: AreaSeries,
-  },
-  {
-    name: 'Oil Price', key: 'price', color: priceColor, scale: 'price', type: SplineSeries,
+    name: totalReports, key: 'total', color: reportColor, type: AreaSeries,
   },
 ];
 
@@ -154,8 +150,8 @@ const stacks = [
   { series: series.filter(obj => !obj.type).map(obj => obj.name) },
 ];
 
-const modifyOilDomain = domain => [domain[0], 2200];
-const modifyPriceDomain = () => [0, 110];
+/*const modifyOilDomain = domain => [domain[0], 2200];
+const modifyPriceDomain = domain => [domain[0], 110];*/
 
 const getHoverIndex = ({ target }) => (target ? target.point : -1);
 
@@ -177,18 +173,44 @@ function parseData(tktArray){
     for (i = 0; i < tktLen; i++) {
         switch(tktArray[i].openDate["default"]){
             case "Due dates":
-                monthlyTkt[tktArray[i].openDate["default"].getMonth()][0]+=1;
+                monthlyTkt[tktArray[i].openDate.getMonth()][0]+=1;
                 break;
             case "Quality":
-                monthlyTkt[tktArray[i].openDate["default"].getMonth()][1]+=1;
+                monthlyTkt[tktArray[i].openDate.getMonth()][1]+=1;
                 break;
             case "Quantity":
-                monthlyTkt[tktArray[i].openDate["default"].getMonth()][2]+=1;
+                monthlyTkt[tktArray[i].openDate.getMonth()][2]+=1;
                 break;
         }
     }
 
-    return monthlyTkt;
+    return parseToJSON(monthlyTkt);
+}
+
+function parseToJSON(monthlyTkt){
+    var data = {};
+    var i, j;
+    var due, qual, quan, total;
+    for(i = 0; i < 11; i++) {
+        data[i]=[]
+    }
+    
+    for(i = 0; i < monthlyTkt.lenght; i++){
+        due = monthlyTkt[i][0]
+        qual = monthlyTkt[i][1]
+        quan = monthlyTkt[i][2]
+        total = due+qual+quan;
+
+
+        data[i].append({
+            'month': i,
+            'due': due,
+            'qual': qual,
+            'quan': quan,
+            'total': total
+        })
+    }
+    return data;
 }
 
 export default class DataAnalysis extends React.PureComponent {
@@ -196,12 +218,12 @@ export default class DataAnalysis extends React.PureComponent {
         super(props);
     
         this.state = {
-          data: oilProduction,
+          data: ChartInfo,
           target: null,
         };
     
         this.changeHover = target => this.setState({
-          target: target ? { series: consumptionSeriesName, point: target.point } : null,
+          target: target ? { series: totalReports, point: target.point } : null,
         });
     
         this.createComponents();
@@ -241,7 +263,7 @@ export default class DataAnalysis extends React.PureComponent {
             valueField: key,
             argumentField: 'year',
             color,
-            scaleName: scale || 'oil',
+            scaleName: scale || 'reports',
             pointComponent: this.BarPoint,
           };
           if (type === AreaSeries) {
@@ -255,6 +277,15 @@ export default class DataAnalysis extends React.PureComponent {
         });
       }
     
+/*<ValueScale
+                name="oil"
+                modifyDomain={modifyOilDomain}
+              />
+              <ValueScale
+                name="price"
+                modifyDomain={modifyPriceDomain}
+              />*/
+
       render() {
         const { data, target } = this.state;
     
@@ -263,14 +294,8 @@ export default class DataAnalysis extends React.PureComponent {
             <Chart
               data={data}
             >
-              <ValueScale
-                name="oil"
-                modifyDomain={modifyOilDomain}
-              />
-              <ValueScale
-                name="price"
-                modifyDomain={modifyPriceDomain}
-              />
+            <ArgumentScale factory={scaleBand} />
+              
     
               <ArgumentAxis />
               <ValueAxis
@@ -284,7 +309,7 @@ export default class DataAnalysis extends React.PureComponent {
               />
     
               <Title
-                text="Oil production vs Oil price"
+                text="Anual reports"
               />
     
               {this.series}
