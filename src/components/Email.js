@@ -1,23 +1,44 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 export default function Email() {
-    return (
-        <div>
-            <h2 id="simple-modal-title">Enter Email</h2>
-            <form noValidate autoComplete="off">
-                <TextField id="standard-basic" label="Email" />
-            </form>
-            <SimpleModal />
-            
-        </div>
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  return (
+      <div>
+      <button type="button" onClick={handleOpen}>
+        Email
+      </button>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+      >
+        <Fade in={open}>
+          <div>
+            <h2 id="transition-modal-title">Transition modal</h2>
+            <p id="transition-modal-description">react-transition-group animates me.</p>
+          </div>
+        </Fade>
+      </Modal>
+    </div>
     )
 }
 
-var nodemailer = require('nodemailer');
 
-var transporter = nodemailer.createTransport({
+
+//var nodemailer = require('nodemailer');
+
+/*var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'youremail@gmail.com',
@@ -38,4 +59,4 @@ transporter.sendMail(mailOptions, function(error, info){
   } else {
     console.log('Email sent: ' + info.response);
   }
-});
+});*/

@@ -19,6 +19,7 @@ import { mainListItems, secondaryListItems } from "./listItems";
 import Tickets from "./Tickets";
 import TicketDetail from "./TicketDetail";
 import InputTicket from "./InputTicket";
+import Email from "./Email";
 import PieChart from "./PieChart";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -200,6 +201,15 @@ export default function Dashboard() {
                   <Route path="/simulation/" component={Simulation} />
                   <Route path="/stats/" component={TableStats} />
                 </Switch>
+                <p>   </p>
+                <p>   </p>
+                <UpdateTicketModal></UpdateTicketModal>
+                
+                <InputTicket></InputTicket>
+
+                <TicketDetail></TicketDetail>
+
+                <Email></Email>
               </Grid>
             </Grid>
             <Box pt={4}>

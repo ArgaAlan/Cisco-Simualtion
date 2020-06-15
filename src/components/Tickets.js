@@ -33,7 +33,7 @@ export default function Tickets() {
 
   const fetchItems = async () => {
     try {
-      const data = await fetch("http://localhost:8000/api/tickets");
+      const data = await fetch("https://cisco-project.herokuapp.com/api/tickets");
       const items = await data.json();
       console.log(items);
       setIsLoaded(true);
