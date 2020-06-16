@@ -4,14 +4,23 @@ import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import { makeStyles } from "@material-ui/core/styles";
 import Title from "./Title";
+import Modal from '@material-ui/core/Modal';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Grid from '@material-ui/core/Grid';
+
 const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: "25ch",
-    },
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(3),
+    textAlign: 'center',
+    color: theme.palette.text.secondary
   },
 }));
+
 export default function FormPropsTextFields({ match }) {
   const classes = useStyles();
   const [error, setError] = useState(null);
@@ -64,6 +73,8 @@ export default function FormPropsTextFields({ match }) {
   useEffect(() => {
     fetchTicket();
   }, []);
+
+  
 
   function getCookie(name) {
     var cookieValue = null;
@@ -129,9 +140,10 @@ export default function FormPropsTextFields({ match }) {
     });
   };
 
-  return (
+  const body = (
     <React.Fragment>
-      <Title>Store Ticket</Title>
+      <Grid container spacing={6}>
+      <Title>Create Ticket</Title>
       <form
         className={classes.root}
         noValidate
@@ -139,6 +151,8 @@ export default function FormPropsTextFields({ match }) {
         onSubmit={handleSubmit}
       >
         <div>
+        <Grid item xs={6}>
+          <div>
           <TextField
             required
             id="number-id"
@@ -148,6 +162,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, numberID: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="impactedUser"
             label="Impacted User"
@@ -156,6 +174,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, impactedUser: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="subclass"
             label="Subclass"
@@ -164,6 +186,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, subclass: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="category"
             label="Category"
@@ -172,6 +198,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, category: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="state"
             label="State"
@@ -180,6 +210,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, state: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="summary"
             label="Summary"
@@ -188,6 +222,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, summary: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="causingCI"
             label="Causing CI"
@@ -196,6 +234,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, causingCI: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="assignedTo"
             label="Assigned to"
@@ -204,6 +246,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, assignedTo: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="openDate"
             label="Open date"
@@ -213,6 +259,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, openDate: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="assignedDate"
             label="Assigned date"
@@ -222,6 +272,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, assignedDate: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="resolutionDate"
             label="Resolution date"
@@ -231,6 +285,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, resolutionDate: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="closedDate"
             label="Closed date"
@@ -240,6 +298,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, closedDate: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="scalationDate"
             label="Scalation date"
@@ -249,6 +311,10 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, scalationDate: e.target.value });
             }}
           />
+          </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
           <TextField
             id="notes"
             label="Notes"
@@ -257,18 +323,51 @@ export default function FormPropsTextFields({ match }) {
               setTicket({ ...ticket, notes: e.target.value });
             }}
           />
+          </div>
+          </Grid>
         </div>
         <div>
           <Button
             variant="contained"
             color="primary"
             type="submit"
-            startIcon={<SaveIcon />}
+            startIcon={<CloudUploadIcon />}
           >
-            Save
+            Create Ticket
           </Button>
         </div>
       </form>
+      </Grid>
     </React.Fragment>
+  )
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  return (
+    <div>
+      <Button type="button" onClick={handleOpen}
+            variant="contained"
+            color="primary"
+            type="submit"
+            startIcon={<CloudUploadIcon />}
+          >
+            Create Ticket
+          </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        {body}
+      </Modal>
+    </div>
   );
 }

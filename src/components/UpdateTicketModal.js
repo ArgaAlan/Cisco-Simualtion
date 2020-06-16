@@ -4,6 +4,8 @@ import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Button from "@material-ui/core/Button";
+import SaveIcon from "@material-ui/icons/Save";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -27,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(3),
+    textAlign: 'center',
+    color: theme.palette.text.secondary
   },
 }));
 
@@ -67,80 +71,96 @@ export default function UpdateTicketModal() {
       <p id="simple-modal-description">
         This is a modal where you can update your ticket
       </p>
-     <Grid container spacing={12}>
-        <Grid item xs={6}>
+     <Grid container spacing={4}>
+        <Grid item xs={4}>
             <div>
                 <TextField id="standard-basic" label="NumberID" />
+                <p> </p>
             </div>
         </Grid>
         <Grid item xs={6}>
             <div>
                 <TextField id="standard-basic" label="Impacted User" />
+                <p> </p>
             </div>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
             <div>
                 <TextField id="standard-basic" label="Subclass" />
+                <p> </p>
             </div>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
             <div>
                 <TextField id="standard-basic" label="Category" />
+                <p> </p>
             </div>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
             <div>
                 <TextField id="standard-basic" label="State" />
+                <p> </p>
             </div>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
             <div>
                 <TextField id="standard-basic" label="Summary" />
+                <p> </p>
             </div>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
             <div>
                 <TextField id="standard-basic" label="Causing CI" />
+                <p> </p>
             </div>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
             <div>
                 <TextField id="standard-basic" label="Assigned To" />
+                <p> </p>
             </div>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
             <div>
                 <TextField id="standard-basic" label="Open Date" />
+                <p> </p>
             </div>
         </Grid>
         <Grid item xs={6}>
             <div>
                 <TextField id="standard-basic" label="Assigned Date" />
+                <p> </p>
             </div>
         </Grid>
         <Grid item xs={6}>
             <div>
                 <TextField id="standard-basic" label="Resolution Date" />
+                <p> </p>
             </div>
         </Grid>
         <Grid item xs={6}>
             <div>
                 <TextField id="standard-basic" label="Scalation Date" />
+                <p> </p>
             </div>
         </Grid>
         <Grid item xs={6}>
             <div>
                 <TextField id="standard-basic" label="Issue Category" />
+                <p>  </p>
             </div>
+            
         </Grid>
         <Grid item xs={6}>
             <div>
                 <TextField id="standard-basic" label="Issue Reason" />
+                <p> </p>
             </div>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
             <div>
                 <TextField id="standard-basic" label="Notes" />
+                <p> </p>
             </div>
         </Grid>
     </Grid>
@@ -150,9 +170,14 @@ export default function UpdateTicketModal() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Update Ticket
-      </button>
+      <Button type="button" onClick={handleOpen}
+            variant="contained"
+            color="primary"
+            type="submit"
+            startIcon={<SaveIcon />}
+          >
+            Update Ticket
+          </Button>
       <Modal
         open={open}
         onClose={handleClose}
