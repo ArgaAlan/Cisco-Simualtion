@@ -16,8 +16,8 @@ import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { mainListItems, secondaryListItems } from "./listItems";
-import Tickets from "./Tickets";
-import TicketDetail from "./TicketDetail";
+import Tickets from "./tickets/Tickets";
+import TicketDetail from "./tickets/TicketDetail";
 import InputTicket from "./InputTicket";
 import PieChart from "./PieChart";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -196,7 +196,6 @@ export default function Dashboard() {
                   <Route path="/stats/" render={() => (<Fragment>
                     <h1>Ticket Stats Here</h1>
                   </Fragment>)} />
-=======
                   <Route path="/simulation/" component={Simulation} />
                   <Route path="/stats/" component={TableStats} />
                 </Switch>
