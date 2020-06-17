@@ -295,9 +295,6 @@ export default class DataAnalysis extends React.PureComponent {
               data={data}
             >
             <ArgumentScale factory={scaleBand} />
-              
-    
-              <ArgumentAxis />
               <ValueAxis
                 scaleName="oil"
                 labelComponent={LabelWithThousand}
