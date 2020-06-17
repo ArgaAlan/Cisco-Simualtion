@@ -9,6 +9,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { NavLink } from "react-router-dom";
 import Update from "./Dialogs/Update";
+import Delete from "./Dialogs/Delete";
 import { red, yellow } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
@@ -129,9 +130,7 @@ export default function TicketDetail({ match }) {
               <Update id={match.params.id} />
             </Grid>
             <Grid item xs={3} className={classes.button}>
-              <DeleteButton variant="contained" fullWidth>
-                Delete
-              </DeleteButton>
+              <Delete id={match.params.id} />
             </Grid>
           </Grid>
         </Grid>
