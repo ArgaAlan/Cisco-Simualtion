@@ -21,9 +21,6 @@ const useStyles = makeStyles({
 
 export default function Tickets() {
   const classes = useStyles();
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(true);
-  const [rows, setRows] = useState([]);
 
   const fetchItems = async () => {
     try {
@@ -43,10 +40,9 @@ export default function Tickets() {
   useEffect(() => {
     fetchItems();
   }, []);
+  
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
+  if (loading) {
     return <div>Loading...</div>;
   } else {
     return (
@@ -71,15 +67,15 @@ export default function Tickets() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow hover key={row.numberId}>
+                {tickets.map((ticket) => (
+                  <TableRow hover key={ticket.numberId}>
                     <TableCell component="th" scope="row">
                       {row.numberId}
                     </TableCell>
-                    <TableCell align="right">{row.subclass}</TableCell>
-                    <TableCell align="right">{row.impactedUser}</TableCell>
-                    <TableCell align="right">{row.issueCategory}</TableCell>
-                    <TableCell align="right">{row.issueReason}</TableCell>
+                    <TableCell align="right">{ticket.subclass}</TableCell>
+                    <TableCell align="right">{ticket.impactedUser}</TableCell>
+                    <TableCell align="right">{ticket.issueCategory}</TableCell>
+                    <TableCell align="right">{ticket.issueReason}</TableCell>
                     <TableCell align="right">
                       <NavLink
                         className="nav-link-item"
