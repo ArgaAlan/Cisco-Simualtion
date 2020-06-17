@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useContext } from "react";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from "@material-ui/core/Grid";
@@ -9,6 +9,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { NavLink } from 'react-router-dom';
 import { red, yellow } from '@material-ui/core/colors';
+
+import TicketContext from '../../context/ticket/ticketContext';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,34 +45,22 @@ const DeleteButton = withStyles((theme) => ({
   },
 }))(Button);
 
-export default function TicketDetail({ match }) {
+export default function TicketDetail({ match, history }) {
   const classes = useStyles();
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [item, setItem] = useState([]);
 
-  const fetchItem = async () => {
-    try {
-      const data = await fetch(
-        `https://cisco-project.herokuapp.com/api/tickets/${match.params.id}`
-      );
-      const item = await data.json();
-      console.log(item);
-      setIsLoaded(true);
-      setItem(item);
-    } catch (err) {
-      setIsLoaded(true);
-      setError(error);
-    }
-  };
+  const ticketContext = useContext(TicketContext);
+
+  const { ticket, getTicket, loading } = ticketContext;
+
+  const goBack = () => {
+    history.goBack();
+  }
 
   useEffect(() => {
-    fetchItem();
+    getTicket(match.params.ticketId);
   }, []);
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
+  if (loading) {
     return <div>Loading...</div>;
   } else {
     const {
@@ -90,19 +80,19 @@ export default function TicketDetail({ match }) {
       issueCategory,
       issueReason,
       notes,
-    } = item;
+    } = ticket;
 
     return (
       <div className={classes.root}>
         <Grid container>
-          <Grid item xs={6} className={classes.button}>
-            <Button variant="contained">Back</Button>
+          <Grid item xs={6}>
+            <Button variant="contained" onClick={goBack} >Back</Button>
           </Grid>
-          <Grid item container xs={6}  justify="flex-end">
-            <Grid item xs={3} className={classes.button}>
+          <Grid item container xs={6} justify="flex-end" spacing={3}>
+            <Grid item xs={3}>
               <EditButton variant="contained" fullWidth>Edit</EditButton>
             </Grid>
-            <Grid item xs={3} className={classes.button}>
+            <Grid item xs={3}>
               <DeleteButton variant="contained" fullWidth>Delete</DeleteButton>
             </Grid>
           </Grid>

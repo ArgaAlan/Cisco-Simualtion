@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Title from '../Title';
 import Create from './Dialogs/Create';
 import { makeStyles } from '@material-ui/core/styles';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useRouteMatch } from 'react-router-dom';
 import Grid from "@material-ui/core/Grid";
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
@@ -11,6 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
+import TicketContext from '../../context/ticket/ticketContext';
 
 
 const useStyles = makeStyles({
@@ -19,37 +20,19 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-
 export default function Tickets() {
   const classes = useStyles();
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(true);
-  const [rows, setRows] = useState([]);
 
-  const fetchItems = async () => {
-    try {
-      const data = await fetch("https://cisco-project.herokuapp.com/api/tickets");
-      const items = await data.json();
-      console.log(items);
-      setIsLoaded(true);
-      setRows(items);
-    } catch (error) {
-      setIsLoaded(true);
-      setError(error);
-    }
-  }
+  const ticketContext = useContext(TicketContext);
+
+  const { tickets, getTickets, loading } = ticketContext;
 
   useEffect(() => {
-    fetchItems()
+    getTickets();
   }, []);
+  
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
+  if (loading) {
     return <div>Loading...</div>;
   } else {
     return (
@@ -74,17 +57,17 @@ export default function Tickets() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow hover key={row.numberId}>
+                {tickets.map((ticket) => (
+                  <TableRow hover key={ticket.numberId}>
                     <TableCell component="th" scope="row">
-                      <NavLink className='nav-link-item' to={`/ticket/${row._id}`}>
-                        {row.numberId}
+                      <NavLink className='nav-link-item' to={`/ticket/${ticket._id}`}>
+                        {ticket.numberId}
                       </NavLink>
                     </TableCell>
-                    <TableCell align="right">{row.subclass}</TableCell>
-                    <TableCell align="right">{row.impactedUser}</TableCell>
-                    <TableCell align="right">{row.issueCategory}</TableCell>
-                    <TableCell align="right">{row.issueReason}</TableCell>
+                    <TableCell align="right">{ticket.subclass}</TableCell>
+                    <TableCell align="right">{ticket.impactedUser}</TableCell>
+                    <TableCell align="right">{ticket.issueCategory}</TableCell>
+                    <TableCell align="right">{ticket.issueReason}</TableCell>
                     <TableCell align="right">
                     </TableCell>
                   </TableRow>

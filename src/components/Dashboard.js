@@ -20,7 +20,7 @@ import Tickets from "./tickets/Tickets";
 import TicketDetail from "./tickets/TicketDetail";
 import InputTicket from "./InputTicket";
 import PieChart from "./PieChart";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
 
 import Simulation from "./Simulation";
 import UpdateTicketModal from "./UpdateTicketModal";
@@ -122,6 +122,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+  const match = useRouteMatch();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -133,80 +134,79 @@ export default function Dashboard() {
 
   return (
     <div className={classes.root}>
-      <Router>
-        <AppBar
-          position="absolute"
-          className={clsx(classes.appBar, open && classes.appBarShift)}
-        >
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(
-                classes.menuButton,
-                open && classes.menuButtonHidden
-              )}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              Dashboard
+      <AppBar
+        position="absolute"
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            className={clsx(
+              classes.menuButton,
+              open && classes.menuButtonHidden
+            )}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
+            Dashboard
             </Typography>
-          </Toolbar>
-        </AppBar>
+        </Toolbar>
+      </AppBar>
 
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-          }}
-          open={open}
-        >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <List>{mainListItems}</List>
-          <Divider />
-          <List>{secondaryListItems}</List>
-        </Drawer>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg" className={classes.container}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Switch>
-                  <Route path="/" exact component={Tickets} />
-                  <Route path="/ticket/:id" component={TicketDetail} />
-                  <Route path="/input-ticket/" component={InputTicket} />
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+      >
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <Divider />
+        <List>{mainListItems}</List>
+        <Divider />
+        <List>{secondaryListItems}</List>
+      </Drawer>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Switch>
+                <Route path="/" exact component={Tickets} />
+                <Route path='/ticket/:ticketId' component={TicketDetail} />
+                <Route path="/input-ticket/" component={InputTicket} />
 
-                  <Route path="/simulation/" component={Simulation}/>
-                  <Route path="/update-ticket-modal/" component={UpdateTicketModal}/>
-                  
-                  <Route path="/stats/" render={() => (<Fragment>
-                    <h1>Ticket Stats Here</h1>
-                  </Fragment>)} />
-                  <Route path="/simulation/" component={Simulation} />
-                  <Route path="/stats/" component={TableStats} />
-                </Switch>
-              </Grid>
+                <Route path="/simulation/" component={Simulation} />
+                <Route path="/update-ticket-modal/" component={UpdateTicketModal} />
+
+                <Route path="/stats/" render={() => (<Fragment>
+                  <h1>Ticket Stats Here</h1>
+                </Fragment>)} />
+                <Route path="/simulation/" component={Simulation} />
+                <Route path="/stats/" component={TableStats} />
+              </Switch>
             </Grid>
-            <Box pt={4}>
-              <Copyright />
-            </Box>
-          </Container>
-        </main>
-      </Router>
+          </Grid>
+          <Box pt={4}>
+            <Copyright />
+          </Box>
+        </Container>
+      </main>
+
     </div>
   );
 }
