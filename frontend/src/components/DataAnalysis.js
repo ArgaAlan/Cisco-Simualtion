@@ -1,4 +1,4 @@
-/*import * as React from 'react';
+import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import {
   Chart,
@@ -327,8 +327,10 @@ export default class DataAnalysis extends React.PureComponent {
       </Paper>
     );
   }
-}*/
-import * as React from "react";
+}
+
+
+/*import * as React from "react";
 import Paper from "@material-ui/core/Paper";
 import {
   Chart,
@@ -581,3 +583,4 @@ export default class Demo extends React.PureComponent {
     );
   }
 }
+*/

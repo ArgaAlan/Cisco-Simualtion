@@ -22,6 +22,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import TableStats from './pages/TableStats';
 import Simulation from "./Simulation";
 import DataAnalysis from "./DataAnalysis";
+import Analysis from "./Analysis";
 
 function Copyright() {
   return (
@@ -187,7 +188,7 @@ export default function Dashboard() {
                   <Route path="/input-ticket/" component={InputTicket} />
                   <Route path="/simulation/" component={Simulation} />
                   <Route path="/stats/" component={TableStats} />
-                  <Route path="/analysis/" component={DataAnalysis} />
+                  <Route path="/analysis/" component={Analysis} />
                 </Switch>
               </Grid>
             </Grid>
