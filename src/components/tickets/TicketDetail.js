@@ -8,6 +8,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { NavLink } from "react-router-dom";
+import Update from "./Dialogs/Update";
 import { red, yellow } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
@@ -125,9 +126,7 @@ export default function TicketDetail({ match }) {
           </Grid>
           <Grid item container xs={6} justify="flex-end">
             <Grid item xs={3} className={classes.button}>
-              <EditButton variant="contained" fullWidth>
-                Edit
-              </EditButton>
+              <Update id={match.params.id} />
             </Grid>
             <Grid item xs={3} className={classes.button}>
               <DeleteButton variant="contained" fullWidth>
