@@ -42,7 +42,6 @@ const Create = () => {
     state: "",
     summary: "",
     causingCI: "",
-    assignedTo: "",
     openDate: new Date(),
     assignedDate: "",
     resolutionDate: "",
@@ -195,16 +194,6 @@ const Create = () => {
                 type="text"
                 value={ticket.causingCI}
                 onChange={handleChange("causingCI")}
-              />
-              {/* ASSIGNED TO */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="Assigned To"
-                type="text"
-                value={ticket.assignedTo}
-                onChange={handleChange("assignedTo")}
               />
               {/* ASSIGNED DATE */}
               <TextField
