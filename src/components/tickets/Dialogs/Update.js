@@ -71,9 +71,9 @@ function Update({ id }) {
         `https://cisco-project.herokuapp.com/api/tickets/${id}`
       );
       const item = await data.json();
-      console.log("//////////////////////////");
+      console.log("UPDATE FETCH");
       console.log(item);
-      console.log("//////////////////////////");
+      console.log("UPDATE FETCH");
       setIsLoaded(true);
       setTicket(item);
     } catch (err) {
