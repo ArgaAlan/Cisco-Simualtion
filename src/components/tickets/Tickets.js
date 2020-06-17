@@ -1,28 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import Title from '../Title';
-import Create from './Dialogs/Create';
-import { makeStyles } from '@material-ui/core/styles';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import Title from "../Title";
+import Create from "./Dialogs/Create";
+import { makeStyles } from "@material-ui/core/styles";
+import { NavLink } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
-import TableContainer from '@material-ui/core/TableContainer';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableBody from '@material-ui/core/TableBody';
-
+import TableContainer from "@material-ui/core/TableContainer";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
+import Icon from "@material-ui/core/Icon";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
 });
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
 
 export default function Tickets() {
   const classes = useStyles();
@@ -32,7 +27,9 @@ export default function Tickets() {
 
   const fetchItems = async () => {
     try {
-      const data = await fetch("https://cisco-project.herokuapp.com/api/tickets");
+      const data = await fetch(
+        "https://cisco-project.herokuapp.com/api/tickets"
+      );
       const items = await data.json();
       console.log(items);
       setIsLoaded(true);
@@ -41,10 +38,10 @@ export default function Tickets() {
       setIsLoaded(true);
       setError(error);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchItems()
+    fetchItems();
   }, []);
 
   if (error) {
@@ -55,14 +52,14 @@ export default function Tickets() {
     return (
       <React.Fragment>
         <Title>Recent Tickets</Title>
-        <Grid 
-          container 
-          justify="flex-end"
-          spacing={3}
-        >
+        <Grid container justify="flex-end" spacing={3}>
           <Create />
           <TableContainer component={Paper}>
-            <Table className={classes.table} size="small" aria-label="a dense table">
+            <Table
+              className={classes.table}
+              size="small"
+              aria-label="a dense table"
+            >
               <TableHead>
                 <TableRow>
                   <TableCell>Ticket Number</TableCell>
@@ -70,22 +67,26 @@ export default function Tickets() {
                   <TableCell align="right">Impacted User</TableCell>
                   <TableCell align="right">Issue Category</TableCell>
                   <TableCell align="right">Issue Reason</TableCell>
-                  <TableCell align="right">Actions</TableCell>
+                  <TableCell align="right">Details</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {rows.map((row) => (
                   <TableRow hover key={row.numberId}>
                     <TableCell component="th" scope="row">
-                      <NavLink className='nav-link-item' to={`/ticket/${row._id}`}>
-                        {row.numberId}
-                      </NavLink>
+                      {row.numberId}
                     </TableCell>
                     <TableCell align="right">{row.subclass}</TableCell>
                     <TableCell align="right">{row.impactedUser}</TableCell>
                     <TableCell align="right">{row.issueCategory}</TableCell>
                     <TableCell align="right">{row.issueReason}</TableCell>
                     <TableCell align="right">
+                      <NavLink
+                        className="nav-link-item"
+                        to={`/ticket/${row._id}`}
+                      >
+                        <Icon>info</Icon>
+                      </NavLink>
                     </TableCell>
                   </TableRow>
                 ))}
