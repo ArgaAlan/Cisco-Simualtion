@@ -52,7 +52,7 @@ export default (state, action) => {
       return {
         ...state,
         tickets: state.tickets.filter(ticket => ticket._id !== action.payload),
-        ticket: {},
+        ticket: null,
         loading: false
       }
     
