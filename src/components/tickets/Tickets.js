@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Title from "../Title";
 import Create from "./Dialogs/Create";
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,6 +13,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Icon from "@material-ui/core/Icon";
 
+import TicketContext from '../../context/ticket/ticketContext';
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -22,23 +24,13 @@ const useStyles = makeStyles({
 export default function Tickets() {
   const classes = useStyles();
 
-  const fetchItems = async () => {
-    try {
-      const data = await fetch(
-        "https://cisco-project.herokuapp.com/api/tickets"
-      );
-      const items = await data.json();
-      console.log(items);
-      setIsLoaded(true);
-      setRows(items);
-    } catch (error) {
-      setIsLoaded(true);
-      setError(error);
-    }
-  };
+  const ticketContext = useContext(TicketContext);
+
+  const { tickets, getTickets, loading } = ticketContext;
+  
 
   useEffect(() => {
-    fetchItems();
+    getTickets();
   }, []);
   
 
@@ -70,7 +62,7 @@ export default function Tickets() {
                 {tickets.map((ticket) => (
                   <TableRow hover key={ticket.numberId}>
                     <TableCell component="th" scope="row">
-                      {row.numberId}
+                      {ticket.numberId}
                     </TableCell>
                     <TableCell align="right">{ticket.subclass}</TableCell>
                     <TableCell align="right">{ticket.impactedUser}</TableCell>
@@ -79,7 +71,7 @@ export default function Tickets() {
                     <TableCell align="right">
                       <NavLink
                         className="nav-link-item"
-                        to={`/ticket/${row._id}`}
+                        to={`/ticket/${ticket._id}`}
                       >
                         <Icon>info</Icon>
                       </NavLink>

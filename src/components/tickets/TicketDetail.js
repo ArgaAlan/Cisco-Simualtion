@@ -12,6 +12,8 @@ import Update from "./Dialogs/Update";
 import Delete from "./Dialogs/Delete";
 import { red, yellow } from "@material-ui/core/colors";
 
+import TicketContext from '../../context/ticket/ticketContext';
+
 
 const useStyles = makeStyles((theme) => ({
   // css query selector '&' means this, '*' means all, '& > *': select all elements where the parent is this (root)
@@ -52,10 +54,6 @@ export default function TicketDetail({ match, history }) {
 
   const { ticket, getTicket, loading } = ticketContext;
 
-  const goBack = () => {
-    history.goBack();
-  }
-
   useEffect(() => {
     getTicket(match.params.ticketId);
   }, []);
@@ -63,7 +61,7 @@ export default function TicketDetail({ match, history }) {
   if (loading) {
     return <div>Loading...</div>;
   } else {
-    console.log(item);
+    console.log(ticket);
     const {
       numberId,
       impactedUser,
@@ -77,7 +75,7 @@ export default function TicketDetail({ match, history }) {
       issueCategory,
       issueReason,
       solved,
-    } = item;
+    } = ticket;
 
     var {
       openDate,
@@ -85,7 +83,7 @@ export default function TicketDetail({ match, history }) {
       resolutionDate,
       closedDate,
       scalationDate,
-    } = item;
+    } = ticket;
 
     if (openDate != null) {
       openDate = openDate.substring(0, 10);
@@ -104,21 +102,21 @@ export default function TicketDetail({ match, history }) {
     }
 
     var inChargeUser = "User not found";
-    if (item.inChargeUser != null) {
-      inChargeUser = item.inChargeUser.name;
+    if (ticket.inChargeUser != null) {
+      inChargeUser = ticket.inChargeUser.name;
     }
 
     return (
       <div className={classes.root}>
         <Grid container>
           <Grid item xs={6}>
-            <Button variant="contained" onClick={goBack} >Back</Button>
+            <Button variant="contained">Back</Button>
           </Grid>
           <Grid item container xs={6} justify="flex-end" spacing={3}>
-            <Grid item xs={3} className={classes.button}>
+            <Grid item xs={3}>
               <Update id={match.params.id} />
             </Grid>
-            <Grid item xs={3} className={classes.button}>
+            <Grid item xs={3}>
               <Delete id={match.params.id} />
             </Grid>
           </Grid>

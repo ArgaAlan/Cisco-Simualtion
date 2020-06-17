@@ -4,18 +4,44 @@ import axios from 'axios';
 import TicketContext from './ticketContext';
 import TicketReducer from './ticketReducer';
 
-import { GET_TICKETS, GET_TICKET, SET_LOADING } from '../types';
+import { 
+  GET_TICKETS, 
+  GET_TICKET, 
+  SET_LOADING,
+  POST_TICKET,
+  PUT_TICKET,
+  DELETE_TICKET
+} from '../types';
 
 const TicketState = props => {
   const initialState = {
     tickets: [],
     ticket: {},
-    loading: false
+    loading: false,
+    response: {}
   }
 
   const [state, dispatch] = useReducer(TicketReducer, initialState);
 
   // Submit a ticket
+  const postTicket = async (ticket) => {
+    console.log(JSON.stringify(ticket));
+    setLoading();
+    var url = "https://cisco-project.herokuapp.com/api/tickets";
+    const post = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(ticket),
+    });
+
+    dispatch({
+      type: POST_TICKET,
+      payload: post
+    });
+      
+  }
 
 
   // Get all tickets
@@ -59,8 +85,10 @@ const TicketState = props => {
       tickets: state.tickets,
       ticket: state.ticket,
       loading: state.loading,
+      response: state.response,
       getTickets,
-      getTicket
+      getTicket,
+      postTicket,
     }}>
       {props.children}
 

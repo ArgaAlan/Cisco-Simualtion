@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -11,6 +11,8 @@ import Grid from "@material-ui/core/Grid";
 import SaveIcon from "@material-ui/icons/Save";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
+
+import TicketContext from '../../../context/ticket/ticketContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Create = () => {
   const classes = useStyles();
+
+  const ticketContext = useContext(TicketContext);
+
+  const { postTicket } = ticketContext;
 
   const [open, setOpen] = useState(false);
   const [ticket, setTicket] = useState({
@@ -66,21 +72,7 @@ const Create = () => {
   };
 
   const handleSubmit = () => {
-    console.log(JSON.stringify(ticket));
-    var url = "https://cisco-project.herokuapp.com/api/tickets";
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(ticket),
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    postTicket(ticket);
     setOpen(false);
   };
 

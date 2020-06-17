@@ -1,4 +1,11 @@
-import { GET_TICKETS, GET_TICKET, SET_LOADING } from '../types';  
+import { 
+  GET_TICKETS, 
+  GET_TICKET, 
+  SET_LOADING,
+  POST_TICKET,
+  PUT_TICKET,
+  DELETE_TICKET
+} from '../types';  
 
 export default (state, action) => {
   switch (action.type) {
@@ -14,6 +21,13 @@ export default (state, action) => {
         ...state,
         ticket: action.payload,
         // user: action.payload.user
+        loading: false
+      }
+
+    case POST_TICKET:
+      return {
+        ...state,
+        response: action.payload,
         loading: false
       }
       
