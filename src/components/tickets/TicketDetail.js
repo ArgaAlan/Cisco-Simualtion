@@ -50,18 +50,25 @@ const DeleteButton = withStyles((theme) => ({
 export default function TicketDetail({ match, history }) {
   const classes = useStyles();
 
-  const ticketContext = useContext(TicketContext);
+  const { ticket, getTicket, loading } = useContext(TicketContext);
 
-  const { ticket, getTicket, loading } = ticketContext;
+  const goBack = () => {
+    history.goBack();
+  }
 
   useEffect(() => {
     getTicket(match.params.ticketId);
   }, []);
 
-  if (loading) {
+  if (!ticket) {
+    console.log("aqui llega");
+    history.push('/');
+    return null
+  }
+
+  else if (loading) {
     return <div>Loading...</div>;
   } else {
-    console.log(ticket);
     const {
       numberId,
       impactedUser,
@@ -110,14 +117,14 @@ export default function TicketDetail({ match, history }) {
       <div className={classes.root}>
         <Grid container>
           <Grid item xs={6}>
-            <Button variant="contained">Back</Button>
+            <Button variant="contained" onClick={goBack}>Back</Button>
           </Grid>
           <Grid item container xs={6} justify="flex-end" spacing={3}>
             <Grid item xs={3}>
-              <Update id={match.params.id} />
+              <Update ticketId={ticket._id} ticket={ticket} />
             </Grid>
             <Grid item xs={3}>
-              <Delete id={match.params.id} />
+              <Delete ticketId={ticket._id} ticket={ticket} history={history} />
             </Grid>
           </Grid>
         </Grid>

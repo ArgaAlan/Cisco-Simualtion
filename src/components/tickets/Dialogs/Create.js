@@ -72,7 +72,10 @@ const Create = () => {
   };
 
   const handleSubmit = () => {
-    postTicket(ticket);
+    postTicket({
+      ...ticket,
+      numberId: `ISSUE-${ticket.numberId}`
+    });
     setOpen(false);
   };
 
