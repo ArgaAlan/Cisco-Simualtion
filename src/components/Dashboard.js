@@ -1,4 +1,10 @@
-import React, { Fragment, Component } from "react";
+import React, {
+  Fragment,
+  Component,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -20,12 +26,16 @@ import Tickets from "./tickets/Tickets";
 import TicketDetail from "./tickets/TicketDetail";
 import InputTicket from "./InputTicket";
 import PieChart from "./PieChart";
+import NavBar from "./NavBar";
+import Profile from "./Profile";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
-
+import { Context } from "../context/user/userContext";
+import { useAuth0 } from "../react-auth0-spa";
+import Loading from "./Loading";
 import Simulation from "./Simulation";
 import UpdateTicketModal from "./UpdateTicketModal";
-
-import TableStats from './pages/TableStats';
+import axios from "axios";
+import TableStats from "./pages/TableStats";
 
 function Copyright() {
   return (
@@ -122,15 +132,42 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const match = useRouteMatch();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const { loading, user } = useAuth0();
+  const [privilege, setPrivilege] = useContext(Context);
+  console.log(privilege);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  if (isAuthenticated) {
+    axios({
+      method: "post",
+      url: "https://cisco-project.herokuapp.com/api/user/role",
+      data: {
+        email: user.email,
+      },
+    }).then(
+      (response) => {
+        console.log(response.data.role);
+        setPrivilege(response.data.role);
+        console.log(privilege);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className={classes.root}>
@@ -159,7 +196,7 @@ export default function Dashboard() {
             className={classes.title}
           >
             Dashboard
-            </Typography>
+          </Typography>
         </Toolbar>
       </AppBar>
 
@@ -176,37 +213,51 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        {isAuthenticated && <List>{mainListItems}</List>}
         <Divider />
         <List>{secondaryListItems}</List>
+        <Divider />
+        <List>
+          <NavBar />
+        </List>
       </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Switch>
-                <Route path="/" exact component={Tickets} />
-                <Route path='/ticket/:ticketId' component={TicketDetail} />
-                <Route path="/input-ticket/" component={InputTicket} />
+      {isAuthenticated && (
+        <main className={classes.content}>
+          <div className={classes.appBarSpacer} />
+          <Container maxWidth="lg" className={classes.container}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Switch>
+                  <Route path="/" exact component={Tickets} />
+                  <Route path="/ticket/:ticketId" component={TicketDetail} />
+                  <Route path="/input-ticket/" component={InputTicket} />
 
-                <Route path="/simulation/" component={Simulation} />
-                <Route path="/update-ticket-modal/" component={UpdateTicketModal} />
+                  <Route path="/simulation/" component={Simulation} />
+                  <Route
+                    path="/update-ticket-modal/"
+                    component={UpdateTicketModal}
+                  />
 
-                <Route path="/stats/" render={() => (<Fragment>
-                  <h1>Ticket Stats Here</h1>
-                </Fragment>)} />
-                <Route path="/simulation/" component={Simulation} />
-                <Route path="/stats/" component={TableStats} />
-              </Switch>
+                  <Route
+                    path="/stats/"
+                    render={() => (
+                      <Fragment>
+                        <h1>Ticket Stats Here</h1>
+                      </Fragment>
+                    )}
+                  />
+                  <Route path="/simulation/" component={Simulation} />
+                  <Route path="/stats/" component={TableStats} />
+                  <Route path="/profile/" component={Profile} />
+                </Switch>
+              </Grid>
             </Grid>
-          </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
-
+            <Box pt={4}>
+              <Copyright />
+            </Box>
+          </Container>
+        </main>
+      )}
     </div>
   );
 }
