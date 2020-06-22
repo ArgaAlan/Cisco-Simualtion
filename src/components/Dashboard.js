@@ -22,6 +22,10 @@ import InputTicket from "./InputTicket";
 import Email from "./Email";
 import PieChart from "./PieChart";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Badge from '@material-ui/core/Badge';
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import Simulation from "./Simulation";
 import UpdateTicketModal from "./UpdateTicketModal";
@@ -161,6 +165,24 @@ export default function Dashboard() {
             >
               Dashboard
             </Typography>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <IconButton aria-label="show 11 new notifications" color="inherit">
+              <Badge badgeContent={11} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
           </Toolbar>
         </AppBar>
 
@@ -203,9 +225,9 @@ export default function Dashboard() {
                 </Switch>
                 <p>   </p>
                 <p>   </p>
-                <UpdateTicketModal></UpdateTicketModal>
-                
-                <InputTicket></InputTicket>
+                <div>
+                    <UpdateTicketModal></UpdateTicketModal><p>       </p><InputTicket></InputTicket>                  
+                </div>
 
                 <TicketDetail></TicketDetail>
 

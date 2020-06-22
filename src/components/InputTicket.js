@@ -140,204 +140,188 @@ export default function FormPropsTextFields({ match }) {
     });
   };
 
+  function rand() {
+    return Math.round(Math.random() * 20) - 10;
+  }
+
+  function getModalStyle() {
+    const top = 50 + rand();
+    const left = 50 + rand();
+  
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`,
+    };
+  }
+
+  const [modalStyle] = React.useState(getModalStyle);
+
   const body = (
+    
     <React.Fragment>
-      <Grid container spacing={6}>
-      <Title>Create Ticket</Title>
-      <form
-        className={classes.root}
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit}
-      >
-        <div>
+      <div style={modalStyle} className={classes.paper}>
+      <h2>Create Ticket</h2>
+      
+      <Grid container spacing={4}>
+        <Grid item xs={4}>
+            <TextField
+              required
+              id="number-id"
+              label="Number ID"
+              value={ticket.numberID}
+              onChange={(e) => {
+                setTicket({ ...ticket, numberID: e.target.value });
+              }}
+            />
+        </Grid>
         <Grid item xs={6}>
+            <TextField
+              id="impactedUser"
+              label="Impacted User"
+              value={ticket.impactedUser}
+              onChange={(e) => {
+                setTicket({ ...ticket, impactedUser: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={4}>
+            <TextField
+              id="subclass"
+              label="Subclass"
+              value={ticket.subclass}
+              onChange={(e) => {
+                setTicket({ ...ticket, subclass: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={4}>
+            <TextField
+              id="category"
+              label="Category"
+              value={ticket.category}
+              onChange={(e) => {
+                setTicket({ ...ticket, category: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={4}>
+            <TextField
+              id="state"
+              label="State"
+              value={ticket.state}
+              onChange={(e) => {
+                setTicket({ ...ticket, state: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={4}>
+            <TextField
+              id="summary"
+              label="Summary"
+              value={ticket.summary}
+              onChange={(e) => {
+                setTicket({ ...ticket, summary: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={4}>
+            <TextField
+              id="causingCI"
+              label="Causing CI"
+              value={ticket.causingCI}
+              onChange={(e) => {
+                setTicket({ ...ticket, causingCI: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={4}>
+            <TextField
+              id="assignedTo"
+              label="Assigned to"
+              value={ticket.assignedTo}
+              onChange={(e) => {
+                setTicket({ ...ticket, assignedTo: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={6}>
+            <TextField
+              id="openDate"
+              label="Open date"
+              value={ticket.openDate}
+              helperText="AAAA-MM-DD"
+              onChange={(e) => {
+                setTicket({ ...ticket, openDate: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={6}>
+            <TextField
+              id="assignedDate"
+              label="Assigned date"
+              value={ticket.assignedDate}
+              helperText="AAAA-MM-DD"
+              onChange={(e) => {
+                setTicket({ ...ticket, assignedDate: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={6}>
+            <TextField
+              id="resolutionDate"
+              label="Resolution date"
+              value={ticket.resolutionDate}
+              helperText="AAAA-MM-DD"
+              onChange={(e) => {
+                setTicket({ ...ticket, resolutionDate: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={6}>
+            <TextField
+              id="closedDate"
+              label="Closed date"
+              value={ticket.closedDate}
+              helperText="AAAA-MM-DD"
+              onChange={(e) => {
+                setTicket({ ...ticket, closedDate: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={6}>
+            <TextField
+              id="scalationDate"
+              label="Scalation date"
+              value={ticket.scalationDate}
+              helperText="AAAA-MM-DD"
+              onChange={(e) => {
+                setTicket({ ...ticket, scalationDate: e.target.value });
+              }}
+            />
+        </Grid>
+        <Grid item xs={6}>
+            <TextField
+              id="notes"
+              label="Notes"
+              value={ticket.notes}
+              onChange={(e) => {
+                setTicket({ ...ticket, notes: e.target.value });
+              }}
+            />
+        </Grid>
           <div>
-          <TextField
-            required
-            id="number-id"
-            label="Number ID"
-            value={ticket.numberID}
-            onChange={(e) => {
-              setTicket({ ...ticket, numberID: e.target.value });
-            }}
-          />
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              startIcon={<CloudUploadIcon />}
+            >
+              Create Ticket
+            </Button>
           </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="impactedUser"
-            label="Impacted User"
-            value={ticket.impactedUser}
-            onChange={(e) => {
-              setTicket({ ...ticket, impactedUser: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="subclass"
-            label="Subclass"
-            value={ticket.subclass}
-            onChange={(e) => {
-              setTicket({ ...ticket, subclass: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="category"
-            label="Category"
-            value={ticket.category}
-            onChange={(e) => {
-              setTicket({ ...ticket, category: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="state"
-            label="State"
-            value={ticket.state}
-            onChange={(e) => {
-              setTicket({ ...ticket, state: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="summary"
-            label="Summary"
-            value={ticket.summary}
-            onChange={(e) => {
-              setTicket({ ...ticket, summary: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="causingCI"
-            label="Causing CI"
-            value={ticket.causingCI}
-            onChange={(e) => {
-              setTicket({ ...ticket, causingCI: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="assignedTo"
-            label="Assigned to"
-            value={ticket.assignedTo}
-            onChange={(e) => {
-              setTicket({ ...ticket, assignedTo: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="openDate"
-            label="Open date"
-            value={ticket.openDate}
-            helperText="AAAA-MM-DD"
-            onChange={(e) => {
-              setTicket({ ...ticket, openDate: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="assignedDate"
-            label="Assigned date"
-            value={ticket.assignedDate}
-            helperText="AAAA-MM-DD"
-            onChange={(e) => {
-              setTicket({ ...ticket, assignedDate: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="resolutionDate"
-            label="Resolution date"
-            value={ticket.resolutionDate}
-            helperText="AAAA-MM-DD"
-            onChange={(e) => {
-              setTicket({ ...ticket, resolutionDate: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="closedDate"
-            label="Closed date"
-            value={ticket.closedDate}
-            helperText="AAAA-MM-DD"
-            onChange={(e) => {
-              setTicket({ ...ticket, closedDate: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="scalationDate"
-            label="Scalation date"
-            value={ticket.scalationDate}
-            helperText="AAAA-MM-DD"
-            onChange={(e) => {
-              setTicket({ ...ticket, scalationDate: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div>
-          <TextField
-            id="notes"
-            label="Notes"
-            value={ticket.notes}
-            onChange={(e) => {
-              setTicket({ ...ticket, notes: e.target.value });
-            }}
-          />
-          </div>
-          </Grid>
+        </Grid>
         </div>
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            startIcon={<CloudUploadIcon />}
-          >
-            Create Ticket
-          </Button>
-        </div>
-      </form>
-      </Grid>
     </React.Fragment>
   )
 

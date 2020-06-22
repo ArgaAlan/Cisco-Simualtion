@@ -68,100 +68,96 @@ export default function UpdateTicketModal() {
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Update Ticket</h2>
-      <p id="simple-modal-description">
-        This is a modal where you can update your ticket
-      </p>
      <Grid container spacing={4}>
         <Grid item xs={4}>
-            <div>
                 <TextField id="standard-basic" label="NumberID" />
                 <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={6}>
-            <div>
-                <TextField id="standard-basic" label="Impacted User" />
-                <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={4}>
-            <div>
-                <TextField id="standard-basic" label="Subclass" />
-                <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={4}>
-            <div>
-                <TextField id="standard-basic" label="Category" />
-                <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={4}>
-            <div>
-                <TextField id="standard-basic" label="State" />
-                <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={4}>
-            <div>
-                <TextField id="standard-basic" label="Summary" />
-                <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={4}>
-            <div>
-                <TextField id="standard-basic" label="Causing CI" />
-                <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={4}>
-            <div>
-                <TextField id="standard-basic" label="Assigned To" />
-                <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={4}>
-            <div>
-                <TextField id="standard-basic" label="Open Date" />
-                <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={6}>
-            <div>
-                <TextField id="standard-basic" label="Assigned Date" />
-                <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={6}>
-            <div>
-                <TextField id="standard-basic" label="Resolution Date" />
-                <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={6}>
-            <div>
-                <TextField id="standard-basic" label="Scalation Date" />
-                <p> </p>
-            </div>
-        </Grid>
-        <Grid item xs={6}>
-            <div>
-                <TextField id="standard-basic" label="Issue Category" />
-                <p>  </p>
-            </div>
             
         </Grid>
         <Grid item xs={6}>
-            <div>
-                <TextField id="standard-basic" label="Issue Reason" />
+          
+                <TextField id="standard-basic" label="Impacted User" />
                 <p> </p>
-            </div>
+           
         </Grid>
         <Grid item xs={4}>
-            <div>
+           
+                <TextField id="standard-basic" label="Subclass" />
+                <p> </p>
+            
+        </Grid>
+        <Grid item xs={4}>
+            
+                <TextField id="standard-basic" label="Category" />
+                <p> </p>
+            
+        </Grid>
+        <Grid item xs={4}>
+           
+                <TextField id="standard-basic" label="State" />
+                <p> </p>
+            
+        </Grid>
+        <Grid item xs={4}>
+            
+                <TextField id="standard-basic" label="Summary" />
+                <p> </p>
+           
+        </Grid>
+        <Grid item xs={4}>
+            
+                <TextField id="standard-basic" label="Causing CI" />
+                <p> </p>
+            
+        </Grid>
+        <Grid item xs={4}>
+            
+                <TextField id="standard-basic" label="Assigned To" />
+                <p> </p>
+            
+        </Grid>
+        <Grid item xs={4}>
+           
+                <TextField id="standard-basic" label="Open Date" />
+                <p> </p>
+           
+        </Grid>
+        <Grid item xs={6}>
+           
+                <TextField id="standard-basic" label="Assigned Date" />
+                <p> </p>
+           
+        </Grid>
+        <Grid item xs={6}>
+            
+                <TextField id="standard-basic" label="Resolution Date" />
+                <p> </p>
+            
+        </Grid>
+        <Grid item xs={6}>
+            
+                <TextField id="standard-basic" label="Scalation Date" />
+                <p> </p>
+            
+        </Grid>
+        <Grid item xs={6}>
+            
+                <TextField id="standard-basic" label="Issue Category" />
+                <p>  </p>
+            
+            
+        </Grid>
+        <Grid item xs={6}>
+            
+                <TextField id="standard-basic" label="Issue Reason" />
+                <p> </p>
+            
+        </Grid>
+        <Grid item xs={4}>
+           
                 <TextField id="standard-basic" label="Notes" />
                 <p> </p>
-            </div>
+            
         </Grid>
     </Grid>
     <UpdateTicketModal />
