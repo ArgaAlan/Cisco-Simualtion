@@ -8,6 +8,7 @@ import SignIn from "./components/SignIn";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import TicketState from "./context/ticket/TicketState";
 import UserState from "./context/user/userContext";
+import SimulationState from "./context/simulation/simulationContext";
 import { useAuth0 } from "./react-auth0-spa";
 
 function App() {
@@ -20,14 +21,16 @@ function App() {
   return (
     <UserState>
       <TicketState>
-        <ThemeProvider theme={theme}>
-          <Router>
-            <Switch>
-              <Route path="/signin/" component={SignIn}></Route>
-              <Route path="/" component={Dashboard}></Route>
-            </Switch>
-          </Router>
-        </ThemeProvider>
+        <SimulationState>
+          <ThemeProvider theme={theme}>
+            <Router>
+              <Switch>
+                <Route path="/signin/" component={SignIn}></Route>
+                <Route path="/" component={Dashboard}></Route>
+              </Switch>
+            </Router>
+          </ThemeProvider>
+        </SimulationState>
       </TicketState>
     </UserState>
   );

@@ -46,7 +46,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
-        CMUC : The Northerners
+        CMUC : Material UI
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -165,9 +165,6 @@ export default function Dashboard() {
       }
     );
   }
-
-  console.log(privilege);
-  console.log(privilege.privilege != "Not logged in");
 
   if (!isAuthenticated) {
     loginWithRedirect({});
