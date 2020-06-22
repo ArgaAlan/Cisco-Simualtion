@@ -12,7 +12,7 @@ import { Redirect } from "react-router-dom";
 export default function Simulation() {
   const [privilege, setPrivilege] = useContext(Context);
 
-  if (privilege == "Analyst" || privilege == "Admin") {
+  if (privilege != "Analyst" && privilege != "Admin") {
     return <Redirect to="" />;
   }
 
