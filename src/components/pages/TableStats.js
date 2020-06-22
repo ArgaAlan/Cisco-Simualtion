@@ -69,7 +69,7 @@ const TableStats = () => {
     return <Loading />;
   }
 
-  if (privilege == "Analyst" || privilege == "Admin") {
+  if (privilege != "Analyst" && privilege != "Admin") {
     return <Redirect to="" />;
   }
 

@@ -10,9 +10,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import SaveIcon from "@material-ui/icons/Save";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
-
-import TicketContext from '../../../context/ticket/ticketContext';
 import { useAuth0 } from "../../../react-auth0-spa";
+
+import TicketContext from "../../../context/ticket/ticketContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Create = () => {
   const classes = useStyles();
-  const { user } = useAuth0();
+  const { loading, user } = useAuth0();
 
   const ticketContext = useContext(TicketContext);
 
@@ -80,7 +80,7 @@ const Create = () => {
     }
     postTicket({
       ...ticket,
-      numberId: `ISSUE-${ticket.numberId}`
+      numberId: `ISSUE-${ticket.numberId}`,
     });
     setOpen(false);
   };
@@ -127,16 +127,9 @@ const Create = () => {
                 type="text"
                 value={ticket.impactedUser}
                 onChange={handleChange("impactedUser")}
-              />
-              {/* USER IN CHARGE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="User In Charge"
-                type="text"
-                value={ticket.inChargeUser}
-                onChange={handleChange("inChargeUser")}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
               {/* COMPONENT */}
               <TextField
@@ -197,46 +190,6 @@ const Create = () => {
                 type="text"
                 value={ticket.causingCI}
                 onChange={handleChange("causingCI")}
-              />
-              {/* ASSIGNED DATE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="Assigned Date"
-                type="text"
-                value={ticket.assignedDate}
-                onChange={handleChange("assignedDate")}
-              />
-              {/* RESOLUTION DATE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="Resolution Date"
-                type="text"
-                value={ticket.resolutionDate}
-                onChange={handleChange("resolutionDate")}
-              />
-              {/* CLOSED DATE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="Closed Date"
-                type="text"
-                value={ticket.closedDate}
-                onChange={handleChange("closedDate")}
-              />
-              {/* SCALATION DATE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="Scalation Date"
-                type="text"
-                value={ticket.scalationDate}
-                onChange={handleChange("scalationDate")}
               />
               {/* NOTES */}
               <TextField
