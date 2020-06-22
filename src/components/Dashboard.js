@@ -21,7 +21,8 @@ import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { mainListItems, secondaryListItems } from "./listItems";
+import { secondaryListItems } from "./listItems";
+import SimulationList from "./SimulationList";
 import Tickets from "./tickets/Tickets";
 import TicketDetail from "./tickets/TicketDetail";
 import InputTicket from "./InputTicket";
@@ -36,6 +37,9 @@ import Simulation from "./Simulation";
 import UpdateTicketModal from "./UpdateTicketModal";
 import axios from "axios";
 import TableStats from "./pages/TableStats";
+import TicketList from "./TicketList";
+import ProfileList from "./ProfileList";
+import StatsList from "./StatsList";
 
 function Copyright() {
   return (
@@ -213,7 +217,13 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        {isAuthenticated && <List>{mainListItems}</List>}
+        <List>
+          {loading && <Loading />}
+          {isAuthenticated && privilege == "Normal" && <TicketList />}
+          {isAuthenticated && privilege == "Analyst" && <SimulationList />}
+          {isAuthenticated && privilege == "Analyst" && <StatsList />}
+          {isAuthenticated && <ProfileList />}
+        </List>
         <Divider />
         <List>{secondaryListItems}</List>
         <Divider />
@@ -231,13 +241,11 @@ export default function Dashboard() {
                   <Route path="/" exact component={Tickets} />
                   <Route path="/ticket/:ticketId" component={TicketDetail} />
                   <Route path="/input-ticket/" component={InputTicket} />
-
                   <Route path="/simulation/" component={Simulation} />
                   <Route
                     path="/update-ticket-modal/"
                     component={UpdateTicketModal}
                   />
-
                   <Route
                     path="/stats/"
                     render={() => (
