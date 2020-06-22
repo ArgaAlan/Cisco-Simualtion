@@ -169,6 +169,10 @@ export default function Dashboard() {
   console.log(privilege.privilege);
   console.log(privilege.privilege != "Not logged in");
 
+  if (!isAuthenticated) {
+    loginWithRedirect({});
+  }
+
   if (loading) {
     return <Loading />;
   }
@@ -219,9 +223,14 @@ export default function Dashboard() {
         <Divider />
         <List>
           {loading && <Loading />}
-          {isAuthenticated && privilege == "Normal" && <TicketList />}
-          {isAuthenticated && privilege == "Analyst" && <SimulationList />}
-          {isAuthenticated && privilege == "Analyst" && <StatsList />}
+          {isAuthenticated &&
+            (privilege == "Normal" || privilege == "Admin") && <TicketList />}
+          {isAuthenticated &&
+            (privilege == "Analyst" || privilege == "Admin") && (
+              <SimulationList />
+            )}
+          {isAuthenticated &&
+            (privilege == "Analyst" || privilege == "Admin") && <StatsList />}
           {isAuthenticated && <ProfileList />}
         </List>
         <Divider />

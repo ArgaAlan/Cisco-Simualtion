@@ -122,7 +122,7 @@ export default function TicketDetail({ match, history }) {
             </Button>
           </Grid>
           <Grid item container xs={6} justify="flex-end" spacing={3}>
-            {privilege == "Solver" && (
+            {(privilege == "Solver" || privilege == "Admin") && (
               <Grid item xs={3}>
                 <Update ticketId={ticket._id} ticket={ticket} />
               </Grid>
