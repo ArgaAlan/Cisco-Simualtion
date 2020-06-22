@@ -11,9 +11,10 @@ import { NavLink } from "react-router-dom";
 import Update from "./Dialogs/Update";
 import Delete from "./Dialogs/Delete";
 import { red, yellow } from "@material-ui/core/colors";
+import { Context } from "../../context/user/userContext";
+import Loading from "../Loading";
 
-import TicketContext from '../../context/ticket/ticketContext';
-
+import TicketContext from "../../context/ticket/ticketContext";
 
 const useStyles = makeStyles((theme) => ({
   // css query selector '&' means this, '*' means all, '& > *': select all elements where the parent is this (root)
@@ -50,11 +51,12 @@ const DeleteButton = withStyles((theme) => ({
 export default function TicketDetail({ match, history }) {
   const classes = useStyles();
 
+  const [privilege, setPrivilege] = useContext(Context);
   const { ticket, getTicket, loading } = useContext(TicketContext);
 
   const goBack = () => {
     history.goBack();
-  }
+  };
 
   useEffect(() => {
     getTicket(match.params.ticketId);
@@ -62,12 +64,10 @@ export default function TicketDetail({ match, history }) {
 
   if (!ticket) {
     console.log("aqui llega");
-    history.push('/');
-    return null
-  }
-
-  else if (loading) {
-    return <div>Loading...</div>;
+    history.push("/");
+    return null;
+  } else if (loading) {
+    return <Loading />;
   } else {
     const {
       numberId,
@@ -117,12 +117,16 @@ export default function TicketDetail({ match, history }) {
       <div className={classes.root}>
         <Grid container>
           <Grid item xs={6}>
-            <Button variant="contained" onClick={goBack}>Back</Button>
+            <Button variant="contained" onClick={goBack}>
+              Back
+            </Button>
           </Grid>
           <Grid item container xs={6} justify="flex-end" spacing={3}>
-            <Grid item xs={3}>
-              <Update ticketId={ticket._id} ticket={ticket} />
-            </Grid>
+            {privilege == "Solver" && (
+              <Grid item xs={3}>
+                <Update ticketId={ticket._id} ticket={ticket} />
+              </Grid>
+            )}
             <Grid item xs={3}>
               <Delete ticketId={ticket._id} ticket={ticket} history={history} />
             </Grid>

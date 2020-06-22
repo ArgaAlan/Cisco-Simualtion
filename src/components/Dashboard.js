@@ -142,7 +142,6 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const { loading, user } = useAuth0();
   const [privilege, setPrivilege] = useContext(Context);
-  console.log(privilege);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -159,15 +158,16 @@ export default function Dashboard() {
       },
     }).then(
       (response) => {
-        console.log(response.data.role);
         setPrivilege(response.data.role);
-        console.log(privilege);
       },
       (error) => {
         console.log(error);
       }
     );
   }
+
+  console.log(privilege.privilege);
+  console.log(privilege.privilege != "Not logged in");
 
   if (loading) {
     return <Loading />;
@@ -231,7 +231,25 @@ export default function Dashboard() {
           <NavBar />
         </List>
       </Drawer>
-      {isAuthenticated && (
+      {isAuthenticated && privilege.privilege == "Not logged in" && (
+        <main className={classes.content}>
+          <div className={classes.appBarSpacer} />
+          <Container maxWidth="lg" className={classes.container}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <h2>
+                  Your account is correctly created, but you still don't have
+                  any role in the database. Please contact technical support
+                </h2>
+              </Grid>
+            </Grid>
+            <Box pt={4}>
+              <Copyright />
+            </Box>
+          </Container>
+        </main>
+      )}
+      {isAuthenticated && privilege.privilege != "Not logged in" && (
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container maxWidth="lg" className={classes.container}>
@@ -245,14 +263,6 @@ export default function Dashboard() {
                   <Route
                     path="/update-ticket-modal/"
                     component={UpdateTicketModal}
-                  />
-                  <Route
-                    path="/stats/"
-                    render={() => (
-                      <Fragment>
-                        <h1>Ticket Stats Here</h1>
-                      </Fragment>
-                    )}
                   />
                   <Route path="/simulation/" component={Simulation} />
                   <Route path="/stats/" component={TableStats} />
