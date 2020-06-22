@@ -1,10 +1,13 @@
 // src/components/Profile.js
 
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { useAuth0 } from "../react-auth0-spa";
+import { Context } from '../context/user/userContext';
 
 const Profile = () => {
   const { loading, user } = useAuth0();
+
+  const [privilege, setPrivilege] = useContext(Context);
 
   if (loading || !user) {
     return <div>Loading...</div>;
@@ -15,6 +18,8 @@ const Profile = () => {
       <img src={user.picture} alt="Profile" />
       <h2>{user.name}</h2>
       <p>{user.email}</p>
+      <p>{user.role}</p>
+      <p>Role: {privilege}</p>
     </Fragment>
   );
 };
