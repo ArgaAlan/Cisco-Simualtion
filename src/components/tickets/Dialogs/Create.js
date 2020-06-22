@@ -7,12 +7,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
 import SaveIcon from "@material-ui/icons/Save";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 
 import TicketContext from '../../../context/ticket/ticketContext';
+import { useAuth0 } from "../../../react-auth0-spa";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,15 +32,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Create = () => {
   const classes = useStyles();
+  const { user } = useAuth0();
 
   const ticketContext = useContext(TicketContext);
 
   const { postTicket } = ticketContext;
 
+  const [numberIdError, setNumberIdError] = useState(false);
   const [open, setOpen] = useState(false);
   const [ticket, setTicket] = useState({
     numberId: "",
-    impactedUser: "",
+    impactedUser: user.email,
     inChargeUser: "5ee7deacd48f247d80de541a",
     component: "",
     subclass: "",
@@ -72,6 +74,10 @@ const Create = () => {
   };
 
   const handleSubmit = () => {
+    if (!ticket.numberId) {
+      setNumberIdError(true);
+      return;
+    }
     postTicket({
       ...ticket,
       numberId: `ISSUE-${ticket.numberId}`
@@ -109,6 +115,8 @@ const Create = () => {
                 }}
                 value={ticket.numberId}
                 onChange={handleChange("numberId")}
+                error={numberIdError}
+                helperText="Please add a number"
               />
               {/* IMPACTED USER */}
               <TextField
