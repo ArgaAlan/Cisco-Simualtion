@@ -166,7 +166,7 @@ export default function Dashboard() {
     );
   }
 
-  console.log(privilege.privilege);
+  console.log(privilege);
   console.log(privilege.privilege != "Not logged in");
 
   if (!isAuthenticated) {
