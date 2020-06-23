@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../context/user/userContext";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,6 +22,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import { useAuth0 } from "../react-auth0-spa";
+import TicketContext from "../context/ticket/ticketContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,6 +62,16 @@ export default function Simulation() {
     mqlt_risk_3: 0.4,
     mqlt_risk_4: 0.2,
   });
+
+  const ticketContext = useContext(TicketContext);
+
+  const { tickets, getTickets, loading } = ticketContext;
+
+  useEffect(() => {
+    getTickets();
+  }, []);
+
+  console.log(tickets);
 
   var mlt_risk = [
     [state.mlt_risk_0, state.mlt_risk_1, state.mlt_risk_2, state.mlt_risk_3],
@@ -327,27 +338,6 @@ export default function Simulation() {
     return { name, num };
   }
 
-  const rowsLeadTime = [
-    createDataRows("Transport Issue", sumMaterialLeadTimeTransport),
-    createDataRows("Demand Surge", sumMaterialLeadTimeDemand),
-    createDataRows("Product Design Change", sumMaterialLeadTimeDesign),
-    createDataRows("Total", sumMaterialLeadTime),
-  ];
-
-  const rowsQuality = [
-    createDataRows("Manufacturing Issue", sumMaterialQualityManufaturing),
-    createDataRows("Design Issue", sumMaterialQualityDesign),
-    createDataRows("Process Issue", sumMaterialQualityProcess),
-    createDataRows("Training Issue", sumMaterialQualityTraining),
-    createDataRows("Total", sumMaterialQuality),
-  ];
-
-  const rowsQuantity = [
-    createDataRows("Yield Issue", sumMaterialQuantityYield),
-    createDataRows("Scrap due to ECO", sumMaterialQuantityScrap),
-    createDataRows("Quantity Issue", sumMaterialQuantity),
-  ];
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -379,6 +369,27 @@ export default function Simulation() {
   };
 
   if (data === "Bayesnet") {
+    const rowsLeadTime = [
+      createDataRows("Transport Issue", sumMaterialLeadTimeTransport),
+      createDataRows("Demand Surge", sumMaterialLeadTimeDemand),
+      createDataRows("Product Design Change", sumMaterialLeadTimeDesign),
+      createDataRows("Total", sumMaterialLeadTime),
+    ];
+
+    const rowsQuality = [
+      createDataRows("Manufacturing Issue", sumMaterialQualityManufaturing),
+      createDataRows("Design Issue", sumMaterialQualityDesign),
+      createDataRows("Process Issue", sumMaterialQualityProcess),
+      createDataRows("Training Issue", sumMaterialQualityTraining),
+      createDataRows("Total", sumMaterialQuality),
+    ];
+
+    const rowsQuantity = [
+      createDataRows("Yield Issue", sumMaterialQuantityYield),
+      createDataRows("Scrap due to ECO", sumMaterialQuantityScrap),
+      createDataRows("Quantity Issue", sumMaterialQuantity),
+    ];
+
     return (
       <div>
         <React.Fragment>
@@ -391,7 +402,7 @@ export default function Simulation() {
                   onClick={handleClick}
                   align="left"
                 >
-                  Change data
+                  Change to real data
                 </Button>
               </Grid>
               <Grid item>
@@ -630,11 +641,161 @@ export default function Simulation() {
       </div>
     );
   } else if (data === "Database") {
+    sumMaterialLeadTimeDemand = 0;
+    sumMaterialLeadTimeDesign = 0;
+    sumMaterialLeadTimeTransport = 0;
+    sumMaterialQualityManufaturing = 0;
+    sumMaterialQualityDesign = 0;
+    sumMaterialQualityProcess = 0;
+    sumMaterialQualityTraining = 0;
+    sumMaterialQuantityYield = 0;
+    sumMaterialQuantityScrap = 0;
+
+    sumMaterialLeadTime = 0;
+    sumMaterialQuality = 0;
+    sumMaterialQuantity = 0;
+
+    tickets.forEach(function (valor) {
+      switch (valor.issueReason) {
+        case "Transport Issue":
+          sumMaterialLeadTimeTransport++;
+          sumMaterialLeadTime++;
+          break;
+        case "Demand Surge":
+          sumMaterialLeadTimeDemand++;
+          sumMaterialLeadTime++;
+          break;
+        case "Product Design Change":
+          sumMaterialLeadTimeDesign++;
+          sumMaterialLeadTime++;
+          break;
+        case "Yield Issue":
+          sumMaterialQuantityYield++;
+          sumMaterialQuantity++;
+          break;
+        case "Scrap due to ECO":
+          sumMaterialQuantityScrap++;
+          sumMaterialQuantity++;
+          break;
+        case "Manufacturing Issue":
+          sumMaterialQualityManufaturing++;
+          sumMaterialQuality++;
+          break;
+        case "Design Issue":
+          sumMaterialQualityDesign++;
+          sumMaterialQuality++;
+          break;
+        case "Process Issue":
+          sumMaterialQualityProcess++;
+          sumMaterialQuality++;
+          break;
+        case "Training Issue":
+          sumMaterialQualityTraining++;
+          sumMaterialQuality++;
+          break;
+      }
+    });
+
+    const rowsLeadTime = [
+      createDataRows("Transport Issue", sumMaterialLeadTimeTransport),
+      createDataRows("Demand Surge", sumMaterialLeadTimeDemand),
+      createDataRows("Product Design Change", sumMaterialLeadTimeDesign),
+      createDataRows("Total", sumMaterialLeadTime),
+    ];
+
+    const rowsQuality = [
+      createDataRows("Manufacturing Issue", sumMaterialQualityManufaturing),
+      createDataRows("Design Issue", sumMaterialQualityDesign),
+      createDataRows("Process Issue", sumMaterialQualityProcess),
+      createDataRows("Training Issue", sumMaterialQualityTraining),
+      createDataRows("Total", sumMaterialQuality),
+    ];
+
+    const rowsQuantity = [
+      createDataRows("Yield Issue", sumMaterialQuantityYield),
+      createDataRows("Scrap due to ECO", sumMaterialQuantityScrap),
+      createDataRows("Quantity Issue", sumMaterialQuantity),
+    ];
+
     return (
       <div>
         <Button variant="outlined" color="primary" onClick={handleClick}>
-          Change data
+          Change to simulated data
         </Button>
+        <br />
+        <br />
+        <React.Fragment>
+          <Title>Real data: Lead Time Issues</Title>
+          <br />
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Type of Issue</TableCell>
+                  <TableCell align="right">Number of Issues</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rowsLeadTime.map((row) => (
+                  <TableRow key={row.name}>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.num}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <br />
+          <br />
+          <Title>Real data: Quality Issues</Title>
+          <br />
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Type of Issue</TableCell>
+                  <TableCell align="right">Number of Issues</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rowsQuality.map((row) => (
+                  <TableRow key={row.name}>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.num}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <br />
+          <br />
+          <Title>Real data: Quantity Issues</Title>
+          <br />
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Type of Issue</TableCell>
+                  <TableCell align="right">Number of Issues</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rowsQuantity.map((row) => (
+                  <TableRow key={row.name}>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.num}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </React.Fragment>
       </div>
     );
   }
