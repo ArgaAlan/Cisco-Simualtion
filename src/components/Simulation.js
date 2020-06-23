@@ -19,9 +19,13 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import SaveIcon from "@material-ui/icons/Save";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import { useAuth0 } from "../react-auth0-spa";
+
+import Row from '../components/simulation/Row';
+import rows from '../components/simulation/rows';
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -622,6 +626,30 @@ export default function Simulation() {
                     </TableCell>
                     <TableCell align="right">{row.num}</TableCell>
                   </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {/** SIMULATION RESULTS */}
+          <br />
+          <br />
+          <Title>Simulation Results</Title>
+          <br />
+          <TableContainer component={Paper}>
+            <Table aria-label="collapsible table">
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Week</TableCell>
+                  <TableCell align="right">Issues MLT</TableCell>
+                  <TableCell align="right">Issues MQNT</TableCell>
+                  <TableCell align="right">Issues MQLT</TableCell>
+                  <TableCell align="right">Total</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <Row key={row.name} row={row} />
                 ))}
               </TableBody>
             </Table>
