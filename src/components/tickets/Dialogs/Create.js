@@ -8,15 +8,14 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import SaveIcon from "@material-ui/icons/Save";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import { useAuth0 } from "../../../react-auth0-spa";
 
 import TicketContext from "../../../context/ticket/ticketContext";
 
-import { issueCategories, components, subclasses, issueType } from './options';
-import getRandomInt from '../../../utils/random';
+import { issueCategories, components, subclasses, issueCategory } from "./options";
+import getRandomInt from "../../../utils/random";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,15 +35,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Create = () => {
   const classes = useStyles();
-  const { loading, user } = useAuth0();
+  const { user } = useAuth0();
 
   const ticketContext = useContext(TicketContext);
 
-  const { postTicket } = ticketContext;
+  const { postTicket, tickets } = ticketContext;
 
-  
-
-  const [numberIdError, setNumberIdError] = useState(false);
   const [open, setOpen] = useState(false);
   const [ticket, setTicket] = useState({
     numberId: "",
@@ -80,11 +76,15 @@ const Create = () => {
   };
 
   const handleSubmit = () => {
-    console.log(ticket);
+    let numberId = `ISSUE-${getRandomInt(1000,9999)}`;
+    while (tickets.find(ticket => ticket.numberId === numberId)) {
+      numberId = `ISSUE-${getRandomInt(1000,9999)}`;
+    }
     postTicket({
       ...ticket,
-      numberId: `ISSUE-${getRandomInt(1000,9999)}`,
-      issueCategory: issueType(ticket.issueReason),
+      numberId,
+      issueCategory: issueCategory(ticket.issueReason).type,
+      issueReason: issueCategory(ticket.issueReason).label,
       state: 'opened',
       causingCI: 'unknown',
       solved: false
@@ -118,11 +118,11 @@ const Create = () => {
                 onChange={handleChange("component")}
                 select
               >
-                {components.map(component => 
-                   <MenuItem key={component} value={component}>
-                     {component}
-                   </MenuItem>
-                  )}
+                {components.map((component) => (
+                  <MenuItem key={component} value={component}>
+                    {component}
+                  </MenuItem>
+                ))}
               </TextField>
               {/* SUBCLASS*/}
               <TextField
@@ -134,13 +134,13 @@ const Create = () => {
                 onChange={handleChange("subclass")}
                 select
               >
-                {subclasses.map(subclass => 
-                   <MenuItem key={subclass.value} value={subclass.value}>
-                     {subclass.label}
-                   </MenuItem>
-                  )}
+                {subclasses.map((subclass) => (
+                  <MenuItem key={subclass.value} value={subclass.value}>
+                    {subclass.label}
+                  </MenuItem>
+                ))}
               </TextField>
-              <br/>
+              <br />
               {/* SUMMARY */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
@@ -178,14 +178,11 @@ const Create = () => {
                 value={ticket.issueReason}
                 onChange={handleChange("issueReason")}
               >
-                {issueCategories.map(issue => 
-                   <MenuItem key={issue.value} value={issue.value}>
-                     {issue.label}
-                   </MenuItem>
-                  )}
-                <MenuItem key={'other'} value={'other'}>
-                     {'Other'}
-                   </MenuItem>
+                {issueCategories.map((issue) => (
+                  <MenuItem key={issue.value} value={issue.value}>
+                    {issue.label}
+                  </MenuItem>
+                ))}
               </TextField>
             </div>
             {/* div */}

@@ -2,12 +2,12 @@
 
 import React, { Fragment, useContext } from "react";
 import { useAuth0 } from "../react-auth0-spa";
-import { Context } from '../context/user/userContext';
+import { Context } from "../context/user/userContext";
 
 const Profile = () => {
   const { loading, user } = useAuth0();
 
-  const [privilege, setPrivilege] = useContext(Context);
+  const [privilege] = useContext(Context);
 
   if (loading || !user) {
     return <div>Loading...</div>;
