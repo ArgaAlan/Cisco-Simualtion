@@ -15,7 +15,7 @@ import { useAuth0 } from "../../../react-auth0-spa";
 
 import TicketContext from "../../../context/ticket/ticketContext";
 
-import { issueCategories, categories, issues, components, subclasses } from './options';
+import { issueCategories, components, subclasses, issueType } from './options';
 import getRandomInt from '../../../utils/random';
 
 const useStyles = makeStyles((theme) => ({
@@ -80,9 +80,14 @@ const Create = () => {
   };
 
   const handleSubmit = () => {
+    console.log(ticket);
     postTicket({
       ...ticket,
       numberId: `ISSUE-${getRandomInt(1000,9999)}`,
+      issueCategory: issueType(ticket.issueReason),
+      state: 'opened',
+      causingCI: 'unknown',
+      solved: false
     });
     setOpen(false);
   };
@@ -173,7 +178,7 @@ const Create = () => {
                 value={ticket.issueReason}
                 onChange={handleChange("issueReason")}
               >
-                {issues.map(issue => 
+                {issueCategories.map(issue => 
                    <MenuItem key={issue.value} value={issue.value}>
                      {issue.label}
                    </MenuItem>

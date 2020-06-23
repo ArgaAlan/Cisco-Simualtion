@@ -1,59 +1,52 @@
 export const issueCategories = [
   {
-    title: 'Material Lead Time',
-    issues: [
-      {
-        value: 'transport issue',
-        label: 'Transport Issue'
-      },
-      {
-        value: 'demand surge',
-        label: 'Demand Surge'
-      },
-      {
-        value: 'product design change',
-        label: 'Product Design Change'
-      },
-    ]
+    type: 'Material Lead Time',
+    value: 'transport issue',
+    label: 'Transport Issue'
   },
   {
-    title: 'Material Quantity',
-    issues: [
-      {
-        value: 'yield issue',
-        label: 'Yield Issue'
-      },
-      {
-        value: 'scrap due to ECO',
-        label: 'Scrap Due To ECO'
-      },
-    ]
+    type: 'Material Lead Time',
+    value: 'demand surge',
+    label: 'Demand Surge'
   },
   {
-    title: 'Material Quality',
-    issues: [
-      {
-        value: 'manufacturing issue',
-        label: 'Manufacturing Issue'
-      },
-      {
-        value: 'design issue',
-        label: 'Design Issue'
-      },
-      {
-        value: 'process issue',
-        label: 'Process Issue'
-      },
-      {
-        value: 'training issue',
-        label: 'Training Issue'
-      },
-    ]
+    type: 'Material Lead Time',
+    value: 'product design change',
+    label: 'Product Design Change'
+  },
+  {
+    type: 'Material Quantity',
+    value: 'yield issue',
+    label: 'Yield Issue'
+  },
+  {
+    type: 'Material Quantity',
+    value: 'scrap due to ECO',
+    label: 'Scrap Due To ECO'
+  },
+  {
+    type: 'Material Quality',
+    value: 'manufacturing issue',
+    label: 'Manufacturing Issue'
+  },
+  {
+    type: 'Material Quality',
+    value: 'design issue',
+    label: 'Design Issue'
+  },
+  {
+    type: 'Material Quality',
+    value: 'process issue',
+    label: 'Process Issue'
+  },
+  {
+    type: 'Material Quality',
+    value: 'training issue',
+    label: 'Training Issue'
   }
 ]
 
-export const categories = issueCategories.map(category => category.title)
-export const issues = issueCategories.map(category => category.issues).flat()
+export const issueType = (issueReason) => issueCategories.find(el => el.value === issueReason).type
 
 export const components = [
   'ROUTER CPU',
