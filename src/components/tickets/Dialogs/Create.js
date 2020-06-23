@@ -14,7 +14,7 @@ import { useAuth0 } from "../../../react-auth0-spa";
 
 import TicketContext from "../../../context/ticket/ticketContext";
 
-import { issueCategories, components, subclasses, issueType } from "./options";
+import { issueCategories, components, subclasses, issueCategory } from "./options";
 import getRandomInt from "../../../utils/random";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +39,7 @@ const Create = () => {
 
   const ticketContext = useContext(TicketContext);
 
-  const { postTicket } = ticketContext;
+  const { postTicket, tickets } = ticketContext;
 
   const [open, setOpen] = useState(false);
   const [ticket, setTicket] = useState({
@@ -76,14 +76,18 @@ const Create = () => {
   };
 
   const handleSubmit = () => {
-    console.log(ticket);
+    let numberId = `ISSUE-${getRandomInt(1000,9999)}`;
+    while (tickets.find(ticket => ticket.numberId === numberId)) {
+      numberId = `ISSUE-${getRandomInt(1000,9999)}`;
+    }
     postTicket({
       ...ticket,
-      numberId: `ISSUE-${getRandomInt(1000, 9999)}`,
-      issueCategory: issueType(ticket.issueReason),
-      state: "opened",
-      causingCI: "unknown",
-      solved: false,
+      numberId,
+      issueCategory: issueCategory(ticket.issueReason).type,
+      issueReason: issueCategory(ticket.issueReason).label,
+      state: 'opened',
+      causingCI: 'unknown',
+      solved: false
     });
     setOpen(false);
   };
@@ -179,9 +183,6 @@ const Create = () => {
                     {issue.label}
                   </MenuItem>
                 ))}
-                <MenuItem key={"other"} value={"other"}>
-                  {"Other"}
-                </MenuItem>
               </TextField>
             </div>
             {/* div */}

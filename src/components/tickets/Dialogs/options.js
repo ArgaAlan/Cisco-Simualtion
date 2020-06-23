@@ -43,10 +43,15 @@ export const issueCategories = [
     type: 'Material Quality',
     value: 'training issue',
     label: 'Training Issue'
+  },
+  {
+    type: 'Other',
+    value: 'Other',
+    label: 'Other'
   }
 ]
 
-export const issueType = (issueReason) => issueCategories.find(el => el.value === issueReason).type
+export const issueCategory = (issueReason) => issueCategories.find(el => el.value === issueReason)
 
 export const components = [
   'ROUTER CPU',
