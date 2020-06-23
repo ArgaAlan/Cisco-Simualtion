@@ -23,6 +23,7 @@ import TableStats from './pages/TableStats';
 import Simulation from "./Simulation";
 import DataAnalysis from "./DataAnalysis";
 import Analysis from "./Analysis";
+import Report from "./Report";
 
 function Copyright() {
   return (
@@ -188,7 +189,7 @@ export default function Dashboard() {
                   <Route path="/input-ticket/" component={InputTicket} />
                   <Route path="/simulation/" component={Simulation} />
                   <Route path="/stats/" component={TableStats} />
-                  <Route path="/analysis/" component={Analysis} />
+                  <Route path="/analysis/" component={Report} />
                 </Switch>
               </Grid>
             </Grid>
