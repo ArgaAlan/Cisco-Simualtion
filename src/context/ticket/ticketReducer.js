@@ -20,17 +20,42 @@ export default (state, action) => {
       return {
         ...state,
         ticket: action.payload,
-        // user: action.payload.user
         loading: false
       }
 
     case POST_TICKET:
       return {
         ...state,
-        response: action.payload,
+        tickets: [...state.tickets, action.payload],
         loading: false
       }
-      
+
+    case PUT_TICKET:
+
+      const updatedTicket = action.payload
+
+      const updatedTickets = state.tickets.map(ticket => {
+        if (ticket._id === updatedTicket._id) {
+          return updatedTicket;
+        }
+        return ticket;
+      });
+
+      return {
+        ...state,
+        tickets: updatedTickets,
+        ticket: updatedTicket,
+        loading: false
+      }
+
+    case DELETE_TICKET:
+      return {
+        ...state,
+        tickets: state.tickets.filter(ticket => ticket._id !== action.payload),
+        ticket: null,
+        loading: false
+      }
+    
     case SET_LOADING:
       return {
         ...state,

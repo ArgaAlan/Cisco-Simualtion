@@ -11,9 +11,10 @@ import { NavLink } from "react-router-dom";
 import Update from "./Dialogs/Update";
 import Delete from "./Dialogs/Delete";
 import { red, yellow } from "@material-ui/core/colors";
+import { Context } from "../../context/user/userContext";
+import Loading from "../Loading";
 
-import TicketContext from '../../context/ticket/ticketContext';
-
+import TicketContext from "../../context/ticket/ticketContext";
 
 const useStyles = makeStyles((theme) => ({
   // css query selector '&' means this, '*' means all, '& > *': select all elements where the parent is this (root)
@@ -50,18 +51,24 @@ const DeleteButton = withStyles((theme) => ({
 export default function TicketDetail({ match, history }) {
   const classes = useStyles();
 
-  const ticketContext = useContext(TicketContext);
+  const [privilege, setPrivilege] = useContext(Context);
+  const { ticket, getTicket, loading } = useContext(TicketContext);
 
-  const { ticket, getTicket, loading } = ticketContext;
+  const goBack = () => {
+    history.goBack();
+  };
 
   useEffect(() => {
     getTicket(match.params.ticketId);
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if (!ticket) {
+    console.log("aqui llega");
+    history.push("/");
+    return null;
+  } else if (loading) {
+    return <Loading />;
   } else {
-    console.log(ticket);
     const {
       numberId,
       impactedUser,
@@ -110,14 +117,18 @@ export default function TicketDetail({ match, history }) {
       <div className={classes.root}>
         <Grid container>
           <Grid item xs={6}>
-            <Button variant="contained">Back</Button>
+            <Button variant="contained" onClick={goBack}>
+              Back
+            </Button>
           </Grid>
           <Grid item container xs={6} justify="flex-end" spacing={3}>
+            {(privilege == "Solver" || privilege == "Admin") && (
+              <Grid item xs={3}>
+                <Update ticketId={ticket._id} ticket={ticket} />
+              </Grid>
+            )}
             <Grid item xs={3}>
-              <Update id={match.params.id} />
-            </Grid>
-            <Grid item xs={3}>
-              <Delete id={match.params.id} />
+              <Delete ticketId={ticket._id} ticket={ticket} history={history} />
             </Grid>
           </Grid>
         </Grid>
@@ -175,16 +186,6 @@ export default function TicketDetail({ match, history }) {
             </Grid>
             <Grid item xs={6}>
               <Typography align="right" color="textPrimary" variant="body2">
-                Category
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="left" color="textPrimary" variant="body2">
-                {category}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="right" color="textPrimary" variant="body2">
                 State:
               </Typography>
             </Grid>
@@ -223,46 +224,56 @@ export default function TicketDetail({ match, history }) {
                 {openDate}
               </Typography>
             </Grid>
-            <Grid item xs={6}>
-              <Typography align="right" color="textPrimary" variant="body2">
-                Assigned Date:
+            {assignedDate &&
+              <Fragment>
+                <Grid item xs={6}>
+                  <Typography align="right" color="textPrimary" variant="body2">
+                    Assigned Date:
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography align="left" color="textPrimary" variant="body2">
+                    {assignedDate}
+                  </Typography>
+                </Grid>
+              </Fragment>
+            }
+            {resolutionDate && <Fragment>
+              <Grid item xs={6}>
+                <Typography align="right" color="textPrimary" variant="body2">
+                  Resolution Date:
               </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="left" color="textPrimary" variant="body2">
-                {assignedDate}
+              </Grid>
+              <Grid item xs={6}>
+                <Typography align="left" color="textPrimary" variant="body2">
+                  {resolutionDate}
+                </Typography>
+              </Grid>
+            </Fragment>}
+            {closedDate && <Fragment>
+              <Grid item xs={6}>
+                <Typography align="right" color="textPrimary" variant="body2">
+                  Closed Date:
               </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="right" color="textPrimary" variant="body2">
-                Resolution Date:
+              </Grid>
+              <Grid item xs={6}>
+                <Typography align="left" color="textPrimary" variant="body2">
+                  {closedDate}
+                </Typography>
+              </Grid>
+            </Fragment>}
+            {scalationDate && <Fragment>
+              <Grid item xs={6}>
+                <Typography align="right" color="textPrimary" variant="body2">
+                  Scalation Date:
               </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="left" color="textPrimary" variant="body2">
-                {resolutionDate}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="right" color="textPrimary" variant="body2">
-                Closed Date:
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="left" color="textPrimary" variant="body2">
-                {closedDate}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="right" color="textPrimary" variant="body2">
-                Scalation Date:
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="left" color="textPrimary" variant="body2">
-                {scalationDate}
-              </Typography>
-            </Grid>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography align="left" color="textPrimary" variant="body2">
+                  {scalationDate}
+                </Typography>
+              </Grid>
+            </Fragment>}
             <Grid item xs={6}>
               <Typography align="right" color="textPrimary" variant="body2">
                 Issue Category:
@@ -290,7 +301,7 @@ export default function TicketDetail({ match, history }) {
             </Grid>
             <Grid item xs={6}>
               <Typography align="left" color="textPrimary" variant="body2">
-                {solved}
+                {solved ? 'Yes' : 'No'}
               </Typography>
             </Grid>
             <Grid item xs={6}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import clsx from "clsx";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -18,6 +18,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { NavLink } from "react-router-dom";
 import { red, yellow } from "@material-ui/core/colors";
+
+import TicketContext from '../../../context/ticket/ticketContext';
 
 const EditButton = withStyles((theme) => ({
   root: {
@@ -45,12 +47,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Update({ id }) {
+function Update(props) {
   const classes = useStyles();
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [ticket, setTicket] = useState([]);
+  const [selectedTicket, setSelectedTicket] = useState({
+    inChargeUser: {}
+  });
   const [open, setOpen] = useState(false);
+  
+  const { putTicket } = useContext(TicketContext);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -61,47 +65,16 @@ function Update({ id }) {
   };
 
   const handleChange = (prop) => (event) => {
-    setTicket({ ...ticket, [prop]: event.target.value });
-  };
-
-  const fetchItem = async () => {
-    try {
-      console.log(id);
-      const data = await fetch(
-        `https://cisco-project.herokuapp.com/api/tickets/${id}`
-      );
-      const item = await data.json();
-      console.log("UPDATE FETCH");
-      console.log(item);
-      console.log("UPDATE FETCH");
-      setIsLoaded(true);
-      setTicket(item);
-    } catch (err) {
-      setIsLoaded(true);
-      setError(error);
-    }
+    setSelectedTicket({ ...selectedTicket, [prop]: event.target.value });
   };
 
   useEffect(() => {
-    fetchItem();
+    setSelectedTicket(props.ticket);
+    // eslint-disable-next-line
   }, []);
 
   const handleUpdate = () => {
-    console.log(JSON.stringify(ticket));
-    var url = `https://cisco-project.herokuapp.com/api/tickets/${id}`;
-    fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(ticket),
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    putTicket(selectedTicket);
     setOpen(false);
   };
 
@@ -116,7 +89,7 @@ function Update({ id }) {
         aria-labelledby="form-dialog-title"
         fullScreen
       >
-        <DialogTitle id="form-dialog-title">New Ticket</DialogTitle>
+        <DialogTitle id="form-dialog-title">Update Ticket</DialogTitle>
         <DialogContent>
           <DialogContentText>Please fill out this form.</DialogContentText>
           <div className={classes.root}>
@@ -124,17 +97,13 @@ function Update({ id }) {
               {/* ISSUE NUMBER */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Issue Number"
                 type="text"
                 InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">ISSUE-</InputAdornment>
-                  ),
+                  readOnly: true,
                 }}
-                value={ticket.numberId}
-                onChange={handleChange("numberId")}
+                value={selectedTicket.numberId}
               />
               {/* IMPACTED USER */}
               <TextField
@@ -143,147 +112,136 @@ function Update({ id }) {
                 margin="normal"
                 label="Impacted User"
                 type="text"
-                value={ticket.impactedUser}
+                value={selectedTicket.impactedUser}
                 onChange={handleChange("impactedUser")}
               />
               {/* USER IN CHARGE */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="User In Charge"
                 type="text"
-                value="5ee7deacd48f247d80de541a"
+                InputProps={{
+                  readOnly: true,
+                }}
+                value={selectedTicket.inChargeUser.name}
                 onChange={handleChange("inChargeUser")}
               />
               {/* COMPONENT */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Component"
                 type="text"
-                value={ticket.component}
+                value={selectedTicket.component}
                 onChange={handleChange("component")}
               />
               {/* SUBCLASS*/}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Subclass"
                 type="text"
-                value={ticket.subclass}
+                value={selectedTicket.subclass}
                 onChange={handleChange("subclass")}
               />
               {/* CATEGORY */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Category"
                 type="text"
-                value={ticket.category}
+                value={selectedTicket.category}
                 onChange={handleChange("category")}
               />
               {/* STATE */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="State"
                 type="text"
-                value={ticket.state}
+                value={selectedTicket.state}
                 onChange={handleChange("state")}
               />
               {/* SUMMARY */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Summary"
                 type="text"
-                value={ticket.summary}
+                value={selectedTicket.summary}
                 onChange={handleChange("summary")}
               />
               {/* CAUSING CI */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Causing CI"
                 type="text"
-                value={ticket.causingCI}
+                value={selectedTicket.causingCI}
                 onChange={handleChange("causingCI")}
               />
               {/* ASSIGNED DATE */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Assigned Date"
                 type="text"
-                value={ticket.assignedDate}
+                value={selectedTicket.assignedDate ? selectedTicket.assignedDate : ''}
                 onChange={handleChange("assignedDate")}
               />
               {/* RESOLUTION DATE */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Resolution Date"
                 type="text"
-                value={ticket.resolutionDate}
+                value={selectedTicket.resolutionDate ? selectedTicket.resolutionDate : ''}
                 onChange={handleChange("resolutionDate")}
               />
               {/* CLOSED DATE */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Closed Date"
                 type="text"
-                value={ticket.closedDate}
+                value={selectedTicket.closedDate ? selectedTicket.closedDate : ''}
                 onChange={handleChange("closedDate")}
               />
               {/* SCALATION DATE */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Scalation Date"
                 type="text"
-                value={ticket.scalationDate}
+                value={selectedTicket.scalationDate ? selectedTicket.scalationDate : ''}
                 onChange={handleChange("scalationDate")}
               />
               {/* NOTES */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Notes"
                 type="text"
-                value={ticket.notes}
+                value={selectedTicket.notes}
                 onChange={handleChange("notes")}
               />
               {/* ISSUE CATEGORY */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Issue Category"
                 type="text"
-                value={ticket.issueCategory}
+                value={selectedTicket.issueCategory}
                 onChange={handleChange("issueCategory")}
               />
               {/* ISSUE REASON */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Issue Reason"
                 type="text"
-                value={ticket.issueReason}
+                value={selectedTicket.issueReason}
                 onChange={handleChange("issueReason")}
               />
             </div>

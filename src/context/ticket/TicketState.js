@@ -25,20 +25,13 @@ const TicketState = props => {
 
   // Submit a ticket
   const postTicket = async (ticket) => {
-    console.log(JSON.stringify(ticket));
     setLoading();
-    var url = "https://cisco-project.herokuapp.com/api/tickets";
-    const post = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(ticket),
-    });
+    const url = "https://cisco-project.herokuapp.com/api/tickets";
+    const res = await axios.post(url, ticket);
 
     dispatch({
       type: POST_TICKET,
-      payload: post
+      payload: res.data
     });
       
   }
@@ -65,8 +58,6 @@ const TicketState = props => {
     setLoading();
     const res = await axios.get(`https://cisco-project.herokuapp.com/api/tickets/${ticketId}`);
 
-    console.log(res.data);
-
     dispatch({
       type: GET_TICKET,
       payload: res.data
@@ -74,8 +65,32 @@ const TicketState = props => {
   }
 
   // Update Ticket
+  const putTicket = async (ticket) => {
+
+    setLoading();
+    const url = `https://cisco-project.herokuapp.com/api/tickets/${ticket._id}`;
+    const updatedTicket = await axios.put(url, ticket);
+
+    dispatch({
+      type: PUT_TICKET,
+      payload: ticket
+    });
+  }
 
   // Delete Tickets
+  const deleteTicket = async (ticketId) => {
+    setLoading();
+    const url = `https://cisco-project.herokuapp.com/api/tickets/${ticketId}`;
+    const deleted = await axios.delete(url);
+
+    console.log(deleted);
+
+    dispatch({
+      type: DELETE_TICKET,
+      payload: ticketId
+    });
+
+  }
 
   // Set loading
   const setLoading = () => dispatch({ type: SET_LOADING })
@@ -89,6 +104,8 @@ const TicketState = props => {
       getTickets,
       getTicket,
       postTicket,
+      putTicket,
+      deleteTicket
     }}>
       {props.children}
 
