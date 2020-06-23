@@ -11,8 +11,11 @@ export default function Tickets() {
   useEffect(() => {
     getTickets();
   }, []);
-  console.log(tickets);
-    return (
-            <Report tickets={tickets}/>
-    );
+  
+  if(loading){
+    return ( <div>Loading...</div> );
+  } else {
+    return ( <Report tickets={tickets}/> );
+  } 
+  
 }

@@ -129,7 +129,6 @@ const compareTargets = (
 ) => series === targetSeries && point === targetPoint;
 
 
-
 class Report extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -177,18 +176,69 @@ class Report extends React.PureComponent {
 
   }
 
+  
 
   render() {
     const {
       hover, selection, tooltipTarget, tooltipEnabled,
     } = this.state;
     const { classes } = this.props;
+    if (Array.isArray(this.props.tickets) && this.props.tickets.length){
+      //Manipular info aquí
+      var AnualSummary = []
+      var yearsUpFar = [];
+      var {year, month} = 0
+      for(var i=0; i < this.props.tickets.length; i++){
+        var currentTicket = this.props.tickets[i];
+        var openDate = currentTicket.openDate.substring(0,10);
 
-    console.log(this.props.tickets);
+        year = parseInt(openDate.split("-")[0]);
+        month = parseInt(openDate.split("-")[1]);
+
+        // Año no registrado previamente
+        if(!yearsUpFar.includes(year)){
+          yearsUpFar.push(year);
+
+          for(var j=0; j < 12; j++){
+            var toPush = {
+              month: j, year: year, dueDate: 0, quality: 0, quantity: 0, total: 0
+            }
+            AnualSummary.push(toPush);
+
+          }
+          console.log("Registro del año creado"); 
+        }
+
+        AnualSummary[month].total += 1;
+
+        //Checa el tipo de causa de ticket
+        switch(currentTicket.causingCI){
+          case "Material Lead Time":
+            AnualSummary[month].dueDate = AnualSummary[month].dueDate + 1;
+            break;
+          case "Material Quality":
+            AnualSummary[month].quality = AnualSummary[month].quality + 1;
+            break;
+          case "Material Quantity":
+            AnualSummary[month].quantity = AnualSummary[month].quantity + 1;
+            break;
+          default:
+            AnualSummary[month].dueDate = AnualSummary[month].dueDate + 1;
+            console.log("El ticket " + currentTicket.numberId + "tiene su causa como desconocida.")
+            console.log(AnualSummary[month].total);
+            break;
+        }
+        
+      }
+      console.log(AnualSummary);
+    }
+
+    
+    
     return (
       <Paper>
         <Chart
-          data={data}
+          data={AnualSummary}
         >
           <ArgumentScale factory={scaleBand} />
           <ArgumentAxis />
