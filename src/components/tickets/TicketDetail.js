@@ -186,16 +186,6 @@ export default function TicketDetail({ match, history }) {
             </Grid>
             <Grid item xs={6}>
               <Typography align="right" color="textPrimary" variant="body2">
-                Category
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="left" color="textPrimary" variant="body2">
-                {category}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="right" color="textPrimary" variant="body2">
                 State:
               </Typography>
             </Grid>
@@ -234,46 +224,56 @@ export default function TicketDetail({ match, history }) {
                 {openDate}
               </Typography>
             </Grid>
-            <Grid item xs={6}>
-              <Typography align="right" color="textPrimary" variant="body2">
-                Assigned Date:
+            {assignedDate &&
+              <Fragment>
+                <Grid item xs={6}>
+                  <Typography align="right" color="textPrimary" variant="body2">
+                    Assigned Date:
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography align="left" color="textPrimary" variant="body2">
+                    {assignedDate}
+                  </Typography>
+                </Grid>
+              </Fragment>
+            }
+            {resolutionDate && <Fragment>
+              <Grid item xs={6}>
+                <Typography align="right" color="textPrimary" variant="body2">
+                  Resolution Date:
               </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="left" color="textPrimary" variant="body2">
-                {assignedDate}
+              </Grid>
+              <Grid item xs={6}>
+                <Typography align="left" color="textPrimary" variant="body2">
+                  {resolutionDate}
+                </Typography>
+              </Grid>
+            </Fragment>}
+            {closedDate && <Fragment>
+              <Grid item xs={6}>
+                <Typography align="right" color="textPrimary" variant="body2">
+                  Closed Date:
               </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="right" color="textPrimary" variant="body2">
-                Resolution Date:
+              </Grid>
+              <Grid item xs={6}>
+                <Typography align="left" color="textPrimary" variant="body2">
+                  {closedDate}
+                </Typography>
+              </Grid>
+            </Fragment>}
+            {scalationDate && <Fragment>
+              <Grid item xs={6}>
+                <Typography align="right" color="textPrimary" variant="body2">
+                  Scalation Date:
               </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="left" color="textPrimary" variant="body2">
-                {resolutionDate}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="right" color="textPrimary" variant="body2">
-                Closed Date:
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="left" color="textPrimary" variant="body2">
-                {closedDate}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="right" color="textPrimary" variant="body2">
-                Scalation Date:
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography align="left" color="textPrimary" variant="body2">
-                {scalationDate}
-              </Typography>
-            </Grid>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography align="left" color="textPrimary" variant="body2">
+                  {scalationDate}
+                </Typography>
+              </Grid>
+            </Fragment>}
             <Grid item xs={6}>
               <Typography align="right" color="textPrimary" variant="body2">
                 Issue Category:
@@ -301,7 +301,7 @@ export default function TicketDetail({ match, history }) {
             </Grid>
             <Grid item xs={6}>
               <Typography align="left" color="textPrimary" variant="body2">
-                {solved}
+                {solved ? 'Yes' : 'No'}
               </Typography>
             </Grid>
             <Grid item xs={6}>
