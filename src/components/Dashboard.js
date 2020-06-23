@@ -40,6 +40,8 @@ import TableStats from "./pages/TableStats";
 import TicketList from "./TicketList";
 import ProfileList from "./ProfileList";
 import StatsList from "./StatsList";
+import TicketGrid from "./TicketGrid";
+import ReportsList from "./ReportsList";
 
 function Copyright() {
   return (
@@ -228,6 +230,10 @@ export default function Dashboard() {
             )}
           {isAuthenticated &&
             (privilege == "Analyst" || privilege == "Admin") && <StatsList />}
+            {isAuthenticated &&
+            (privilege == "Analyst" || privilege == "Admin") && (
+              <ReportsList />
+            )}
           {isAuthenticated && <ProfileList />}
         </List>
         <Divider />
@@ -266,6 +272,7 @@ export default function Dashboard() {
                   <Route path="/ticket/:ticketId" component={TicketDetail} />
                   <Route path="/input-ticket/" component={InputTicket} />
                   <Route path="/simulation/" component={Simulation} />
+                  <Route path="/analysis/" component={TicketGrid} />
                   <Route
                     path="/update-ticket-modal/"
                     component={UpdateTicketModal}
