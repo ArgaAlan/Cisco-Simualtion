@@ -9,10 +9,14 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import SaveIcon from "@material-ui/icons/Save";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import MenuItem from '@material-ui/core/MenuItem';
 import TextField from "@material-ui/core/TextField";
 import { useAuth0 } from "../../../react-auth0-spa";
 
 import TicketContext from "../../../context/ticket/ticketContext";
+
+import { issueCategories, categories, issues, components, subclasses } from './options';
+import getRandomInt from '../../../utils/random';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +41,8 @@ const Create = () => {
   const ticketContext = useContext(TicketContext);
 
   const { postTicket } = ticketContext;
+
+  
 
   const [numberIdError, setNumberIdError] = useState(false);
   const [open, setOpen] = useState(false);
@@ -74,13 +80,9 @@ const Create = () => {
   };
 
   const handleSubmit = () => {
-    if (!ticket.numberId) {
-      setNumberIdError(true);
-      return;
-    }
     postTicket({
       ...ticket,
-      numberId: `ISSUE-${ticket.numberId}`,
+      numberId: `ISSUE-${getRandomInt(1000,9999)}`,
     });
     setOpen(false);
   };
@@ -94,43 +96,12 @@ const Create = () => {
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
-        fullScreen
       >
         <DialogTitle id="form-dialog-title">New Ticket</DialogTitle>
         <DialogContent>
           <DialogContentText>Please fill out this form.</DialogContentText>
           <div className={classes.root}>
             <div>
-              {/* ISSUE NUMBER */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="Issue Number"
-                type="text"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">ISSUE-</InputAdornment>
-                  ),
-                }}
-                value={ticket.numberId}
-                onChange={handleChange("numberId")}
-                error={numberIdError}
-                helperText="Please add a number"
-              />
-              {/* IMPACTED USER */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="Impacted User"
-                type="text"
-                value={ticket.impactedUser}
-                onChange={handleChange("impactedUser")}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
               {/* COMPONENT */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
@@ -140,87 +111,77 @@ const Create = () => {
                 type="text"
                 value={ticket.component}
                 onChange={handleChange("component")}
-              />
+                select
+              >
+                {components.map(component => 
+                   <MenuItem key={component} value={component}>
+                     {component}
+                   </MenuItem>
+                  )}
+              </TextField>
               {/* SUBCLASS*/}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
                 margin="normal"
                 label="Subclass"
                 type="text"
                 value={ticket.subclass}
                 onChange={handleChange("subclass")}
-              />
-              {/* CATEGORY */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="Category"
-                type="text"
-                value={ticket.category}
-                onChange={handleChange("category")}
-              />
-              {/* STATE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="State"
-                type="text"
-                value={ticket.state}
-                onChange={handleChange("state")}
-              />
+                select
+              >
+                {subclasses.map(subclass => 
+                   <MenuItem key={subclass.value} value={subclass.value}>
+                     {subclass.label}
+                   </MenuItem>
+                  )}
+              </TextField>
+              <br/>
               {/* SUMMARY */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
                 autoFocus
                 margin="normal"
-                label="Summary"
+                label="Description of problem"
                 type="text"
                 value={ticket.summary}
                 onChange={handleChange("summary")}
-              />
-              {/* CAUSING CI */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="Causing CI"
-                type="text"
-                value={ticket.causingCI}
-                onChange={handleChange("causingCI")}
+                multiline
+                variant="outlined"
+                rows={4}
               />
               {/* NOTES */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
                 autoFocus
                 margin="normal"
-                label="Notes"
+                label="Additional notes"
                 type="text"
                 value={ticket.notes}
                 onChange={handleChange("notes")}
-              />
-              {/* ISSUE CATEGORY */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="Issue Category"
-                type="text"
-                value={ticket.issueCategory}
-                onChange={handleChange("issueCategory")}
+                multiline
+                variant="outlined"
+                rows={4}
               />
               {/* ISSUE REASON */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
-                autoFocus
+                select
+                helperText="Please select a reason"
                 margin="normal"
                 label="Issue Reason"
                 type="text"
                 value={ticket.issueReason}
                 onChange={handleChange("issueReason")}
-              />
+              >
+                {issues.map(issue => 
+                   <MenuItem key={issue.value} value={issue.value}>
+                     {issue.label}
+                   </MenuItem>
+                  )}
+                <MenuItem key={'other'} value={'other'}>
+                     {'Other'}
+                   </MenuItem>
+              </TextField>
             </div>
             {/* div */}
           </div>
