@@ -7,19 +7,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
 import SaveIcon from "@material-ui/icons/Save";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
-import { Typography, Paper } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { NavLink } from "react-router-dom";
-import { red, yellow } from "@material-ui/core/colors";
+import { yellow } from "@material-ui/core/colors";
 
-import TicketContext from '../../../context/ticket/ticketContext';
+import TicketContext from "../../../context/ticket/ticketContext";
 
 const EditButton = withStyles((theme) => ({
   root: {
@@ -50,10 +42,10 @@ const useStyles = makeStyles((theme) => ({
 function Update(props) {
   const classes = useStyles();
   const [selectedTicket, setSelectedTicket] = useState({
-    inChargeUser: {}
+    inChargeUser: {},
   });
   const [open, setOpen] = useState(false);
-  
+
   const { putTicket } = useContext(TicketContext);
 
   const handleClickOpen = () => {
@@ -187,7 +179,9 @@ function Update(props) {
                 margin="normal"
                 label="Assigned Date"
                 type="text"
-                value={selectedTicket.assignedDate ? selectedTicket.assignedDate : ''}
+                value={
+                  selectedTicket.assignedDate ? selectedTicket.assignedDate : ""
+                }
                 onChange={handleChange("assignedDate")}
               />
               {/* RESOLUTION DATE */}
@@ -196,7 +190,11 @@ function Update(props) {
                 margin="normal"
                 label="Resolution Date"
                 type="text"
-                value={selectedTicket.resolutionDate ? selectedTicket.resolutionDate : ''}
+                value={
+                  selectedTicket.resolutionDate
+                    ? selectedTicket.resolutionDate
+                    : ""
+                }
                 onChange={handleChange("resolutionDate")}
               />
               {/* CLOSED DATE */}
@@ -205,7 +203,9 @@ function Update(props) {
                 margin="normal"
                 label="Closed Date"
                 type="text"
-                value={selectedTicket.closedDate ? selectedTicket.closedDate : ''}
+                value={
+                  selectedTicket.closedDate ? selectedTicket.closedDate : ""
+                }
                 onChange={handleChange("closedDate")}
               />
               {/* SCALATION DATE */}
@@ -214,7 +214,11 @@ function Update(props) {
                 margin="normal"
                 label="Scalation Date"
                 type="text"
-                value={selectedTicket.scalationDate ? selectedTicket.scalationDate : ''}
+                value={
+                  selectedTicket.scalationDate
+                    ? selectedTicket.scalationDate
+                    : ""
+                }
                 onChange={handleChange("scalationDate")}
               />
               {/* NOTES */}
