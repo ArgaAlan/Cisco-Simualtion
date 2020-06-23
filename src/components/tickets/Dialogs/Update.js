@@ -7,11 +7,14 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import MenuItem from '@material-ui/core/MenuItem';
 import SaveIcon from "@material-ui/icons/Save";
 import TextField from "@material-ui/core/TextField";
 import { yellow } from "@material-ui/core/colors";
 
 import TicketContext from "../../../context/ticket/ticketContext";
+import { issueCategories, components, subclasses, issueCategory } from "./options";
+
 
 const EditButton = withStyles((theme) => ({
   root: {
@@ -39,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Update(props) {
+function Update({ ticket }) {
   const classes = useStyles();
   const [selectedTicket, setSelectedTicket] = useState({
     inChargeUser: {},
@@ -61,12 +64,17 @@ function Update(props) {
   };
 
   useEffect(() => {
-    setSelectedTicket(props.ticket);
+    console.log(ticket);
+    setSelectedTicket(ticket);
     // eslint-disable-next-line
   }, []);
 
   const handleUpdate = () => {
-    putTicket(selectedTicket);
+    putTicket({
+      ...selectedTicket,
+      issueCategory: issueCategory(selectedTicket.issueReason).type,
+      issueReason: issueCategory(selectedTicket.issueReason).label
+    });
     setOpen(false);
   };
 
@@ -79,55 +87,29 @@ function Update(props) {
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
-        fullScreen
       >
         <DialogTitle id="form-dialog-title">Update Ticket</DialogTitle>
         <DialogContent>
           <DialogContentText>Please fill out this form.</DialogContentText>
           <div className={classes.root}>
-            <div>
-              {/* ISSUE NUMBER */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                margin="normal"
-                label="Issue Number"
-                type="text"
-                InputProps={{
-                  readOnly: true,
-                }}
-                value={selectedTicket.numberId}
-              />
-              {/* IMPACTED USER */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                autoFocus
-                margin="normal"
-                label="Impacted User"
-                type="text"
-                value={selectedTicket.impactedUser}
-                onChange={handleChange("impactedUser")}
-              />
-              {/* USER IN CHARGE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                margin="normal"
-                label="User In Charge"
-                type="text"
-                InputProps={{
-                  readOnly: true,
-                }}
-                value={selectedTicket.inChargeUser.name}
-                onChange={handleChange("inChargeUser")}
-              />
+            <React.Fragment>
               {/* COMPONENT */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
+                autoFocus
                 margin="normal"
                 label="Component"
                 type="text"
                 value={selectedTicket.component}
                 onChange={handleChange("component")}
-              />
+                select
+              >
+                {components.map((component) => (
+                  <MenuItem key={component} value={component}>
+                    {component}
+                  </MenuItem>
+                ))}
+              </TextField>
               {/* SUBCLASS*/}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
@@ -136,120 +118,59 @@ function Update(props) {
                 type="text"
                 value={selectedTicket.subclass}
                 onChange={handleChange("subclass")}
-              />
-              {/* CATEGORY */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                margin="normal"
-                label="Category"
-                type="text"
-                value={selectedTicket.category}
-                onChange={handleChange("category")}
-              />
-              {/* STATE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                margin="normal"
-                label="State"
-                type="text"
-                value={selectedTicket.state}
-                onChange={handleChange("state")}
-              />
+                select
+              >
+                {subclasses.map((subclass) => (
+                  <MenuItem key={subclass.value} value={subclass.value}>
+                    {subclass.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <br />
               {/* SUMMARY */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
+                autoFocus
                 margin="normal"
-                label="Summary"
+                label="Description of problem"
                 type="text"
                 value={selectedTicket.summary}
                 onChange={handleChange("summary")}
-              />
-              {/* CAUSING CI */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                margin="normal"
-                label="Causing CI"
-                type="text"
-                value={selectedTicket.causingCI}
-                onChange={handleChange("causingCI")}
-              />
-              {/* ASSIGNED DATE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                margin="normal"
-                label="Assigned Date"
-                type="text"
-                value={
-                  selectedTicket.assignedDate ? selectedTicket.assignedDate : ""
-                }
-                onChange={handleChange("assignedDate")}
-              />
-              {/* RESOLUTION DATE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                margin="normal"
-                label="Resolution Date"
-                type="text"
-                value={
-                  selectedTicket.resolutionDate
-                    ? selectedTicket.resolutionDate
-                    : ""
-                }
-                onChange={handleChange("resolutionDate")}
-              />
-              {/* CLOSED DATE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                margin="normal"
-                label="Closed Date"
-                type="text"
-                value={
-                  selectedTicket.closedDate ? selectedTicket.closedDate : ""
-                }
-                onChange={handleChange("closedDate")}
-              />
-              {/* SCALATION DATE */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                margin="normal"
-                label="Scalation Date"
-                type="text"
-                value={
-                  selectedTicket.scalationDate
-                    ? selectedTicket.scalationDate
-                    : ""
-                }
-                onChange={handleChange("scalationDate")}
+                multiline
+                variant="outlined"
+                rows={4}
               />
               {/* NOTES */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
+                autoFocus
                 margin="normal"
-                label="Notes"
+                label="Additional notes"
                 type="text"
                 value={selectedTicket.notes}
                 onChange={handleChange("notes")}
-              />
-              {/* ISSUE CATEGORY */}
-              <TextField
-                className={clsx(classes.margin, classes.textField)}
-                margin="normal"
-                label="Issue Category"
-                type="text"
-                value={selectedTicket.issueCategory}
-                onChange={handleChange("issueCategory")}
+                multiline
+                variant="outlined"
+                rows={4}
               />
               {/* ISSUE REASON */}
               <TextField
                 className={clsx(classes.margin, classes.textField)}
+                select
+                helperText="Please select a reason"
                 margin="normal"
                 label="Issue Reason"
                 type="text"
                 value={selectedTicket.issueReason}
                 onChange={handleChange("issueReason")}
-              />
-            </div>
-            {/* div */}
+              >
+                {issueCategories.map((issue) => (
+                  <MenuItem key={issue.value} value={issue.value}>
+                    {issue.label}
+                  </MenuItem>
+                ))}
+              </TextField>  
+            </React.Fragment>              
           </div>
         </DialogContent>
         <DialogActions>

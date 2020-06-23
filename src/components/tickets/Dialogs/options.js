@@ -1,42 +1,42 @@
 export const issueCategories = [
   {
     type: 'Material Lead Time',
-    value: 'transport issue',
+    value: 'Transport Issue',
     label: 'Transport Issue'
   },
   {
     type: 'Material Lead Time',
-    value: 'demand surge',
+    value: 'Demand Surge',
     label: 'Demand Surge'
   },
   {
     type: 'Material Lead Time',
-    value: 'product design change',
+    value: 'Product Design Change',
     label: 'Product Design Change'
   },
   {
     type: 'Material Quantity',
-    value: 'yield issue',
+    value: 'Yield Issue',
     label: 'Yield Issue'
   },
   {
     type: 'Material Quantity',
-    value: 'scrap due to ECO',
+    value: 'Scrap Due To ECO',
     label: 'Scrap Due To ECO'
   },
   {
     type: 'Material Quality',
-    value: 'manufacturing issue',
+    value: 'Manufacturing Issue',
     label: 'Manufacturing Issue'
   },
   {
     type: 'Material Quality',
-    value: 'design issue',
+    value: 'Design Issue',
     label: 'Design Issue'
   },
   {
     type: 'Material Quality',
-    value: 'process issue',
+    value: 'Process Issue',
     label: 'Process Issue'
   },
   {
