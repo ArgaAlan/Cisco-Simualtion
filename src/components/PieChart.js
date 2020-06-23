@@ -71,7 +71,7 @@ export default class Demo extends React.PureComponent {
   };
 
   render() {
-    if (this.state.loading == true) {
+    if (this.state.loading === true) {
       return <h1>Loading</h1>;
     }
     console.log(this.state.data.regression);
