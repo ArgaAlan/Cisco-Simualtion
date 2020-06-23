@@ -67,158 +67,158 @@ export const ChartInfo = [
 
   export const yearCount = [
     {
-      cause: "Late date",
+      cause: "Lead time issues",
       reports: [{
-        status: "Solved",
+        status: "Open",
         year: 2014,
         count: 31
       },{
-        status: "Solved",
+        status: "Open",
         year: 2015,
         count: 26
       },{
-        status: "Solved",
+        status: "Open",
         year: 2016,
         count: 17
       },{
-        status: "Solved",
+        status: "Open",
         year: 2017,
         count: 17
       },{
-        status: "Solved",
+        status: "Open",
         year: 2018,
         count: 15
       },{
-        status: "Solved",
+        status: "Open",
         year: 2019,
         count: 43
       },
       {
-        status: "Unsolved",
+        status: "Closed",
         year: 2014,
         count: 4
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2015,
         count: 2
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2016,
         count: 1
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2017,
         count: 0
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2018,
         count: 3
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2019,
         count: 2
       }]
     },{
-      cause: "Bad quality",
+      cause: "Quality issues",
       reports: [{
-        status: "Solved",
+        status: "Open",
         year: 2014,
         count: 8
       },{
-        status: "Solved",
+        status: "Open",
         year: 2015,
         count: 4
       },{
-        status: "Solved",
+        status: "Open",
         year: 2016,
         count: 7
       },{
-        status: "Solved",
+        status: "Open",
         year: 2017,
         count: 2
       },{
-        status: "Solved",
+        status: "Open",
         year: 2018,
         count: 1
       },{
-        status: "Solved",
+        status: "Open",
         year: 2019,
         count: 8
       },
       {
-        status: "Unsolved",
+        status: "Closed",
         year: 2014,
         count: 1
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2015,
         count: 0
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2016,
         count: 0
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2017,
         count: 2
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2018,
         count: 1
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2019,
         count: 3
       }]
     },{
-      cause: "Low quantity",
+      cause: "Quantity issues",
       reports: [{
-        status: "Solved",
+        status: "Open",
         year: 2014,
         count: 20
       },{
-        status: "Solved",
+        status: "Open",
         year: 2015,
         count: 9
       },{
-        status: "Solved",
+        status: "Open",
         year: 2016,
         count: 8
       },{
-        status: "Solved",
+        status: "Open",
         year: 2017,
         count: 4
       },{
-        status: "Solved",
+        status: "Open",
         year: 2018,
         count: 13
       },{
-        status: "Solved",
+        status: "Open",
         year: 2019,
         count: 23
       },
       {
-        status: "Unsolved",
+        status: "Closed",
         year: 2014,
         count: 7
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2015,
         count: 3
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2016,
         count: 2
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2017,
         count: 1
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2018,
         count: 2
       },{
-        status: "Unsolved",
+        status: "Closed",
         year: 2019,
         count: 8
       }]

@@ -33,7 +33,7 @@ export default function Tickets() {
     getTickets();
   }, []);
   
-
+  
   if (loading) {
     return <div>Loading...</div>;
   } else {

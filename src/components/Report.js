@@ -1,4 +1,10 @@
-import * as React from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { Context } from "../context/user/userContext";
+import TicketContext from '../context/ticket/ticketContext';
 import Paper from '@material-ui/core/Paper';
 import {
   Chart,
@@ -14,12 +20,7 @@ import { scaleBand } from '@devexpress/dx-chart-core';
 import {
   ArgumentScale, Stack, Animation, EventTracker, HoverState, SelectionState,
 } from '@devexpress/dx-react-chart';
-import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import {
-  NavigateBefore, NavigateNext,
-} from '@material-ui/icons/';
-import Typography from '@material-ui/core/Typography';
 import ChartGrid from './ChartGrid';
 
 import { ChartInfo as data } from './tmpDummyData/data';
@@ -69,9 +70,6 @@ const tooltipContentBodyStyle = {
 const formatTooltip = d3Format.format(',');
 const TooltipContent = (props) => {
   const { targetItem, text, ...restProps } = props;
-  //console.log(targetItem);
-  //console.log(text);
-  //console.log(restProps);
   return (
     <div>
       <div>
@@ -122,47 +120,6 @@ const formatInfo = (target) => {
   return `${series} ${value} sales in ${argument}`;
 };
 
-const AuxiliaryButton = props => (
-  <Button variant="outlined" {...props} />
-);
-
-const AuxiliarySelection = ({
-  classes, target, turnNext, turnPrev, clear,
-}) => (
-  <div>
-    <div className={classes.group}>
-      <AuxiliaryButton onClick={turnPrev} className={classes.primaryButton} color="primary">
-        <NavigateBefore className={classes.leftIcon} />
-        Previous
-      </AuxiliaryButton>
-      <AuxiliaryButton onClick={clear} className={classes.secondaryButton}>
-        Clear Selection
-      </AuxiliaryButton>
-      <AuxiliaryButton onClick={turnNext} className={classes.primaryButton} color="primary">
-        Next
-        <NavigateNext className={classes.rightIcon} />
-      </AuxiliaryButton>
-    </div>
-    <div className={classes.text}>
-      <Typography color="textSecondary" variant="body2" className={classes.name}>Selected:</Typography>
-      <Typography>{formatInfo(target)}</Typography>
-    </div>
-  </div>
-);
-
-const AuxiliaryHover = ({
-  classes, target, enabled, toggle,
-}) => (
-  <div className={classes.hoverGroup}>
-    <AuxiliaryButton onClick={toggle} className={classes.secondaryButton}>
-      {enabled ? 'Disable tooltip' : 'Enable tooltip'}
-    </AuxiliaryButton>
-    <div className={classes.text}>
-      <Typography color="textSecondary" variant="body2" className={classes.name}>Hovered:</Typography>
-      <Typography>{formatInfo(target)}</Typography>
-    </div>
-  </div>
-);
 
 const encodeTarget = ({ series, point }) => (2 * point + Number(series === 'China'));
 const decodeTarget = code => ({ series: code % 2 ? 'China' : 'USA', point: Math.floor(code / 2) });
@@ -170,6 +127,8 @@ const decodeTarget = code => ({ series: code % 2 ? 'China' : 'USA', point: Math.
 const compareTargets = (
   { series, point }, { series: targetSeries, point: targetPoint },
 ) => series === targetSeries && point === targetPoint;
+
+
 
 class Report extends React.PureComponent {
   constructor(props) {
@@ -184,7 +143,6 @@ class Report extends React.PureComponent {
 
     this.click = ({ targets }) => {
       const target = targets[0];
-      console.log(targets);
       if (target) {
         this.setState(({ selection }) => ({
           selection: selection[0] && compareTargets(selection[0], target) ? [] : [target],
@@ -216,7 +174,9 @@ class Report extends React.PureComponent {
       tooltipEnabled: !tooltipEnabled,
       tooltipTarget: null,
     }));
+
   }
+
 
   render() {
     const {
@@ -224,6 +184,7 @@ class Report extends React.PureComponent {
     } = this.state;
     const { classes } = this.props;
 
+    console.log(this.props.tickets);
     return (
       <Paper>
         <Chart
@@ -232,24 +193,23 @@ class Report extends React.PureComponent {
           <ArgumentScale factory={scaleBand} />
           <ArgumentAxis />
           <ValueAxis />
-
           <Title
             text="Side-by-side monthly reports comparison"
             textComponent={TitleText}
           />
 
           <BarSeries
-            name="Not on schedule"
+            name="Lead Time Issues"
             valueField="dueDate"
             argumentField="month"
           />
           <BarSeries
-            name="Low Quality"
+            name="Quality Issues"
             valueField="quality"
             argumentField="month"
           />
           <BarSeries
-            name="Less Quantity"
+            name="Quantity Issues"
             valueField="quantity"
             argumentField="month"
           />
@@ -271,7 +231,7 @@ class Report extends React.PureComponent {
           <Animation />
         </Chart>
         <div className={classes.group} id="gridch">
-          <ChartGrid />
+          <ChartGrid data={this.props.data}/>
         </div>
       </Paper>
     );

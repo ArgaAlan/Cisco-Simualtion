@@ -75,41 +75,29 @@ const LegendLabel = withStyles(legendLabelStyles, { name: 'LegendLabel' })(Legen
 
 const barSeriesForCity = regionCities => Object
   .keys(regionCities[0])
-  .reduce((acc, item, index=0) => {
-      //console.log(regionCities);
-      //console.log(item);
-      console.log(regionCities[index]);
-    if (item !== 'cause') {
+  .reduce((acc, item, index) => {
+    if (item !== "cause") {
       acc.push(
         <BarSeries
           key={index.toString()}
           valueField={item}
           argumentField="cause"
           name={item}
-        />,
+        />
       );
     }
-    //console.log(regionCities);
-    
     return acc;
   }, []);
 
 const gridDetailContainerBase = data => ({ row, classes }) => {
-    //console.log(data);
   const regionCities = data.reduce((acc, item) => {
-      //console.log(acc);
-      //console.log(item);
     const currentCities = item.reports.reduce((current, itemCity) => {
-        //console.log(current);
-        //console.log(itemCity);
       let currentObj = {};
       if (itemCity.year === row.year) {
         currentObj = { [itemCity.status]: itemCity.count };
-        //console.log(currentObj);
       }
       return { ...current, ...currentObj };
     }, []);
-    //console.log(item);
     return [...acc, { cause: item.cause, ...currentCities }];
   }, []);
   return (
@@ -120,7 +108,7 @@ const gridDetailContainerBase = data => ({ row, classes }) => {
       <Paper className={classes.paper}>
         <Chart
           data={regionCities}
-          height={30}
+          height={300}
         >
           <ArgumentScale
             factory={scaleBand}
@@ -149,9 +137,9 @@ const gridDetailContainer = data => withStyles(detailContainerStyles, { name: 'C
 export default () => {
   const [columns] = useState([
     { name: 'year', title: 'Year' },
-    { name: 'countDD', title: 'Due date' },
-    { name: 'countQLT', title: 'Bad quality' },
-    { name: 'countQNT', title: 'Low quantity' },
+    { name: 'countDD', title: 'Lead time issues' },
+    { name: 'countQLT', title: 'Quality issues' },
+    { name: 'countQNT', title: 'Quantity issues' },
   ]);
   const [rows] = useState(causesCount);
   const [data] = useState(yearCount);
@@ -166,7 +154,6 @@ export default () => {
     },
   ]);
   const [currencyColumns] = useState(['countDD', 'countQLT', 'countQNT']);
-
   return (
     <Paper>
       <Grid

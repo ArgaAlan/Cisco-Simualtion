@@ -17,7 +17,6 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -26,7 +25,6 @@ import SimulationList from "./SimulationList";
 import Tickets from "./tickets/Tickets";
 import TicketDetail from "./tickets/TicketDetail";
 import InputTicket from "./InputTicket";
-import PieChart from "./PieChart";
 import NavBar from "./NavBar";
 import Profile from "./Profile";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
@@ -40,6 +38,8 @@ import TableStats from "./pages/TableStats";
 import TicketList from "./TicketList";
 import ProfileList from "./ProfileList";
 import StatsList from "./StatsList";
+import ReportsList from "./ReportsList";
+import TicketGrid from "./TicketGrid";
 
 function Copyright() {
   return (
@@ -228,6 +228,10 @@ export default function Dashboard() {
             )}
           {isAuthenticated &&
             (privilege == "Analyst" || privilege == "Admin") && <StatsList />}
+          {isAuthenticated &&
+            (privilege == "Analyst" || privilege == "Admin") && (
+              <ReportsList />
+            )}
           {isAuthenticated && <ProfileList />}
         </List>
         <Divider />
@@ -266,11 +270,11 @@ export default function Dashboard() {
                   <Route path="/ticket/:ticketId" component={TicketDetail} />
                   <Route path="/input-ticket/" component={InputTicket} />
                   <Route path="/simulation/" component={Simulation} />
+                  <Route path="/analysis/" component={TicketGrid} />
                   <Route
                     path="/update-ticket-modal/"
                     component={UpdateTicketModal}
                   />
-                  <Route path="/simulation/" component={Simulation} />
                   <Route path="/stats/" component={TableStats} />
                   <Route path="/profile/" component={Profile} />
                 </Switch>
