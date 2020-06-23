@@ -40,7 +40,7 @@ const Create = () => {
 
   const ticketContext = useContext(TicketContext);
 
-  const { postTicket } = ticketContext;
+  const { postTicket, tickets } = ticketContext;
 
   
 
@@ -81,10 +81,16 @@ const Create = () => {
 
   const handleSubmit = () => {
     console.log(ticket);
+    console.log(tickets);
+    let numberId = `ISSUE-${getRandomInt(1000,9999)}`;
+    while (tickets.find(ticket => ticket.numberId === numberId)) {
+      numberId = `ISSUE-${getRandomInt(1000,9999)}`;
+    }
     postTicket({
       ...ticket,
-      numberId: `ISSUE-${getRandomInt(1000,9999)}`,
-      issueCategory: issueType(ticket.issueReason),
+      numberId,
+      issueCategory: issueType(ticket.issueReason).type,
+      issueCategory: issueType(ticket.issueReason).label,
       state: 'opened',
       causingCI: 'unknown',
       solved: false

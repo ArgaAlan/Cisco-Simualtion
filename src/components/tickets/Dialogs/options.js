@@ -46,7 +46,7 @@ export const issueCategories = [
   }
 ]
 
-export const issueType = (issueReason) => issueCategories.find(el => el.value === issueReason).type
+export const issueType = (issueReason) => issueCategories.find(el => el.value === issueReason)
 
 export const components = [
   'ROUTER CPU',
