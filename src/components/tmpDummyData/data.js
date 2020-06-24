@@ -69,156 +69,156 @@ export const ChartInfo = [
     {
       cause: "Lead time issues",
       reports: [{
-        status: "Open",
+        status: "Closed",
         year: 2014,
         count: 31
       },{
-        status: "Open",
+        status: "Closed",
         year: 2015,
         count: 26
       },{
-        status: "Open",
+        status: "Closed",
         year: 2016,
         count: 17
       },{
-        status: "Open",
+        status: "Closed",
         year: 2017,
         count: 17
       },{
-        status: "Open",
+        status: "Closed",
         year: 2018,
         count: 15
       },{
-        status: "Open",
+        status: "Closed",
         year: 2019,
         count: 43
       },
       {
-        status: "Closed",
+        status: "Open",
         year: 2014,
         count: 4
       },{
-        status: "Closed",
+        status: "Open",
         year: 2015,
         count: 2
       },{
-        status: "Closed",
+        status: "Open",
         year: 2016,
         count: 1
       },{
-        status: "Closed",
+        status: "Open",
         year: 2017,
         count: 0
       },{
-        status: "Closed",
+        status: "Open",
         year: 2018,
         count: 3
       },{
-        status: "Closed",
+        status: "Open",
         year: 2019,
         count: 2
       }]
     },{
       cause: "Quality issues",
       reports: [{
-        status: "Open",
+        status: "Closed",
         year: 2014,
         count: 8
       },{
-        status: "Open",
+        status: "Closed",
         year: 2015,
         count: 4
       },{
-        status: "Open",
+        status: "Closed",
         year: 2016,
         count: 7
       },{
-        status: "Open",
+        status: "Closed",
         year: 2017,
         count: 2
       },{
-        status: "Open",
+        status: "Closed",
         year: 2018,
         count: 1
       },{
-        status: "Open",
+        status: "Closed",
         year: 2019,
         count: 8
       },
       {
-        status: "Closed",
+        status: "Open",
         year: 2014,
         count: 1
       },{
-        status: "Closed",
+        status: "Open",
         year: 2015,
         count: 0
       },{
-        status: "Closed",
+        status: "Open",
         year: 2016,
         count: 0
       },{
-        status: "Closed",
+        status: "Open",
         year: 2017,
         count: 2
       },{
-        status: "Closed",
+        status: "Open",
         year: 2018,
         count: 1
       },{
-        status: "Closed",
+        status: "Open",
         year: 2019,
         count: 3
       }]
     },{
       cause: "Quantity issues",
       reports: [{
-        status: "Open",
+        status: "Closed",
         year: 2014,
         count: 20
       },{
-        status: "Open",
+        status: "Closed",
         year: 2015,
         count: 9
       },{
-        status: "Open",
+        status: "Closed",
         year: 2016,
         count: 8
       },{
-        status: "Open",
+        status: "Closed",
         year: 2017,
         count: 4
       },{
-        status: "Open",
+        status: "Closed",
         year: 2018,
         count: 13
       },{
-        status: "Open",
+        status: "Closed",
         year: 2019,
         count: 23
       },
       {
-        status: "Closed",
+        status: "Open",
         year: 2014,
         count: 7
       },{
-        status: "Closed",
+        status: "Open",
         year: 2015,
         count: 3
       },{
-        status: "Closed",
+        status: "Open",
         year: 2016,
         count: 2
       },{
-        status: "Closed",
+        status: "Open",
         year: 2017,
         count: 1
       },{
-        status: "Closed",
+        status: "Open",
         year: 2018,
         count: 2
       },{
-        status: "Closed",
+        status: "Open",
         year: 2019,
         count: 8
       }]

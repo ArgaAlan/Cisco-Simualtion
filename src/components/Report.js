@@ -206,27 +206,20 @@ class Report extends React.PureComponent {
             AnualSummary.push(toPush);
 
           }
-          console.log("Registro del año creado"); 
+          //console.log("Registro del año creado"); 
         }
 
         AnualSummary[month].total += 1;
 
         //Checa el tipo de causa de ticket
-        switch(currentTicket.causingCI){
-          case "Material Lead Time":
-            AnualSummary[month].dueDate = AnualSummary[month].dueDate + 1;
-            break;
-          case "Material Quality":
-            AnualSummary[month].quality = AnualSummary[month].quality + 1;
-            break;
-          case "Material Quantity":
-            AnualSummary[month].quantity = AnualSummary[month].quantity + 1;
-            break;
-          default:
-            AnualSummary[month].dueDate = AnualSummary[month].dueDate + 1;
-            console.log("El ticket " + currentTicket.numberId + "tiene su causa como desconocida.")
-            console.log(AnualSummary[month].total);
-            break;
+        var toCompare = currentTicket.issueCategory.toString();
+        //console.log(toCompare); 
+        if (toCompare === "Material Lead Time"){
+          AnualSummary[month].dueDate = AnualSummary[month].dueDate + 1;
+        } else if (toCompare === "Material Quality") {
+          AnualSummary[month].quality = AnualSummary[month].quality + 1;
+        } else {
+          AnualSummary[month].quantity = AnualSummary[month].quantity + 1;
         }
         
       }
@@ -249,17 +242,17 @@ class Report extends React.PureComponent {
           />
 
           <BarSeries
-            name="Lead Time Issues"
+            name="Material Lead Time"
             valueField="dueDate"
             argumentField="month"
           />
           <BarSeries
-            name="Quality Issues"
+            name="Material Quality"
             valueField="quality"
             argumentField="month"
           />
           <BarSeries
-            name="Quantity Issues"
+            name="Material Quantity"
             valueField="quantity"
             argumentField="month"
           />
