@@ -23,10 +23,8 @@ import TextField from "@material-ui/core/TextField";
 import { useAuth0 } from "../react-auth0-spa";
 import TicketContext from "../context/ticket/ticketContext";
 
-import Row from '../components/simulation/Row';
-import rows from '../components/simulation/rows';
-
-
+import Row from "../components/simulation/Row";
+import rows from "../components/simulation/rows";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,8 +72,6 @@ export default function Simulation() {
   useEffect(() => {
     getTickets();
   }, []);
-
-  console.log(tickets);
 
   var mlt_risk = [
     [state.mlt_risk_0, state.mlt_risk_1, state.mlt_risk_2, state.mlt_risk_3],
@@ -373,6 +369,264 @@ export default function Simulation() {
   };
 
   if (data === "Bayesnet") {
+    mlt_risk = [
+      [state.mlt_risk_0, state.mlt_risk_1, state.mlt_risk_2, state.mlt_risk_3],
+      [],
+    ];
+    mqnt_risk = [
+      [state.mqnt_risk_0, state.mqnt_risk_1, state.mqnt_risk_2],
+      [0, 0, 1],
+    ];
+    mqlt_risk = [
+      [
+        state.mqlt_risk_0,
+        state.mqlt_risk_1,
+        state.mqlt_risk_2,
+        state.mqlt_risk_3,
+        state.mqlt_risk_4,
+      ],
+      [0, 0, 0, 0, 1],
+    ];
+
+    mlt_count_ti_periods = [];
+    mlt_count_ds_periods = [];
+    mlt_count_pdc_periods = [];
+    mqnt_count_yi_periods = [];
+    mqnt_count_se_periods = [];
+    mqlt_count_mi_periods = [];
+    mqlt_count_di_periods = [];
+    mqlt_count_pi_periods = [];
+    mqlt_count_ti_periods = [];
+
+    sumMaterialLeadTimeDemand = 0;
+    sumMaterialLeadTimeDesign = 0;
+    sumMaterialLeadTimeTransport = 0;
+    sumMaterialQualityManufaturing = 0;
+    sumMaterialQualityDesign = 0;
+    sumMaterialQualityProcess = 0;
+    sumMaterialQualityTraining = 0;
+    sumMaterialQuantityYield = 0;
+    sumMaterialQuantityScrap = 0;
+
+    sumMaterialLeadTime = 0;
+    sumMaterialQuality = 0;
+    sumMaterialQuantity = 0;
+
+    const dataPerPeriod = () => {
+      //Count of problems obtained computing bayesian
+      var mlt_count_ti = 0;
+      var mlt_count_ds = 0;
+      var mlt_count_pdc = 0;
+      var mqnt_count_yi = 0;
+      var mqnt_count_se = 0;
+      var mqlt_count_mi = 0;
+      var mqlt_count_di = 0;
+      var mqlt_count_pi = 0;
+      var mqlt_count_ti = 0;
+
+      for (var i = 0; i < 420; i++) {
+        var values = [];
+        values = bayesian(mlt_risk, mqnt_risk, mqlt_risk);
+
+        switch (values[0]) {
+          case "Fail due to Material Lead Time Risk: Transport Issue":
+            mlt_count_ti++;
+            break;
+          case "Fail due to Material Lead Time Risk: Demand Surge":
+            mlt_count_ds++;
+            break;
+          case "Fail due to Material Lead Time Risk: Product Design Change":
+            mlt_count_pdc++;
+            break;
+        }
+        switch (values[1]) {
+          case "Fail due to Material Quantity: Yield Issue":
+            mqnt_count_yi++;
+            break;
+          case "Fail due to Material Quantity: Scrap due to ECO":
+            mqnt_count_se++;
+            break;
+        }
+        switch (values[2]) {
+          case "Fail due to Material Quality: Manufacturing Issue":
+            mqlt_count_mi++;
+            break;
+          case "Fail due to Material Quality: Design Issue":
+            mqlt_count_di++;
+            break;
+          case "Fail due to Material Quality: Process Issue":
+            mqlt_count_pi++;
+            break;
+          case "Fail due to Material Quality: Training Issue":
+            mqlt_count_ti++;
+            break;
+        }
+      }
+
+      return [
+        mlt_count_ti,
+        mlt_count_ds,
+        mlt_count_pdc,
+        mqnt_count_yi,
+        mqnt_count_se,
+        mqlt_count_mi,
+        mqlt_count_di,
+        mqlt_count_pi,
+        mqlt_count_ti,
+      ];
+    };
+
+    const bayesian = (mlt_risk_input, mqnt_risk_input, mqlt_risk_input) => {
+      // Main simulation
+      const mlt_risk = mlt_risk_input;
+      const mqnt_risk = mqnt_risk_input;
+      const mqlt_risk = mqlt_risk_input;
+
+      var output, rand, failure, l, u, i, probs;
+
+      output = [];
+
+      // First random probability value (Material Lead Time)
+      rand = Math.random();
+      failure = 0;
+      l = 0;
+      u = 0;
+      i = 0;
+      probs = mlt_risk[failure];
+      for (let index = 0; index < probs.length; index++) {
+        u += probs[index];
+        if (l < rand && rand <= u) {
+          if (i == 0 || i == 1 || i == 2) {
+            failure = 1;
+          }
+          if (i == 0) {
+            output.push("Fail due to Material Lead Time Risk: Transport Issue");
+            break;
+          } else if (i == 1) {
+            output.push("Fail due to Material Lead Time Risk: Demand Surge");
+            break;
+          } else if (i == 2) {
+            output.push(
+              "Fail due to Material Lead Time Risk: Product Design Change"
+            );
+            break;
+          } else if (i == 3) {
+            output.push("No errors in Material Lead Time");
+            break;
+          }
+        }
+        i++;
+        l = u;
+      }
+
+      // Second random probability value (Material Quantity)
+      rand = Math.random();
+      l = 0;
+      u = 0;
+      i = 0;
+      probs = mqnt_risk[failure];
+      for (let index = 0; index < probs.length; index++) {
+        u += probs[index];
+        if (l < rand && rand <= u) {
+          if (i == 0 || i == 1) {
+            failure = 1;
+          }
+          if (i == 0) {
+            output.push("Fail due to Material Quantity: Yield Issue");
+            break;
+          } else if (i == 1) {
+            output.push("Fail due to Material Quantity: Scrap due to ECO");
+            break;
+          } else if (i == 2) {
+            output.push("No errors in Material Quantity");
+            break;
+          }
+        }
+        i++;
+        l = u;
+      }
+
+      // Last random probability value (Material Quality)
+      rand = Math.random();
+      l = 0;
+      u = 0;
+      i = 0;
+      probs = mqlt_risk[failure];
+      for (let index = 0; index < probs.length; index++) {
+        u += probs[index];
+        if (l < rand && rand <= u) {
+          if (i == 0 || i == 1 || i == 2 || i == 3) {
+            failure = 1;
+          }
+          if (i == 0) {
+            output.push("Fail due to Material Quality: Manufacturing Issue");
+            break;
+          } else if (i == 1) {
+            output.push("Fail due to Material Quality: Design Issue");
+            break;
+          } else if (i == 2) {
+            output.push("Fail due to Material Quality: Process Issue");
+            break;
+          } else if (i == 3) {
+            output.push("Fail due to Material Quality: Training Issue");
+            break;
+          } else if (i == 4) {
+            output.push("No errors in Material Quality");
+            break;
+          }
+        }
+        i++;
+        l = u;
+      }
+
+      output.push(Boolean(failure));
+
+      return output;
+    };
+
+    const createData = () => {
+      for (let i = 0; i < months; i++) {
+        var values = dataPerPeriod();
+        mlt_count_ti_periods.push(values[0]);
+        sumMaterialLeadTimeTransport += values[0];
+        sumMaterialLeadTime += values[0];
+
+        mlt_count_ds_periods.push(values[1]);
+        sumMaterialLeadTimeDemand += values[1];
+        sumMaterialLeadTime += values[1];
+
+        mlt_count_pdc_periods.push(values[2]);
+        sumMaterialLeadTimeDesign += values[2];
+        sumMaterialLeadTime += values[2];
+
+        mqnt_count_yi_periods.push(values[3]);
+        sumMaterialQuantityYield += values[3];
+        sumMaterialQuantity += values[3];
+
+        mqnt_count_se_periods.push(values[4]);
+        sumMaterialQuantityScrap += values[4];
+        sumMaterialQuantity += values[4];
+
+        mqlt_count_mi_periods.push(values[5]);
+        sumMaterialQualityManufaturing += values[5];
+        sumMaterialQuality += values[5];
+
+        mqlt_count_di_periods.push(values[6]);
+        sumMaterialQualityDesign += values[6];
+        sumMaterialQuality += values[6];
+
+        mqlt_count_pi_periods.push(values[7]);
+        sumMaterialQualityProcess += values[7];
+        sumMaterialQuality += values[7];
+
+        mqlt_count_ti_periods.push(values[8]);
+        sumMaterialQualityTraining += values[8];
+        sumMaterialQuality += values[8];
+      }
+    };
+
+    createData();
+
     const rowsLeadTime = [
       createDataRows("Transport Issue", sumMaterialLeadTimeTransport),
       createDataRows("Demand Surge", sumMaterialLeadTimeDemand),
@@ -393,6 +647,284 @@ export default function Simulation() {
       createDataRows("Scrap due to ECO", sumMaterialQuantityScrap),
       createDataRows("Quantity Issue", sumMaterialQuantity),
     ];
+
+    //Getting periods of calculations
+    mlt_count_ti_periods = [];
+    mlt_count_ds_periods = [];
+    mlt_count_pdc_periods = [];
+    mqnt_count_yi_periods = [];
+    mqnt_count_se_periods = [];
+    mqlt_count_mi_periods = [];
+    mqlt_count_di_periods = [];
+    mqlt_count_pi_periods = [];
+    mqlt_count_ti_periods = [];
+
+    var mlt_risk_db = [
+      [
+        sumMaterialLeadTimeDemand / sumMaterialLeadTime - 0.0666,
+        sumMaterialLeadTimeDesign / sumMaterialLeadTime - 0.0666,
+        sumMaterialLeadTimeTransport / sumMaterialLeadTime - 0.0666,
+        0.2,
+      ],
+      [],
+    ];
+    var mqnt_risk_db = [
+      [
+        sumMaterialQuantityYield / sumMaterialQuantity - 0.1666,
+        sumMaterialQuantityScrap / sumMaterialQuantity - 0.1666,
+        0.3333,
+      ],
+      [0, 0, 1],
+    ];
+    var mqlt_risk_db = [
+      [
+        sumMaterialQualityManufaturing / sumMaterialQuality - 0.05,
+        sumMaterialQualityDesign / sumMaterialQuality - 0.05,
+        sumMaterialQualityProcess / sumMaterialQuality - 0.05,
+        sumMaterialQualityTraining / sumMaterialQuality - 0.05,
+        0.2,
+      ],
+      [0, 0, 0, 0, 1],
+    ];
+
+    sumMaterialLeadTimeDemand = 0;
+    sumMaterialLeadTimeDesign = 0;
+    sumMaterialLeadTimeTransport = 0;
+    sumMaterialQualityManufaturing = 0;
+    sumMaterialQualityDesign = 0;
+    sumMaterialQualityProcess = 0;
+    sumMaterialQualityTraining = 0;
+    sumMaterialQuantityYield = 0;
+    sumMaterialQuantityScrap = 0;
+
+    sumMaterialLeadTime = 0;
+    sumMaterialQuality = 0;
+    sumMaterialQuantity = 0;
+
+    const bayesian2 = (mlt_risk_input, mqnt_risk_input, mqlt_risk_input) => {
+      // Main simulation
+      const mlt_risk = mlt_risk_input;
+      const mqnt_risk = mqnt_risk_input;
+      const mqlt_risk = mqlt_risk_input;
+
+      var output, rand, failure, l, u, i, probs;
+
+      output = [];
+
+      // First random probability value (Material Lead Time)
+      rand = Math.random();
+      failure = 0;
+      l = 0;
+      u = 0;
+      i = 0;
+      probs = mlt_risk[failure];
+      for (let index = 0; index < probs.length; index++) {
+        u += probs[index];
+        if (l < rand && rand <= u) {
+          if (i == 0 || i == 1 || i == 2) {
+            failure = 1;
+          }
+          if (i == 0) {
+            output.push("Fail due to Material Lead Time Risk: Transport Issue");
+            break;
+          } else if (i == 1) {
+            output.push("Fail due to Material Lead Time Risk: Demand Surge");
+            break;
+          } else if (i == 2) {
+            output.push(
+              "Fail due to Material Lead Time Risk: Product Design Change"
+            );
+            break;
+          } else if (i == 3) {
+            output.push("No errors in Material Lead Time");
+            break;
+          }
+        }
+        i++;
+        l = u;
+      }
+
+      // Second random probability value (Material Quantity)
+      rand = Math.random();
+      l = 0;
+      u = 0;
+      i = 0;
+      probs = mqnt_risk[failure];
+      for (let index = 0; index < probs.length; index++) {
+        u += probs[index];
+        if (l < rand && rand <= u) {
+          if (i == 0 || i == 1) {
+            failure = 1;
+          }
+          if (i == 0) {
+            output.push("Fail due to Material Quantity: Yield Issue");
+            break;
+          } else if (i == 1) {
+            output.push("Fail due to Material Quantity: Scrap due to ECO");
+            break;
+          } else if (i == 2) {
+            output.push("No errors in Material Quantity");
+            break;
+          }
+        }
+        i++;
+        l = u;
+      }
+
+      // Last random probability value (Material Quality)
+      rand = Math.random();
+      l = 0;
+      u = 0;
+      i = 0;
+      probs = mqlt_risk[failure];
+      for (let index = 0; index < probs.length; index++) {
+        u += probs[index];
+        if (l < rand && rand <= u) {
+          if (i == 0 || i == 1 || i == 2 || i == 3) {
+            failure = 1;
+          }
+          if (i == 0) {
+            output.push("Fail due to Material Quality: Manufacturing Issue");
+            break;
+          } else if (i == 1) {
+            output.push("Fail due to Material Quality: Design Issue");
+            break;
+          } else if (i == 2) {
+            output.push("Fail due to Material Quality: Process Issue");
+            break;
+          } else if (i == 3) {
+            output.push("Fail due to Material Quality: Training Issue");
+            break;
+          } else if (i == 4) {
+            output.push("No errors in Material Quality");
+            break;
+          }
+        }
+        i++;
+        l = u;
+      }
+
+      output.push(Boolean(failure));
+
+      return output;
+    };
+
+    const dataPerPeriod2 = () => {
+      //Count of problems obtained computing bayesian
+      var mlt_count_ti = 0;
+      var mlt_count_ds = 0;
+      var mlt_count_pdc = 0;
+      var mqnt_count_yi = 0;
+      var mqnt_count_se = 0;
+      var mqlt_count_mi = 0;
+      var mqlt_count_di = 0;
+      var mqlt_count_pi = 0;
+      var mqlt_count_ti = 0;
+
+      for (var i = 0; i < 420; i++) {
+        var values = [];
+        values = bayesian2(mlt_risk_db, mqnt_risk_db, mqlt_risk_db);
+
+        switch (values[0]) {
+          case "Fail due to Material Lead Time Risk: Transport Issue":
+            mlt_count_ti++;
+            break;
+          case "Fail due to Material Lead Time Risk: Demand Surge":
+            mlt_count_ds++;
+            break;
+          case "Fail due to Material Lead Time Risk: Product Design Change":
+            mlt_count_pdc++;
+            break;
+        }
+        switch (values[1]) {
+          case "Fail due to Material Quantity: Yield Issue":
+            mqnt_count_yi++;
+            break;
+          case "Fail due to Material Quantity: Scrap due to ECO":
+            mqnt_count_se++;
+            break;
+        }
+        switch (values[2]) {
+          case "Fail due to Material Quality: Manufacturing Issue":
+            mqlt_count_mi++;
+            break;
+          case "Fail due to Material Quality: Design Issue":
+            mqlt_count_di++;
+            break;
+          case "Fail due to Material Quality: Process Issue":
+            mqlt_count_pi++;
+            break;
+          case "Fail due to Material Quality: Training Issue":
+            mqlt_count_ti++;
+            break;
+        }
+      }
+
+      return [
+        mlt_count_ti,
+        mlt_count_ds,
+        mlt_count_pdc,
+        mqnt_count_yi,
+        mqnt_count_se,
+        mqlt_count_mi,
+        mqlt_count_di,
+        mqlt_count_pi,
+        mqlt_count_ti,
+      ];
+    };
+
+    const createData2 = () => {
+      for (let i = 0; i < months; i++) {
+        var values = dataPerPeriod2();
+        mlt_count_ti_periods.push(values[0]);
+        sumMaterialLeadTimeTransport += values[0];
+        sumMaterialLeadTime += values[0];
+
+        mlt_count_ds_periods.push(values[1]);
+        sumMaterialLeadTimeDemand += values[1];
+        sumMaterialLeadTime += values[1];
+
+        mlt_count_pdc_periods.push(values[2]);
+        sumMaterialLeadTimeDesign += values[2];
+        sumMaterialLeadTime += values[2];
+
+        mqnt_count_yi_periods.push(values[3]);
+        sumMaterialQuantityYield += values[3];
+        sumMaterialQuantity += values[3];
+
+        mqnt_count_se_periods.push(values[4]);
+        sumMaterialQuantityScrap += values[4];
+        sumMaterialQuantity += values[4];
+
+        mqlt_count_mi_periods.push(values[5]);
+        sumMaterialQualityManufaturing += values[5];
+        sumMaterialQuality += values[5];
+
+        mqlt_count_di_periods.push(values[6]);
+        sumMaterialQualityDesign += values[6];
+        sumMaterialQuality += values[6];
+
+        mqlt_count_pi_periods.push(values[7]);
+        sumMaterialQualityProcess += values[7];
+        sumMaterialQuality += values[7];
+
+        mqlt_count_ti_periods.push(values[8]);
+        sumMaterialQualityTraining += values[8];
+        sumMaterialQuality += values[8];
+      }
+    };
+
+    createData2();
+
+    console.log(mlt_count_ti_periods);
+    console.log(mlt_count_ds_periods);
+    console.log(mlt_count_pdc_periods);
+    console.log(mqnt_count_yi_periods);
+    console.log(mqnt_count_se_periods);
+    console.log(mqlt_count_mi_periods);
+    console.log(mqlt_count_di_periods);
+    console.log(mqlt_count_pi_periods);
+    console.log(mqlt_count_ti_periods);
 
     return (
       <div>
@@ -744,6 +1276,284 @@ export default function Simulation() {
       createDataRows("Scrap due to ECO", sumMaterialQuantityScrap),
       createDataRows("Quantity Issue", sumMaterialQuantity),
     ];
+
+    //Getting periods of calculations
+    mlt_count_ti_periods = [];
+    mlt_count_ds_periods = [];
+    mlt_count_pdc_periods = [];
+    mqnt_count_yi_periods = [];
+    mqnt_count_se_periods = [];
+    mqlt_count_mi_periods = [];
+    mqlt_count_di_periods = [];
+    mqlt_count_pi_periods = [];
+    mqlt_count_ti_periods = [];
+
+    var mlt_risk_db = [
+      [
+        sumMaterialLeadTimeDemand / sumMaterialLeadTime - 0.0666,
+        sumMaterialLeadTimeDesign / sumMaterialLeadTime - 0.0666,
+        sumMaterialLeadTimeTransport / sumMaterialLeadTime - 0.0666,
+        0.2,
+      ],
+      [],
+    ];
+    var mqnt_risk_db = [
+      [
+        sumMaterialQuantityYield / sumMaterialQuantity - 0.1666,
+        sumMaterialQuantityScrap / sumMaterialQuantity - 0.1666,
+        0.3333,
+      ],
+      [0, 0, 1],
+    ];
+    var mqlt_risk_db = [
+      [
+        sumMaterialQualityManufaturing / sumMaterialQuality - 0.05,
+        sumMaterialQualityDesign / sumMaterialQuality - 0.05,
+        sumMaterialQualityProcess / sumMaterialQuality - 0.05,
+        sumMaterialQualityTraining / sumMaterialQuality - 0.05,
+        0.2,
+      ],
+      [0, 0, 0, 0, 1],
+    ];
+
+    sumMaterialLeadTimeDemand = 0;
+    sumMaterialLeadTimeDesign = 0;
+    sumMaterialLeadTimeTransport = 0;
+    sumMaterialQualityManufaturing = 0;
+    sumMaterialQualityDesign = 0;
+    sumMaterialQualityProcess = 0;
+    sumMaterialQualityTraining = 0;
+    sumMaterialQuantityYield = 0;
+    sumMaterialQuantityScrap = 0;
+
+    sumMaterialLeadTime = 0;
+    sumMaterialQuality = 0;
+    sumMaterialQuantity = 0;
+
+    const bayesian = (mlt_risk_input, mqnt_risk_input, mqlt_risk_input) => {
+      // Main simulation
+      const mlt_risk = mlt_risk_input;
+      const mqnt_risk = mqnt_risk_input;
+      const mqlt_risk = mqlt_risk_input;
+
+      var output, rand, failure, l, u, i, probs;
+
+      output = [];
+
+      // First random probability value (Material Lead Time)
+      rand = Math.random();
+      failure = 0;
+      l = 0;
+      u = 0;
+      i = 0;
+      probs = mlt_risk[failure];
+      for (let index = 0; index < probs.length; index++) {
+        u += probs[index];
+        if (l < rand && rand <= u) {
+          if (i == 0 || i == 1 || i == 2) {
+            failure = 1;
+          }
+          if (i == 0) {
+            output.push("Fail due to Material Lead Time Risk: Transport Issue");
+            break;
+          } else if (i == 1) {
+            output.push("Fail due to Material Lead Time Risk: Demand Surge");
+            break;
+          } else if (i == 2) {
+            output.push(
+              "Fail due to Material Lead Time Risk: Product Design Change"
+            );
+            break;
+          } else if (i == 3) {
+            output.push("No errors in Material Lead Time");
+            break;
+          }
+        }
+        i++;
+        l = u;
+      }
+
+      // Second random probability value (Material Quantity)
+      rand = Math.random();
+      l = 0;
+      u = 0;
+      i = 0;
+      probs = mqnt_risk[failure];
+      for (let index = 0; index < probs.length; index++) {
+        u += probs[index];
+        if (l < rand && rand <= u) {
+          if (i == 0 || i == 1) {
+            failure = 1;
+          }
+          if (i == 0) {
+            output.push("Fail due to Material Quantity: Yield Issue");
+            break;
+          } else if (i == 1) {
+            output.push("Fail due to Material Quantity: Scrap due to ECO");
+            break;
+          } else if (i == 2) {
+            output.push("No errors in Material Quantity");
+            break;
+          }
+        }
+        i++;
+        l = u;
+      }
+
+      // Last random probability value (Material Quality)
+      rand = Math.random();
+      l = 0;
+      u = 0;
+      i = 0;
+      probs = mqlt_risk[failure];
+      for (let index = 0; index < probs.length; index++) {
+        u += probs[index];
+        if (l < rand && rand <= u) {
+          if (i == 0 || i == 1 || i == 2 || i == 3) {
+            failure = 1;
+          }
+          if (i == 0) {
+            output.push("Fail due to Material Quality: Manufacturing Issue");
+            break;
+          } else if (i == 1) {
+            output.push("Fail due to Material Quality: Design Issue");
+            break;
+          } else if (i == 2) {
+            output.push("Fail due to Material Quality: Process Issue");
+            break;
+          } else if (i == 3) {
+            output.push("Fail due to Material Quality: Training Issue");
+            break;
+          } else if (i == 4) {
+            output.push("No errors in Material Quality");
+            break;
+          }
+        }
+        i++;
+        l = u;
+      }
+
+      output.push(Boolean(failure));
+
+      return output;
+    };
+
+    const dataPerPeriod = () => {
+      //Count of problems obtained computing bayesian
+      var mlt_count_ti = 0;
+      var mlt_count_ds = 0;
+      var mlt_count_pdc = 0;
+      var mqnt_count_yi = 0;
+      var mqnt_count_se = 0;
+      var mqlt_count_mi = 0;
+      var mqlt_count_di = 0;
+      var mqlt_count_pi = 0;
+      var mqlt_count_ti = 0;
+
+      for (var i = 0; i < 420; i++) {
+        var values = [];
+        values = bayesian(mlt_risk_db, mqnt_risk_db, mqlt_risk_db);
+
+        switch (values[0]) {
+          case "Fail due to Material Lead Time Risk: Transport Issue":
+            mlt_count_ti++;
+            break;
+          case "Fail due to Material Lead Time Risk: Demand Surge":
+            mlt_count_ds++;
+            break;
+          case "Fail due to Material Lead Time Risk: Product Design Change":
+            mlt_count_pdc++;
+            break;
+        }
+        switch (values[1]) {
+          case "Fail due to Material Quantity: Yield Issue":
+            mqnt_count_yi++;
+            break;
+          case "Fail due to Material Quantity: Scrap due to ECO":
+            mqnt_count_se++;
+            break;
+        }
+        switch (values[2]) {
+          case "Fail due to Material Quality: Manufacturing Issue":
+            mqlt_count_mi++;
+            break;
+          case "Fail due to Material Quality: Design Issue":
+            mqlt_count_di++;
+            break;
+          case "Fail due to Material Quality: Process Issue":
+            mqlt_count_pi++;
+            break;
+          case "Fail due to Material Quality: Training Issue":
+            mqlt_count_ti++;
+            break;
+        }
+      }
+
+      return [
+        mlt_count_ti,
+        mlt_count_ds,
+        mlt_count_pdc,
+        mqnt_count_yi,
+        mqnt_count_se,
+        mqlt_count_mi,
+        mqlt_count_di,
+        mqlt_count_pi,
+        mqlt_count_ti,
+      ];
+    };
+
+    const createData = () => {
+      for (let i = 0; i < months; i++) {
+        var values = dataPerPeriod();
+        mlt_count_ti_periods.push(values[0]);
+        sumMaterialLeadTimeTransport += values[0];
+        sumMaterialLeadTime += values[0];
+
+        mlt_count_ds_periods.push(values[1]);
+        sumMaterialLeadTimeDemand += values[1];
+        sumMaterialLeadTime += values[1];
+
+        mlt_count_pdc_periods.push(values[2]);
+        sumMaterialLeadTimeDesign += values[2];
+        sumMaterialLeadTime += values[2];
+
+        mqnt_count_yi_periods.push(values[3]);
+        sumMaterialQuantityYield += values[3];
+        sumMaterialQuantity += values[3];
+
+        mqnt_count_se_periods.push(values[4]);
+        sumMaterialQuantityScrap += values[4];
+        sumMaterialQuantity += values[4];
+
+        mqlt_count_mi_periods.push(values[5]);
+        sumMaterialQualityManufaturing += values[5];
+        sumMaterialQuality += values[5];
+
+        mqlt_count_di_periods.push(values[6]);
+        sumMaterialQualityDesign += values[6];
+        sumMaterialQuality += values[6];
+
+        mqlt_count_pi_periods.push(values[7]);
+        sumMaterialQualityProcess += values[7];
+        sumMaterialQuality += values[7];
+
+        mqlt_count_ti_periods.push(values[8]);
+        sumMaterialQualityTraining += values[8];
+        sumMaterialQuality += values[8];
+      }
+    };
+
+    createData();
+
+    console.log(mlt_count_ti_periods);
+    console.log(mlt_count_ds_periods);
+    console.log(mlt_count_pdc_periods);
+    console.log(mqnt_count_yi_periods);
+    console.log(mqnt_count_se_periods);
+    console.log(mqlt_count_mi_periods);
+    console.log(mqlt_count_di_periods);
+    console.log(mqlt_count_pi_periods);
+    console.log(mqlt_count_ti_periods);
 
     return (
       <div>

@@ -65,8 +65,6 @@ export default function Tickets() {
               </TableHead>
               <TableBody>
                 {tickets.map((ticket) => {
-                  console.log(ticket.impactedUser);
-                  console.log(user.email);
                   if (
                     ticket.impactedUser === user.email ||
                     privilege === ("Admin" || "Analyst")
