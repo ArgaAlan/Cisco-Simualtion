@@ -42,6 +42,7 @@ import ProfileList from "./ProfileList";
 import StatsList from "./StatsList";
 import TicketGrid from "./TicketGrid";
 import ReportsList from "./ReportsList";
+import About from "./pages/About";
 
 function Copyright() {
   return (
@@ -276,6 +277,7 @@ export default function Dashboard() {
                   <Route path="/simulation/" component={Simulation} />
                   <Route path="/stats/" component={TableStats} />
                   <Route path="/profile/" component={Profile} />
+                  <Route path="/about/" component={About} />
                 </Switch>
               </Grid>
             </Grid>
