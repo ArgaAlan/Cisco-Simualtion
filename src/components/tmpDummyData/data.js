@@ -1,28 +1,28 @@
 export const ChartInfo = [
     {
-      month: 0, year:2019, dueDate: 5, quality: 3, quantity: 9, total: 17
+      month: 0, year:2019, dueDate: 162, quality: 230, quantity: 85, total: 477
     }, {
-      month: 1, year:2019, dueDate: 1, quality: 1, quantity: 2, total: 4
+      month: 1, year:2019, dueDate: 125, quality: 256, quantity: 150, total: 531
     }, {
-      month: 2, year:2019, dueDate: 2, quality: 1, quantity: 3, total: 6
+      month: 2, year:2019, dueDate: 210, quality: 218, quantity: 104, total: 532
     }, {
-      month: 3, year:2019, dueDate: 4, quality: 0, quantity: 5, total: 9
+      month: 3, year:2019, dueDate: 185, quality: 189, quantity: 136, total: 510
     }, {
-      month: 4, year:2019, dueDate: 0, quality: 0, quantity: 1, total: 1
+      month: 4, year:2019, dueDate: 139, quality: 156, quantity: 198, total: 493
     }, {
-      month: 5, year:2019, dueDate: 1, quality: 2, quantity: 0, total: 3
+      month: 5, year:2019, dueDate: 111, quality: 289, quantity: 72, total: 472
     }, {
       month: 6, year:2019, dueDate: 2, quality: 0, quantity: 4, total: 6
     }, {
-      month: 7, year:2019, dueDate: 4, quality: 0, quantity: 2, total: 6
+      month: 7, year:2019, dueDate: 189, quality: 189, quantity: 92, total: 470
     }, {
-      month: 8, year:2019, dueDate: 5, quality: 1, quantity: 1, total: 7
+      month: 8, year:2019, dueDate: 107, quality: 157, quantity: 69, total: 333
     }, {
-      month: 9, year:2019, dueDate: 3, quality: 1, quantity: 0, total: 4
+      month: 9, year:2019, dueDate: 119, quality: 210, quantity: 169, total: 498
     }, {
-      month: 10, year:2019, dueDate: 8, quality: 2, quantity: 1, total: 11
+      month: 10, year:2019, dueDate: 89, quality: 170, quantity: 140, total: 399
     }, {
-      month: 11, year:2019, dueDate: 10, quality: 0, quantity: 3, total: 13
+      month: 11, year:2019, dueDate: 350, quality: 180, quantity: 130, total: 660
     }
   ];
 

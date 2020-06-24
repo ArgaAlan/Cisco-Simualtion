@@ -223,7 +223,13 @@ class Report extends React.PureComponent {
         }
         
       }
-      console.log(AnualSummary);
+      
+      data[month] = AnualSummary[month];
+
+      //calculate all total
+      for(var k = 0; k < 12; k++){ data[k].total = data[k].dueDate + data[k].quality + data[k].quantity; }
+
+      console.log(data);
     }
 
     
@@ -231,7 +237,7 @@ class Report extends React.PureComponent {
     return (
       <Paper>
         <Chart
-          data={AnualSummary}
+          data={data}
         >
           <ArgumentScale factory={scaleBand} />
           <ArgumentAxis />
