@@ -24,7 +24,6 @@ import { useAuth0 } from "../react-auth0-spa";
 import TicketContext from "../context/ticket/ticketContext";
 
 import Row from "../components/simulation/Row";
-import rows from "../components/simulation/rows";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -354,7 +353,7 @@ export default function Simulation() {
     setOpen(false);
   };
 
-  const [data, setData] = useState("Bayesnet");
+  const [data, setData] = useState("Database");
 
   if (privilege != "Analyst" && privilege != "Admin") {
     return <Redirect to="" />;
@@ -916,15 +915,290 @@ export default function Simulation() {
 
     createData2();
 
-    console.log(mlt_count_ti_periods);
-    console.log(mlt_count_ds_periods);
-    console.log(mlt_count_pdc_periods);
-    console.log(mqnt_count_yi_periods);
-    console.log(mqnt_count_se_periods);
-    console.log(mqlt_count_mi_periods);
-    console.log(mqlt_count_di_periods);
-    console.log(mqlt_count_pi_periods);
-    console.log(mqlt_count_ti_periods);
+    const createDataS = (month, numMlt, numMqnt, numMqlt, details) => {
+      return {
+        month,
+        numMlt,
+        numMqnt,
+        numMqlt,
+        total: numMlt + numMqnt + numMqlt,
+        details, // tickets of week
+      };
+    };
+
+    const createTicketData = (type, summary) => {
+      return {
+        type,
+        summary,
+      };
+    };
+
+    const rows = [
+      createDataS(
+        "Month 1",
+        mlt_count_ti_periods[0] +
+          mlt_count_ds_periods[0] +
+          mlt_count_pdc_periods[0],
+        mqnt_count_yi_periods[0] + mqnt_count_se_periods[0],
+        mqlt_count_mi_periods[0] +
+          mqlt_count_di_periods[0] +
+          mqlt_count_pi_periods[0] +
+          mqlt_count_ti_periods[0],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[0]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[0]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[0]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[0]),
+          createTicketData("Design Issue", mqlt_count_di_periods[0]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[0]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[0]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[0]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[0]),
+        ]
+      ),
+      createDataS(
+        "Month 2",
+        mlt_count_ti_periods[1] +
+          mlt_count_ds_periods[1] +
+          mlt_count_pdc_periods[1],
+        mqnt_count_yi_periods[1] + mqnt_count_se_periods[1],
+        mqlt_count_mi_periods[1] +
+          mqlt_count_di_periods[1] +
+          mqlt_count_pi_periods[1] +
+          mqlt_count_ti_periods[1],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[1]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[1]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[1]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[1]),
+          createTicketData("Design Issue", mqlt_count_di_periods[1]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[1]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[1]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[1]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[1]),
+        ]
+      ),
+      createDataS(
+        "Month 3",
+        mlt_count_ti_periods[2] +
+          mlt_count_ds_periods[2] +
+          mlt_count_pdc_periods[2],
+        mqnt_count_yi_periods[2] + mqnt_count_se_periods[2],
+        mqlt_count_mi_periods[2] +
+          mqlt_count_di_periods[2] +
+          mqlt_count_pi_periods[2] +
+          mqlt_count_ti_periods[2],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[2]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[2]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[2]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[2]),
+          createTicketData("Design Issue", mqlt_count_di_periods[2]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[2]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[2]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[2]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[2]),
+        ]
+      ),
+      createDataS(
+        "Month 4",
+        mlt_count_ti_periods[3] +
+          mlt_count_ds_periods[3] +
+          mlt_count_pdc_periods[3],
+        mqnt_count_yi_periods[3] + mqnt_count_se_periods[3],
+        mqlt_count_mi_periods[3] +
+          mqlt_count_di_periods[3] +
+          mqlt_count_pi_periods[3] +
+          mqlt_count_ti_periods[3],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[3]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[3]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[3]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[3]),
+          createTicketData("Design Issue", mqlt_count_di_periods[3]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[3]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[3]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[3]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[3]),
+        ]
+      ),
+      createDataS(
+        "Month 5",
+        mlt_count_ti_periods[4] +
+          mlt_count_ds_periods[4] +
+          mlt_count_pdc_periods[4],
+        mqnt_count_yi_periods[4] + mqnt_count_se_periods[4],
+        mqlt_count_mi_periods[4] +
+          mqlt_count_di_periods[4] +
+          mqlt_count_pi_periods[4] +
+          mqlt_count_ti_periods[4],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[4]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[4]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[4]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[4]),
+          createTicketData("Design Issue", mqlt_count_di_periods[4]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[4]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[4]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[4]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[4]),
+        ]
+      ),
+      createDataS(
+        "Month 6",
+        mlt_count_ti_periods[5] +
+          mlt_count_ds_periods[5] +
+          mlt_count_pdc_periods[5],
+        mqnt_count_yi_periods[5] + mqnt_count_se_periods[5],
+        mqlt_count_mi_periods[5] +
+          mqlt_count_di_periods[5] +
+          mqlt_count_pi_periods[5] +
+          mqlt_count_ti_periods[5],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[5]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[5]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[5]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[5]),
+          createTicketData("Design Issue", mqlt_count_di_periods[5]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[5]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[5]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[5]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[5]),
+        ]
+      ),
+      createDataS(
+        "Month 7",
+        mlt_count_ti_periods[6] +
+          mlt_count_ds_periods[6] +
+          mlt_count_pdc_periods[6],
+        mqnt_count_yi_periods[6] + mqnt_count_se_periods[6],
+        mqlt_count_mi_periods[6] +
+          mqlt_count_di_periods[6] +
+          mqlt_count_pi_periods[6] +
+          mqlt_count_ti_periods[6],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[6]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[6]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[6]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[6]),
+          createTicketData("Design Issue", mqlt_count_di_periods[6]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[6]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[6]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[6]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[6]),
+        ]
+      ),
+      createDataS(
+        "Month 8",
+        mlt_count_ti_periods[7] +
+          mlt_count_ds_periods[7] +
+          mlt_count_pdc_periods[7],
+        mqnt_count_yi_periods[7] + mqnt_count_se_periods[7],
+        mqlt_count_mi_periods[7] +
+          mqlt_count_di_periods[7] +
+          mqlt_count_pi_periods[7] +
+          mqlt_count_ti_periods[7],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[7]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[7]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[7]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[7]),
+          createTicketData("Design Issue", mqlt_count_di_periods[7]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[7]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[7]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[7]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[7]),
+        ]
+      ),
+      createDataS(
+        "Month 9",
+        mlt_count_ti_periods[8] +
+          mlt_count_ds_periods[8] +
+          mlt_count_pdc_periods[8],
+        mqnt_count_yi_periods[8] + mqnt_count_se_periods[8],
+        mqlt_count_mi_periods[8] +
+          mqlt_count_di_periods[8] +
+          mqlt_count_pi_periods[8] +
+          mqlt_count_ti_periods[8],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[8]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[8]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[8]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[8]),
+          createTicketData("Design Issue", mqlt_count_di_periods[8]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[8]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[8]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[8]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[8]),
+        ]
+      ),
+      createDataS(
+        "Month 10",
+        mlt_count_ti_periods[9] +
+          mlt_count_ds_periods[9] +
+          mlt_count_pdc_periods[9],
+        mqnt_count_yi_periods[9] + mqnt_count_se_periods[9],
+        mqlt_count_mi_periods[9] +
+          mqlt_count_di_periods[9] +
+          mqlt_count_pi_periods[9] +
+          mqlt_count_ti_periods[9],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[9]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[9]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[9]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[9]),
+          createTicketData("Design Issue", mqlt_count_di_periods[9]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[9]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[9]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[9]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[9]),
+        ]
+      ),
+      createDataS(
+        "Month 11",
+        mlt_count_ti_periods[10] +
+          mlt_count_ds_periods[10] +
+          mlt_count_pdc_periods[10],
+        mqnt_count_yi_periods[10] + mqnt_count_se_periods[10],
+        mqlt_count_mi_periods[10] +
+          mqlt_count_di_periods[10] +
+          mqlt_count_pi_periods[10] +
+          mqlt_count_ti_periods[10],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[10]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[10]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[10]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[10]),
+          createTicketData("Design Issue", mqlt_count_di_periods[10]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[10]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[10]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[10]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[10]),
+        ]
+      ),
+      createDataS(
+        "Month 12",
+        mlt_count_ti_periods[11] +
+          mlt_count_ds_periods[11] +
+          mlt_count_pdc_periods[11],
+        mqnt_count_yi_periods[11] + mqnt_count_se_periods[11],
+        mqlt_count_mi_periods[11] +
+          mqlt_count_di_periods[11] +
+          mqlt_count_pi_periods[11] +
+          mqlt_count_ti_periods[11],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[11]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[11]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[11]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[11]),
+          createTicketData("Design Issue", mqlt_count_di_periods[11]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[11]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[11]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[11]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[11]),
+        ]
+      ),
+    ];
 
     return (
       <div>
@@ -1115,7 +1389,7 @@ export default function Simulation() {
               </TableHead>
               <TableBody>
                 {rowsLeadTime.map((row) => (
-                  <TableRow key={row.name}>
+                  <TableRow>
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
@@ -1139,7 +1413,7 @@ export default function Simulation() {
               </TableHead>
               <TableBody>
                 {rowsQuality.map((row) => (
-                  <TableRow key={row.name}>
+                  <TableRow>
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
@@ -1163,7 +1437,7 @@ export default function Simulation() {
               </TableHead>
               <TableBody>
                 {rowsQuantity.map((row) => (
-                  <TableRow key={row.name}>
+                  <TableRow>
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
@@ -1173,7 +1447,7 @@ export default function Simulation() {
               </TableBody>
             </Table>
           </TableContainer>
-          {/** SIMULATION RESULTS */}
+          {/* SIMULATION RESULTS */}
           <br />
           <br />
           <Title>Simulation Results</Title>
@@ -1183,7 +1457,7 @@ export default function Simulation() {
               <TableHead>
                 <TableRow>
                   <TableCell />
-                  <TableCell>Week</TableCell>
+                  <TableCell>Month</TableCell>
                   <TableCell align="right">Issues MLT</TableCell>
                   <TableCell align="right">Issues MQNT</TableCell>
                   <TableCell align="right">Issues MQLT</TableCell>
@@ -1191,9 +1465,9 @@ export default function Simulation() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <Row key={row.name} row={row} />
-                ))}
+                {rows.map((row) => {
+                  return <Row key={row.name} row={row} />;
+                })}
               </TableBody>
             </Table>
           </TableContainer>
@@ -1450,7 +1724,7 @@ export default function Simulation() {
       var mqlt_count_pi = 0;
       var mqlt_count_ti = 0;
 
-      for (var i = 0; i < 420; i++) {
+      for (var i = 0; i < 250; i++) {
         var values = [];
         values = bayesian(mlt_risk_db, mqnt_risk_db, mqlt_risk_db);
 
@@ -1545,15 +1819,290 @@ export default function Simulation() {
 
     createData();
 
-    console.log(mlt_count_ti_periods);
-    console.log(mlt_count_ds_periods);
-    console.log(mlt_count_pdc_periods);
-    console.log(mqnt_count_yi_periods);
-    console.log(mqnt_count_se_periods);
-    console.log(mqlt_count_mi_periods);
-    console.log(mqlt_count_di_periods);
-    console.log(mqlt_count_pi_periods);
-    console.log(mqlt_count_ti_periods);
+    const createDataS = (month, numMlt, numMqnt, numMqlt, details) => {
+      return {
+        month,
+        numMlt,
+        numMqnt,
+        numMqlt,
+        total: numMlt + numMqnt + numMqlt,
+        details, // tickets of week
+      };
+    };
+
+    const createTicketData = (type, summary) => {
+      return {
+        type,
+        summary,
+      };
+    };
+
+    const rows = [
+      createDataS(
+        "Month 1",
+        mlt_count_ti_periods[0] +
+          mlt_count_ds_periods[0] +
+          mlt_count_pdc_periods[0],
+        mqnt_count_yi_periods[0] + mqnt_count_se_periods[0],
+        mqlt_count_mi_periods[0] +
+          mqlt_count_di_periods[0] +
+          mqlt_count_pi_periods[0] +
+          mqlt_count_ti_periods[0],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[0]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[0]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[0]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[0]),
+          createTicketData("Design Issue", mqlt_count_di_periods[0]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[0]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[0]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[0]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[0]),
+        ]
+      ),
+      createDataS(
+        "Month 2",
+        mlt_count_ti_periods[1] +
+          mlt_count_ds_periods[1] +
+          mlt_count_pdc_periods[1],
+        mqnt_count_yi_periods[1] + mqnt_count_se_periods[1],
+        mqlt_count_mi_periods[1] +
+          mqlt_count_di_periods[1] +
+          mqlt_count_pi_periods[1] +
+          mqlt_count_ti_periods[1],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[1]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[1]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[1]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[1]),
+          createTicketData("Design Issue", mqlt_count_di_periods[1]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[1]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[1]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[1]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[1]),
+        ]
+      ),
+      createDataS(
+        "Month 3",
+        mlt_count_ti_periods[2] +
+          mlt_count_ds_periods[2] +
+          mlt_count_pdc_periods[2],
+        mqnt_count_yi_periods[2] + mqnt_count_se_periods[2],
+        mqlt_count_mi_periods[2] +
+          mqlt_count_di_periods[2] +
+          mqlt_count_pi_periods[2] +
+          mqlt_count_ti_periods[2],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[2]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[2]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[2]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[2]),
+          createTicketData("Design Issue", mqlt_count_di_periods[2]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[2]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[2]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[2]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[2]),
+        ]
+      ),
+      createDataS(
+        "Month 4",
+        mlt_count_ti_periods[3] +
+          mlt_count_ds_periods[3] +
+          mlt_count_pdc_periods[3],
+        mqnt_count_yi_periods[3] + mqnt_count_se_periods[3],
+        mqlt_count_mi_periods[3] +
+          mqlt_count_di_periods[3] +
+          mqlt_count_pi_periods[3] +
+          mqlt_count_ti_periods[3],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[3]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[3]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[3]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[3]),
+          createTicketData("Design Issue", mqlt_count_di_periods[3]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[3]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[3]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[3]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[3]),
+        ]
+      ),
+      createDataS(
+        "Month 5",
+        mlt_count_ti_periods[4] +
+          mlt_count_ds_periods[4] +
+          mlt_count_pdc_periods[4],
+        mqnt_count_yi_periods[4] + mqnt_count_se_periods[4],
+        mqlt_count_mi_periods[4] +
+          mqlt_count_di_periods[4] +
+          mqlt_count_pi_periods[4] +
+          mqlt_count_ti_periods[4],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[4]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[4]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[4]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[4]),
+          createTicketData("Design Issue", mqlt_count_di_periods[4]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[4]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[4]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[4]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[4]),
+        ]
+      ),
+      createDataS(
+        "Month 6",
+        mlt_count_ti_periods[5] +
+          mlt_count_ds_periods[5] +
+          mlt_count_pdc_periods[5],
+        mqnt_count_yi_periods[5] + mqnt_count_se_periods[5],
+        mqlt_count_mi_periods[5] +
+          mqlt_count_di_periods[5] +
+          mqlt_count_pi_periods[5] +
+          mqlt_count_ti_periods[5],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[5]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[5]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[5]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[5]),
+          createTicketData("Design Issue", mqlt_count_di_periods[5]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[5]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[5]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[5]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[5]),
+        ]
+      ),
+      createDataS(
+        "Month 7",
+        mlt_count_ti_periods[6] +
+          mlt_count_ds_periods[6] +
+          mlt_count_pdc_periods[6],
+        mqnt_count_yi_periods[6] + mqnt_count_se_periods[6],
+        mqlt_count_mi_periods[6] +
+          mqlt_count_di_periods[6] +
+          mqlt_count_pi_periods[6] +
+          mqlt_count_ti_periods[6],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[6]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[6]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[6]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[6]),
+          createTicketData("Design Issue", mqlt_count_di_periods[6]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[6]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[6]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[6]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[6]),
+        ]
+      ),
+      createDataS(
+        "Month 8",
+        mlt_count_ti_periods[7] +
+          mlt_count_ds_periods[7] +
+          mlt_count_pdc_periods[7],
+        mqnt_count_yi_periods[7] + mqnt_count_se_periods[7],
+        mqlt_count_mi_periods[7] +
+          mqlt_count_di_periods[7] +
+          mqlt_count_pi_periods[7] +
+          mqlt_count_ti_periods[7],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[7]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[7]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[7]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[7]),
+          createTicketData("Design Issue", mqlt_count_di_periods[7]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[7]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[7]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[7]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[7]),
+        ]
+      ),
+      createDataS(
+        "Month 9",
+        mlt_count_ti_periods[8] +
+          mlt_count_ds_periods[8] +
+          mlt_count_pdc_periods[8],
+        mqnt_count_yi_periods[8] + mqnt_count_se_periods[8],
+        mqlt_count_mi_periods[8] +
+          mqlt_count_di_periods[8] +
+          mqlt_count_pi_periods[8] +
+          mqlt_count_ti_periods[8],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[8]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[8]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[8]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[8]),
+          createTicketData("Design Issue", mqlt_count_di_periods[8]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[8]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[8]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[8]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[8]),
+        ]
+      ),
+      createDataS(
+        "Month 10",
+        mlt_count_ti_periods[9] +
+          mlt_count_ds_periods[9] +
+          mlt_count_pdc_periods[9],
+        mqnt_count_yi_periods[9] + mqnt_count_se_periods[9],
+        mqlt_count_mi_periods[9] +
+          mqlt_count_di_periods[9] +
+          mqlt_count_pi_periods[9] +
+          mqlt_count_ti_periods[9],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[9]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[9]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[9]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[9]),
+          createTicketData("Design Issue", mqlt_count_di_periods[9]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[9]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[9]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[9]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[9]),
+        ]
+      ),
+      createDataS(
+        "Month 11",
+        mlt_count_ti_periods[10] +
+          mlt_count_ds_periods[10] +
+          mlt_count_pdc_periods[10],
+        mqnt_count_yi_periods[10] + mqnt_count_se_periods[10],
+        mqlt_count_mi_periods[10] +
+          mqlt_count_di_periods[10] +
+          mqlt_count_pi_periods[10] +
+          mqlt_count_ti_periods[10],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[10]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[10]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[10]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[10]),
+          createTicketData("Design Issue", mqlt_count_di_periods[10]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[10]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[10]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[10]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[10]),
+        ]
+      ),
+      createDataS(
+        "Month 12",
+        mlt_count_ti_periods[11] +
+          mlt_count_ds_periods[11] +
+          mlt_count_pdc_periods[11],
+        mqnt_count_yi_periods[11] + mqnt_count_se_periods[11],
+        mqlt_count_mi_periods[11] +
+          mqlt_count_di_periods[11] +
+          mqlt_count_pi_periods[11] +
+          mqlt_count_ti_periods[11],
+        [
+          createTicketData("Transport Issue", mlt_count_ti_periods[11]),
+          createTicketData("Demand Surge", mlt_count_ds_periods[11]),
+          createTicketData("Product Design Change", mlt_count_pdc_periods[11]),
+          createTicketData("Manufacturing Issue", mqlt_count_mi_periods[11]),
+          createTicketData("Design Issue", mqlt_count_di_periods[11]),
+          createTicketData("Process Issue", mqlt_count_pi_periods[11]),
+          createTicketData("Training Issue", mqlt_count_ti_periods[11]),
+          createTicketData("Yield Issue", mqnt_count_yi_periods[11]),
+          createTicketData("Scrap due to ECO", mqnt_count_se_periods[11]),
+        ]
+      ),
+    ];
 
     return (
       <div>
@@ -1575,7 +2124,7 @@ export default function Simulation() {
               </TableHead>
               <TableBody>
                 {rowsLeadTime.map((row) => (
-                  <TableRow key={row.name}>
+                  <TableRow>
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
@@ -1599,7 +2148,7 @@ export default function Simulation() {
               </TableHead>
               <TableBody>
                 {rowsQuality.map((row) => (
-                  <TableRow key={row.name}>
+                  <TableRow>
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
@@ -1623,13 +2172,37 @@ export default function Simulation() {
               </TableHead>
               <TableBody>
                 {rowsQuantity.map((row) => (
-                  <TableRow key={row.name}>
+                  <TableRow>
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
                     <TableCell align="right">{row.num}</TableCell>
                   </TableRow>
                 ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {/* SIMULATION RESULTS */}
+          <br />
+          <br />
+          <Title>Simulation Results</Title>
+          <br />
+          <TableContainer component={Paper}>
+            <Table aria-label="collapsible table">
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Month</TableCell>
+                  <TableCell align="right">Issues MLT</TableCell>
+                  <TableCell align="right">Issues MQNT</TableCell>
+                  <TableCell align="right">Issues MQLT</TableCell>
+                  <TableCell align="right">Total</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => {
+                  return <Row key={row.name} row={row} />;
+                })}
               </TableBody>
             </Table>
           </TableContainer>
