@@ -42,6 +42,7 @@ import ProfileList from "./ProfileList";
 import StatsList from "./StatsList";
 import TicketGrid from "./TicketGrid";
 import ReportsList from "./ReportsList";
+import About from "./pages/About";
 
 function Copyright() {
   return (
@@ -141,7 +142,7 @@ export default function Dashboard() {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const match = useRouteMatch();
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const { loading, user } = useAuth0();
   const [privilege, setPrivilege] = useContext(Context);
   const handleDrawerOpen = () => {
@@ -229,11 +230,7 @@ export default function Dashboard() {
               <SimulationList />
             )}
           {isAuthenticated &&
-            (privilege == "Analyst" || privilege == "Admin") && <StatsList />}
-            {isAuthenticated &&
-            (privilege == "Analyst" || privilege == "Admin") && (
-              <ReportsList />
-            )}
+            (privilege == "Analyst" || privilege == "Admin") && <ReportsList />}
           {isAuthenticated && <ProfileList />}
         </List>
         <Divider />
@@ -280,6 +277,7 @@ export default function Dashboard() {
                   <Route path="/simulation/" component={Simulation} />
                   <Route path="/stats/" component={TableStats} />
                   <Route path="/profile/" component={Profile} />
+                  <Route path="/about/" component={About} />
                 </Switch>
               </Grid>
             </Grid>

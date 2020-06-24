@@ -12,8 +12,11 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Icon from "@material-ui/core/Icon";
+import { useAuth0 } from "../../react-auth0-spa";
+import Loading from "../Loading";
+import { Context } from "../../context/user/userContext";
 
-import TicketContext from '../../context/ticket/ticketContext';
+import TicketContext from "../../context/ticket/ticketContext";
 
 const useStyles = makeStyles({
   table: {
@@ -27,15 +30,17 @@ export default function Tickets() {
   const ticketContext = useContext(TicketContext);
 
   const { tickets, getTickets, loading } = ticketContext;
-  
+
+  const { user } = useAuth0();
+
+  const [privilege] = useContext(Context);
 
   useEffect(() => {
     getTickets();
   }, []);
-  
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   } else {
     return (
       <React.Fragment>
@@ -59,25 +64,38 @@ export default function Tickets() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tickets.map((ticket) => (
-                  <TableRow hover key={ticket.numberId}>
-                    <TableCell component="th" scope="row">
-                      {ticket.numberId}
-                    </TableCell>
-                    <TableCell align="right">{ticket.subclass}</TableCell>
-                    <TableCell align="right">{ticket.impactedUser}</TableCell>
-                    <TableCell align="right">{ticket.issueCategory}</TableCell>
-                    <TableCell align="right">{ticket.issueReason}</TableCell>
-                    <TableCell align="right">
-                      <NavLink
-                        className="nav-link-item"
-                        to={`/ticket/${ticket._id}`}
-                      >
-                        <Icon>info</Icon>
-                      </NavLink>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {tickets.map((ticket) => {
+                  if (
+                    ticket.impactedUser === user.email ||
+                    privilege === ("Admin" || "Analyst")
+                  ) {
+                    return (
+                      <TableRow hover key={ticket.numberId}>
+                        <TableCell component="th" scope="row">
+                          {ticket.numberId}
+                        </TableCell>
+                        <TableCell align="right">{ticket.subclass}</TableCell>
+                        <TableCell align="right">
+                          {ticket.impactedUser}
+                        </TableCell>
+                        <TableCell align="right">
+                          {ticket.issueCategory}
+                        </TableCell>
+                        <TableCell align="right">
+                          {ticket.issueReason}
+                        </TableCell>
+                        <TableCell align="right">
+                          <NavLink
+                            className="nav-link-item"
+                            to={`/ticket/${ticket._id}`}
+                          >
+                            <Icon>info</Icon>
+                          </NavLink>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  }
+                })}
               </TableBody>
             </Table>
           </TableContainer>
