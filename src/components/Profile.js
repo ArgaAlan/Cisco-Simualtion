@@ -1,8 +1,7 @@
-// src/components/Profile.js
-
 import React, { Fragment, useContext } from "react";
 import { useAuth0 } from "../react-auth0-spa";
 import { Context } from "../context/user/userContext";
+import Loading from "./Loading";
 
 const Profile = () => {
   const { loading, user } = useAuth0();
@@ -10,7 +9,7 @@ const Profile = () => {
   const [privilege] = useContext(Context);
 
   if (loading || !user) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
