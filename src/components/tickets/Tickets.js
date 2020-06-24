@@ -14,6 +14,7 @@ import TableBody from "@material-ui/core/TableBody";
 import Icon from "@material-ui/core/Icon";
 import { useAuth0 } from "../../react-auth0-spa";
 import Loading from "../Loading";
+import { Context } from "../../context/user/userContext";
 
 import TicketContext from "../../context/ticket/ticketContext";
 
@@ -31,6 +32,8 @@ export default function Tickets() {
   const { tickets, getTickets, loading } = ticketContext;
 
   const { user } = useAuth0();
+
+  const [privilege] = useContext(Context);
 
   useEffect(() => {
     getTickets();
@@ -64,7 +67,10 @@ export default function Tickets() {
                 {tickets.map((ticket) => {
                   console.log(ticket.impactedUser);
                   console.log(user.email);
-                  if (ticket.impactedUser === user.email) {
+                  if (
+                    ticket.impactedUser === user.email ||
+                    privilege === ("Admin" || "Analyst")
+                  ) {
                     return (
                       <TableRow hover key={ticket.numberId}>
                         <TableCell component="th" scope="row">
